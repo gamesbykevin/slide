@@ -93,12 +93,11 @@ public class LevelHelper {
             //create our level
             level = new Level(cols, rows);
 
-            int row = 0;
+            int row = lines.size() - 1;
 
-            //let's check each line's character to load the level
-            for (int i = lines.size() - 1; i >= 0; i--) {
+            while (row >= 0) {
 
-                String line = lines.get(i);
+                String line = lines.get(row);
 
                 for (int col = 0; col < line.length(); col++) {
 
@@ -106,11 +105,11 @@ public class LevelHelper {
                     String tmp = line.substring(col, col + 1);
 
                     //create the level object
-                    createLevelObject(level, false, teleportLocations, tmp, col, row);
+                    createLevelObject(level, false, teleportLocations, tmp, col, lines.size() - row);
                 }
 
-                //increase the row
-                row++;
+                //decrease the row
+                row--;
             }
         }
 

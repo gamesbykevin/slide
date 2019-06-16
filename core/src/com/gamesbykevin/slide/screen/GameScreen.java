@@ -16,10 +16,19 @@ public class GameScreen extends TemplateScreen {
     private GameModel model;
 
     //zoom in when level solved
-    private float zoom = ZOOM_DEFAULT;
+    private float zoomRate = ZOOM_DEFAULT;
 
     //how fast do we zoom in
-    private static final float ZOOM_RATE = .00444f;
+    private static final float ZOOM_RATE = .02f;
+
+    //the closest we can get
+    private static final float ZOOM_MIN = 0.05f;
+
+    //the farthest we can get
+    private static final float ZOOM_MAX = 1.0f;
+
+    //do we zoom in?
+    private boolean zoom = true;
 
     //normal zoom
     private static final float ZOOM_DEFAULT = 1f;
@@ -31,16 +40,24 @@ public class GameScreen extends TemplateScreen {
         setScrollSpeed((int)(SCREEN_HEIGHT * .01));
     }
 
-    public float getZoom() {
+    public boolean isZoom() {
         return this.zoom;
     }
 
-    public void setZoom(float zoom) {
+    public void setZoom(boolean zoom) {
         this.zoom = zoom;
     }
 
+    public float getZoomRate() {
+        return this.zoomRate;
+    }
+
+    public void setZoomRate(float zoomRate) {
+        this.zoomRate = zoomRate;
+    }
+
     public void reset() {
-        this.setZoom(ZOOM_DEFAULT);
+        this.setZoomRate(ZOOM_DEFAULT);
         this.model = new GameModel(getGame());
     }
 
@@ -92,20 +109,27 @@ public class GameScreen extends TemplateScreen {
 
         if (getModel().getLevel().isSolved()) {
 
-            //draw the game over screen
             if (getModel().getLevel().getLapsedComplete() >= LEVEL_COMPLETE_DELAY) {
+
+                //draw the game over screen
                 drawGameover();
+
             } else {
 
-                //continue to zoom in
-                setZoom(getZoom() - ZOOM_RATE);
+                //continue to zoom in/out the meantime
+                setZoomRate(isZoom() ? getZoomRate() - ZOOM_RATE : getZoomRate() + ZOOM_RATE);
 
-                //we don't want to zoom in too far
-                if (getZoom() < .05f)
-                    setZoom(.05f);
+                //watch how far we zoom
+                if (getZoomRate() < ZOOM_MIN) {
+                    setZoomRate(ZOOM_MIN);
+                    setZoom(!isZoom());
+                } else if (getZoomRate() > ZOOM_MAX) {
+                    setZoomRate(ZOOM_MAX);
+                    setZoom(!isZoom());
+                }
 
                 //zoom in on camera
-                getCamera().zoom = getZoom();
+                getCamera().zoom = getZoomRate();
             }
 
         } else if (getGame().isPaused()) {
@@ -134,7 +158,7 @@ public class GameScreen extends TemplateScreen {
 
         //reset zoom
         getCamera().zoom = ZOOM_DEFAULT;
-        setZoom(ZOOM_DEFAULT);
+        setZoomRate(ZOOM_DEFAULT);
 
         //make sure we capture menu input
         super.captureMenuInput();
