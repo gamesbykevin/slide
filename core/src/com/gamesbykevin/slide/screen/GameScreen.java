@@ -76,6 +76,9 @@ public class GameScreen extends TemplateScreen {
     @Override
     public void show() {
         super.show();
+        
+        //set zoom to normal
+        getCamera().zoom = ZOOM_DEFAULT;
 
         //make sure game controller has input
         getGame().getController().setInput();

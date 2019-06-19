@@ -155,4 +155,3 @@ premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
 player_particle.png
-

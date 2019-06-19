@@ -28,7 +28,7 @@ public class Bomb extends LevelObject {
     //do we start the countdown?
     private boolean countdown = false;
 
-    //where is our particle meta data at?
+    //where is our particle meta particles at?
     private static final String PARTICLE_FILE = "explosion.p";
 
     /**

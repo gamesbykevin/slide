@@ -54,6 +54,11 @@ public class LevelObjectHelper {
                 object = new PartialWall();
                 break;
 
+            case WallConnectorH:
+            case WallConnectorV:
+                object = new WallConnector();
+                break;
+
             default:
                 object = new GenericObject();
                 break;

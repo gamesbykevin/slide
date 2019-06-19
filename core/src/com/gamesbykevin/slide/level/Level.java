@@ -8,8 +8,6 @@ import com.gamesbykevin.slide.model.GameModel;
 import com.gamesbykevin.slide.textures.Textures;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import static com.gamesbykevin.slide.level.objects.LevelObject.*;
 import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
@@ -45,7 +43,7 @@ public class Level implements ILevel {
         START_X = (int)((SCREEN_WIDTH - (cols * DEFAULT_WIDTH))   / 2);
         START_Y = (int)((SCREEN_HEIGHT - (rows * DEFAULT_HEIGHT)) / 2);
 
-        this.levelObjects = new ArrayList<>();
+        this.levelObjects = new ArrayList<LevelObject>();
     }
 
     public void setIndicator(LevelObject indicator) {
@@ -160,7 +158,7 @@ public class Level implements ILevel {
         getIndicator().reset(this);
     }
 
-    public LevelObject getLevelObject(UUID id) {
+    public LevelObject getLevelObject(final String id) {
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 

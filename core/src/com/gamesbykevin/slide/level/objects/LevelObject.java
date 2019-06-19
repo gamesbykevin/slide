@@ -1,10 +1,9 @@
 package com.gamesbykevin.slide.level.objects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.entity.Entity;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
@@ -38,7 +37,7 @@ public abstract class LevelObject extends Entity {
     //any level object can have particles
     private ParticleEffect particleEffect;
 
-    //where is our particle meta data
+    //where is our particle meta particles
     public static final String PARTICLE_PATH = "particles/";
 
     public LevelObject() {
@@ -60,6 +59,10 @@ public abstract class LevelObject extends Entity {
     public void createParticleEffect(FileHandle fileHandle1, FileHandle fileHandle2) {
         this.particleEffect = new ParticleEffect();
         this.particleEffect.load(fileHandle1, fileHandle2);
+
+        //TextureAtlas atlas = new TextureAtlas();
+        //atlas.addRegion("explosion",new TextureRegion(new Texture("particles/explosion.png")));
+        //this.particleEffect.load(Gdx.files.internal("particles/explosion.p"), atlas);
     }
 
     /**

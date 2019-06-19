@@ -76,6 +76,8 @@ public class LevelSelectScreen extends TemplateScreen {
 
                 //add on click event
                 button.addListener(new ClickListener() {
+
+                    @Override
                     public void clicked (InputEvent event, float x, float y) {
 
                         //change to the game screen

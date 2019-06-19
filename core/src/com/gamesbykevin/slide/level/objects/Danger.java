@@ -11,7 +11,7 @@ public class Danger extends LevelObject {
     //how fast to rotate
     public static final float DEFAULT_ROTATION = 10f;
 
-    //where is our particle meta data at?
+    //where is our particle meta particles at?
     private static final String PARTICLE_FILE = "cut.p";
 
     //do we show our particle

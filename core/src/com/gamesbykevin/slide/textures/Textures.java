@@ -36,7 +36,8 @@ public class Textures {
         WallRight("wall_r.png", "O"),
         WallUp("wall_u.png", "Q"),
         WallDown("wall_d.png", "R"),
-        TransparentSpace("transparent.png", "P");
+        WallConnectorH("pipe_h.png", "P"),
+        WallConnectorV("pipe_v.png", "S");
 
         private final String filename;
         private final String fileCharKey;
@@ -58,7 +59,7 @@ public class Textures {
     public Textures() {
 
         //create new hash map
-        this.sprites = new HashMap<>();
+        this.sprites = new HashMap<Key, Sprite>();
 
         //pick random directory
         final String directory = directories[(int)(Math.random() * directories.length)];
@@ -77,7 +78,8 @@ public class Textures {
         add(Key.WallRight, directory);
         add(Key.WallUp, directory);
         add(Key.WallDown, directory);
-        add(Key.TransparentSpace);
+        add(Key.WallConnectorH);
+        add(Key.WallConnectorV);
         add(Key.Player);
         add(Key.Collected);
         add(Key.Danger);

@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.level.Level;
 
-import java.util.UUID;
-
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
 
@@ -18,9 +16,9 @@ public class Player extends LevelObject {
     private ParticleEmitter particleEmitter;
 
     //which teleporter did we come from
-    private UUID teleporterId;
+    private String teleporterId;
 
-    //where is our particle meta data at?
+    //where is our particle meta particles at?
     private static final String PARTICLE_FILE = "player_particle.p";
 
     /**
@@ -33,11 +31,11 @@ public class Player extends LevelObject {
         getParticleEffect().start();
     }
 
-    public void setTeleporterId(UUID teleporterId) {
+    public void setTeleporterId(String teleporterId) {
         this.teleporterId = teleporterId;
     }
 
-    public UUID getTeleporterId() {
+    public String getTeleporterId() {
         return this.teleporterId;
     }
 

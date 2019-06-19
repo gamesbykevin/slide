@@ -163,35 +163,6 @@ public class GenericObject extends LevelObject {
                     }
                 }
                 break;
-
-            case TransparentSpace:
-
-                //if we are close, then we close the walls on both sides
-                if (player.hasCollisionClose(this)) {
-
-                    LevelObject right = level.getLevelObject(Textures.Key.WallRight, (int)getCol() + 1, (int)getRow());
-                    LevelObject left = level.getLevelObject(Textures.Key.WallLeft, (int)getCol() - 1, (int)getRow());
-                    LevelObject up = level.getLevelObject(Textures.Key.WallUp, (int)getCol(), (int)getRow() + 1);
-                    LevelObject down = level.getLevelObject(Textures.Key.WallDown, (int)getCol(), (int)getRow() - 1);
-
-                    //if the walls exist, let's see if we can close them
-                    if (right != null && left != null) {
-                        right.setDX(-CLOSE_VELOCITY);
-                        ((PartialWall)right).setTargetCol(getCol());
-                        ((PartialWall)right).setTargetRow(getRow());
-                        left.setDX(CLOSE_VELOCITY);
-                        ((PartialWall)left).setTargetCol(getCol());
-                        ((PartialWall)left).setTargetRow(getRow());
-                    } else if (up != null && down != null) {
-                        up.setDY(-CLOSE_VELOCITY);
-                        ((PartialWall)up).setTargetCol(getCol());
-                        ((PartialWall)up).setTargetRow(getRow());
-                        down.setDY(CLOSE_VELOCITY);
-                        ((PartialWall)down).setTargetCol(getCol());
-                        ((PartialWall)down).setTargetRow(getRow());
-                    }
-                }
-                break;
         }
     }
 

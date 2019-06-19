@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 
-import java.util.UUID;
-
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 
 public class Teleporter extends LevelObject {
@@ -15,7 +13,7 @@ public class Teleporter extends LevelObject {
     public static final float DEFAULT_ROTATION = -1f;
 
     //the teleporter this one is linked to
-    private UUID linkId;
+    private String linkId;
 
     /**
      * Default constructor
@@ -25,11 +23,11 @@ public class Teleporter extends LevelObject {
         setRotationSpeed(DEFAULT_ROTATION);
     }
 
-    public void setLinkId(UUID linkId) {
+    public void setLinkId(String linkId) {
         this.linkId = linkId;
     }
 
-    public UUID getLinkId() {
+    public String getLinkId() {
         return this.linkId;
     }
 

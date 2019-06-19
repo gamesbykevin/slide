@@ -150,4 +150,3 @@ premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
 cut.png
-

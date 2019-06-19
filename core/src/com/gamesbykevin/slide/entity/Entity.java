@@ -1,6 +1,6 @@
 package com.gamesbykevin.slide.entity;
 
-import java.util.UUID;
+import com.gamesbykevin.slide.guid.GUID;
 
 public abstract class Entity {
 
@@ -14,7 +14,7 @@ public abstract class Entity {
     private float x, y;
 
     //create a unique id for each object
-    private final UUID id;
+    private final String id;
 
     //location of entity
     private float col, row;
@@ -25,7 +25,7 @@ public abstract class Entity {
     public Entity() {
 
         //assign a unique id
-        this.id = UUID.randomUUID();
+        this.id = GUID.generate();
 
         setX(0);
         setY(0);
@@ -35,7 +35,7 @@ public abstract class Entity {
         setDY(0);
     }
 
-    public UUID getId() {
+    public String getId() {
         return this.id;
     }
 

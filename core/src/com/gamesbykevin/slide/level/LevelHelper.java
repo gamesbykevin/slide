@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class LevelHelper {
 
@@ -25,7 +24,7 @@ public class LevelHelper {
         InputStream is = handle.read();
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line;
-        List<String> lines = new ArrayList<>();
+        List<String> lines = new ArrayList<String>();
         while ((line = reader.readLine()) != null) {
             lines.add(line);
         }
@@ -57,7 +56,7 @@ public class LevelHelper {
         //create list for our teleporters
         List<TeleportLocation> teleportLocations = new ArrayList<>();
 
-        if (cols >= MAX_COLS) {
+        if (cols >= MAX_COLS && cols > rows) {
 
             //create our level
             level = new Level(rows, cols);
@@ -144,12 +143,12 @@ public class LevelHelper {
 
     /**
      *
-     * @param level
-     * @param flip Are we rotating the level to fit on the screen?
-     * @param teleportLocations
-     * @param tmp
-     * @param col
-     * @param row
+     * @param level Level instance we are adding our object to
+     * @param flip Are we rotating the level to fit it on the screen?
+     * @param teleportLocations List of teleporters that we need to link together
+     * @param tmp Character key of our level object
+     * @param col column location
+     * @param row row location
      */
     private static void createLevelObject(Level level, boolean flip, List<TeleportLocation> teleportLocations, String tmp, int col, int row) {
 
@@ -180,6 +179,7 @@ public class LevelHelper {
             //if flipping we need to change some things here
             if (flip) {
                 switch (key) {
+
                     case RedirectNE:
                         key = Textures.Key.RedirectNW;
                         break;
@@ -210,6 +210,14 @@ public class LevelHelper {
 
                     case WallRight:
                         key = Textures.Key.WallUp;
+                        break;
+
+                    case WallConnectorH:
+                        key = Textures.Key.WallConnectorV;
+                        break;
+
+                    case WallConnectorV:
+                        key = Textures.Key.WallConnectorH;
                         break;
                 }
             }
@@ -256,10 +264,10 @@ public class LevelHelper {
 
     private static class TeleportLocation {
 
-        private final UUID id;
+        private final String id;
         private final String charKey;
 
-        private TeleportLocation(String charKey, UUID id) {
+        private TeleportLocation(String charKey, String id) {
             this.id = id;
             this.charKey = charKey;
         }

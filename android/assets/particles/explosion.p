@@ -1,4 +1,4 @@
-flame
+explosion
 - Delay -
 active: true
 lowMin: 0.0
@@ -140,4 +140,3 @@ premultipliedAlpha: false
 spriteMode: single
 - Image Paths -
 explosion.png
-
