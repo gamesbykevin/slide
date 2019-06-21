@@ -5,6 +5,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.preferences.AppPreferences;
+import com.gamesbykevin.slide.rumble.Rumble;
+
+import static com.gamesbykevin.slide.MyGdxGame.DURATION_VIBRATE;
+import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
 
 public class Danger extends LevelObject {
 
@@ -40,8 +45,14 @@ public class Danger extends LevelObject {
 
         if (player.hasCollisionClose(this)) {
 
+            //vibrate if the option is enabled
+            if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
+                Gdx.input.vibrate(DURATION_VIBRATE);
+
             //play sound effect?
 
+            //shake the screen
+            Rumble.reset();
 
             //reset level
             level.reset();

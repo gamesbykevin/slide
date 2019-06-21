@@ -11,13 +11,14 @@ public class AppPreferences {
     public static final String PREF_MUSIC_ENABLED = "music.enabled";
     public static final String PREF_SOUND_ENABLED = "sound.enabled";
     public static final String PREF_VIBRATE_ENABLED = "vibrate.enabled";
+    public static final String PREF_SCREEN_SHAKE_ENABLED = "screen.shake.enabled";
     private static final String PREFS_NAME = "game_options";
 
-    private Preferences getPrefs() {
+    private static Preferences getPrefs() {
         return Gdx.app.getPreferences(PREFS_NAME);
     }
 
-    public boolean isEnabled(String name) {
+    public static boolean isEnabled(String name) {
         return getPrefs().getBoolean(name, true);
     }
 

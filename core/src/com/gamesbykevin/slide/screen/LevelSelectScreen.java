@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
-import com.gamesbykevin.slide.model.GameModel;
+import com.gamesbykevin.slide.level.Level;
 
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_GAME;
 
@@ -84,7 +84,7 @@ public class LevelSelectScreen extends TemplateScreen {
                         try {
 
                             //assign the selected level
-                            GameModel.LEVEL_INDEX = levelIndex;
+                            Level.LEVEL_INDEX = levelIndex;
 
                             //switch to the game screen
                             getGame().getScreenHelper().changeScreen(SCREEN_GAME);

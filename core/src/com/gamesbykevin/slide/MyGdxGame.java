@@ -29,6 +29,11 @@ public class MyGdxGame extends Game {
 	 */
 	public static final float FRAME_MS = (1000f / FPS);
 
+	/**
+	 * How long do we vibrate the phone
+	 */
+	public static final int DURATION_VIBRATE = 1000;
+
 	@Override
 	public void create() {
 

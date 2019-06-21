@@ -295,11 +295,11 @@ public class Controller implements InputProcessor {
     }
 
     private LevelObject getPlayer() {
-        return this.getGame().getScreenHelper().getGameScreen().getModel().getPlayer();
+        return this.getGame().getScreenHelper().getGameScreen().getLevel().getPlayer();
     }
 
     private Level getLevel() {
-        return this.getGame().getScreenHelper().getGameScreen().getModel().getLevel();
+        return this.getGame().getScreenHelper().getGameScreen().getLevel();
     }
 
 }

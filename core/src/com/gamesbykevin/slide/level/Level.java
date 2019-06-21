@@ -1,20 +1,28 @@
 package com.gamesbykevin.slide.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.level.objects.LevelObject;
-import com.gamesbykevin.slide.model.GameModel;
+import com.gamesbykevin.slide.preferences.AppPreferences;
+import com.gamesbykevin.slide.rumble.Rumble;
+import com.gamesbykevin.slide.screen.GameScreen;
 import com.gamesbykevin.slide.textures.Textures;
 
 import java.util.ArrayList;
 
+import static com.gamesbykevin.slide.MyGdxGame.DURATION_VIBRATE;
 import static com.gamesbykevin.slide.level.objects.LevelObject.*;
 import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
+import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
 
 public class Level implements ILevel {
+
+    //which level are we on?
+    public static int LEVEL_INDEX = 0;
 
     //list of objects in the level
     private ArrayList<LevelObject> levelObjects;
@@ -114,8 +122,10 @@ public class Level implements ILevel {
         }
 
         //if we went off screen reset the level
-        if (!getPlayer().hasBounds())
+        if (!getPlayer().hasBounds()) {
+            Rumble.reset();
             reset();
+        }
     }
 
     public static void updateCoordinates(LevelObject object) {
@@ -138,6 +148,10 @@ public class Level implements ILevel {
      */
     @Override
     public void reset() {
+
+        //vibrate if the option is enabled
+        if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
+            Gdx.input.vibrate(DURATION_VIBRATE);
 
         //reset the time lapsed
         setLapsedComplete(0);
@@ -208,7 +222,7 @@ public class Level implements ILevel {
         return this.levelObjects;
     }
 
-    public void render(GameModel model, SpriteBatch batch) {
+    public void render(GameScreen screen, SpriteBatch batch) {
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
@@ -216,16 +230,16 @@ public class Level implements ILevel {
             LevelObject obj = getLevelObjects().get(i);
 
             //get the sprite containing our texture
-            Sprite sprite = model.getTextures().getSprite(obj.getKey());
+            Sprite sprite = screen.getTextures().getSprite(obj.getKey());
 
             //render the level object
-            obj.render(batch, sprite, model.getFont());
+            obj.render(batch, sprite, screen.getFont());
         }
 
         //render the player as well
-        getPlayer().render(batch, model.getTextures().getSprite(getPlayer().getKey()), model.getFont());
+        getPlayer().render(batch, screen.getTextures().getSprite(getPlayer().getKey()), screen.getFont());
 
         //render our goal indicator
-        getIndicator().render(batch, model.getTextures().getSprite(getIndicator().getKey()), null);
+        getIndicator().render(batch, screen.getTextures().getSprite(getIndicator().getKey()), null);
     }
 }

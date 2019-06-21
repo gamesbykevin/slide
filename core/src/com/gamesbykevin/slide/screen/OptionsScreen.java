@@ -65,6 +65,19 @@ public class OptionsScreen extends TemplateScreen {
             }
         });
 
+        final CheckBox checkboxScreenShake = new CheckBox(null, getSkin());
+        checkboxScreenShake.setTransform(true);
+        checkboxScreenShake.setScale(CHECKBOX_SCALE);
+        checkboxScreenShake.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_SCREEN_SHAKE_ENABLED) );
+        checkboxScreenShake.addListener( new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                boolean enabled = checkboxScreenShake.isChecked();
+                getGame().getPreferences().setPreference(AppPreferences.PREF_SCREEN_SHAKE_ENABLED, enabled );
+                return false;
+            }
+        });
+
         //create our back button
         TextButton buttonBack = new TextButton("Back", getSkin());
 
@@ -84,9 +97,11 @@ public class OptionsScreen extends TemplateScreen {
         Label labelMusic = new Label(  "Music", getSkin());
         Label labelSound = new Label(  "Sound", getSkin());
         Label labelVibrate = new Label("Vibrate", getSkin());
+        Label labelShakeScreen = new Label("Shake Screen", getSkin());
         labelMusic.setFontScale(FONT_SCALE);
         labelSound.setFontScale(FONT_SCALE);
         labelVibrate.setFontScale(FONT_SCALE);
+        labelShakeScreen.setFontScale(FONT_SCALE);
 
         //Create Table
         Table table = new Table();
@@ -98,6 +113,7 @@ public class OptionsScreen extends TemplateScreen {
         table.center();
         addRow(table, labelMusic, checkboxMusic);
         addRow(table, labelSound, checkboxSound);
+        addRow(table, labelShakeScreen, checkboxScreenShake);
 
         //mobile phones can vibrate
         switch(Gdx.app.getType()) {

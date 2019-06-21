@@ -1,8 +1,6 @@
 package com.gamesbykevin.slide.level.objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.entity.Entity;
 import com.gamesbykevin.slide.level.Level;
