@@ -123,9 +123,8 @@ public class GameScreen extends TemplateScreen {
         createGameover(this);
 
         //if the game isn't paused reset the level
-        if (!getGame().isPaused()) {
+        if (!getGame().isPaused())
             reset();
-        }
     }
 
     @Override
@@ -136,9 +135,6 @@ public class GameScreen extends TemplateScreen {
 
         //call parent
         super.render(delta);
-
-        //draw backgrounds twice for endless scrolling
-        drawBackground();
 
         //draw a few backgrounds so it appears continuous
         for (int x = -1; x <= 1; x++) {
