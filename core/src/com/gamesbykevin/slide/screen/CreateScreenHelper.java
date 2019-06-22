@@ -1,15 +1,21 @@
 package com.gamesbykevin.slide.screen;
 
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
-import static com.gamesbykevin.slide.level.LevelHelper.MAX_COLS;
-import static com.gamesbykevin.slide.level.LevelHelper.MAX_ROWS;
+import static com.gamesbykevin.slide.level.LevelHelper.*;
 import static com.gamesbykevin.slide.textures.Textures.Key.*;
 
 public class CreateScreenHelper {
+
+    //valid characters to use for our teleporters
+    public static final String[] TELEPORTER_KEYS = {
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        "!", "@", "#", "$", "%", "^", "&", "*", "(", ")"
+    };
 
     private static LevelObject getLevelObject(CreateScreen screen) {
 
@@ -85,7 +91,6 @@ public class CreateScreenHelper {
                         screen.setSelectedId(obj.getId());
                     }
                 }
-
             }
 
         } else if (screen.isDragged()) {
@@ -493,7 +498,7 @@ public class CreateScreenHelper {
 
                     //we also need to add a key to solve the level
                     LevelObject levelObject = LevelObjectHelper.create(Textures.Key.Key, col, row);
-                    screen.getLevel().assignLocation(levelObject, col, row);
+                    LevelHelper.assignLocation(screen.getLevel(), levelObject, col, row);
                     screen.getLevel().add(levelObject);
                 } else {
 
@@ -513,17 +518,41 @@ public class CreateScreenHelper {
             //add an extra teleporter
             case Teleporter:
 
-                //make sure the telporters are linked togethr
+                //make sure the telporters are linked together
                 Teleporter teleporter1 = (Teleporter)LevelObjectHelper.create(obj.getKey(), col, row);
                 Teleporter teleporter2 = (Teleporter)LevelObjectHelper.create(obj.getKey(), col, row);
+
+                //make sure the teleporters are linked to each other
                 teleporter1.setLinkId(teleporter2.getId());
                 teleporter2.setLinkId(teleporter1.getId());
+
+                //make sure we don't use the same key
+                if (screen.getTeleporterKeyIndex() >= TELEPORTER_KEYS.length ||
+                        screen.getLevel().hasFileCharKey(TELEPORTER_KEYS[screen.getTeleporterKeyIndex()])) {
+
+                    //look for a valid character not in use starting from the beginning
+                    for (int index = 0; index < TELEPORTER_KEYS.length; index++) {
+
+                        //if we don't have this then set the index here!!!
+                        if (!screen.getLevel().hasFileCharKey(TELEPORTER_KEYS[index])) {
+                            screen.setTeleporterKeyIndex(index);
+                            break;
+                        }
+                    }
+                }
+
+                //assign the char key
+                teleporter1.setFileCharKey(TELEPORTER_KEYS[screen.getTeleporterKeyIndex()]);
+                teleporter2.setFileCharKey(TELEPORTER_KEYS[screen.getTeleporterKeyIndex()]);
+
+                //move to the next index
+                screen.setTeleporterKeyIndex(screen.getTeleporterKeyIndex() + 1);
 
                 //add the teleporter to the level
                 screen.getLevel().add(teleporter1);
 
                 //let's find an open spot for the other teleporter
-                screen.getLevel().assignLocation(teleporter2, col, row);
+                LevelHelper.assignLocation(screen.getLevel(), teleporter2, col, row);
 
                 //and add that to the level as well
                 screen.getLevel().add(teleporter2);
@@ -534,5 +563,7 @@ public class CreateScreenHelper {
                 screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                 break;
         }
+
+        getLevelCode(screen.getLevel());
     }
 }

@@ -11,8 +11,7 @@ import com.gamesbykevin.slide.textures.Textures;
 import java.util.ArrayList;
 
 import static com.gamesbykevin.slide.MyGdxGame.*;
-import static com.gamesbykevin.slide.level.LevelHelper.MAX_COLS;
-import static com.gamesbykevin.slide.level.LevelHelper.MAX_ROWS;
+import static com.gamesbykevin.slide.level.LevelHelper.*;
 import static com.gamesbykevin.slide.level.objects.LevelObject.*;
 import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
@@ -234,6 +233,21 @@ public class Level implements ILevel {
         return null;
     }
 
+    public int getCount(Textures.Key key) {
+
+        int count = 0;
+
+        //search the level objects for the type
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+
+            //if the key matches keep track of the count
+            if (getLevelObjects().get(i).getKey() == key)
+                count++;
+        }
+
+        return count;
+    }
+
     public LevelObject getLevelObject(Textures.Key key) {
 
         //search the level objects for the type
@@ -246,42 +260,16 @@ public class Level implements ILevel {
     }
 
     public void add(LevelObject object) {
+
+        //if adding a teleporter we have to stay within limits
+        if (object.getKey() == Textures.Key.Teleporter) {
+
+            //if we exceed the limit we won't add the object
+            if (getCount(object.getKey()) >= TELEPORTER_LIMIT)
+                return;
+        }
+
         getLevelObjects().add(object);
-    }
-
-    public void assignLocation(LevelObject object, int col, int row) {
-
-        for (int x = -2; x <= 2; x++) {
-            for (int y = -2; y <= 2; y++) {
-
-                if (x == 0 && y == 0)
-                    continue;
-
-                if (col + x < 0 || col + x >= MAX_COLS)
-                    continue;
-                if (row + y < 0 || row + y >= MAX_ROWS)
-                    continue;
-
-                //make sure there are no existing objects here
-                if (getLevelObject(col + x, row + y) == null) {
-                    object.setCol(col + x);
-                    object.setRow(row + y);
-                    updateCoordinates(object);
-                    return;
-                }
-            }
-        }
-
-        for (int x = 0; x < MAX_COLS; x++) {
-            for (int y = 0; y < MAX_ROWS; y++) {
-                if (getLevelObject(col + x, row + y) == null) {
-                    object.setCol(col + x);
-                    object.setRow(row + y);
-                    updateCoordinates(object);
-                    return;
-                }
-            }
-        }
     }
 
     public void remove(Textures.Key key) {
@@ -304,11 +292,61 @@ public class Level implements ILevel {
         }
     }
 
+    //looking for teleporters with this key
+    public boolean hasFileCharKey(String key) {
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+            LevelObject obj = getLevelObjects().get(i);
+
+            if (obj.getKey() != Textures.Key.Teleporter)
+                continue;
+
+            if (((Teleporter)obj).getFileCharKey().equals(key))
+                return true;
+        }
+
+        return false;
+    }
+
     private ArrayList<LevelObject> getLevelObjects() {
         return this.levelObjects;
     }
 
+    public int getMaxCol() {
+
+        int col = 0;
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+
+            LevelObject obj = getLevelObjects().get(i);
+
+            if (obj.getCol() > col)
+                col = (int)obj.getCol();
+        }
+
+        return col;
+    }
+
+    public int getMaxRow() {
+
+        int row = 0;
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+
+            LevelObject obj = getLevelObjects().get(i);
+
+            if (obj.getRow() > row)
+                row = (int)obj.getRow();
+        }
+
+        return row;
+    }
+
     public void render(SpriteBatch batch) {
+
+        //rotate the sprites here 1 time since the sprite instance is shared
+        getTextures().getSprite(Textures.Key.Teleporter).rotate(Teleporter.DEFAULT_ROTATION);
+        getTextures().getSprite(Textures.Key.Danger).rotate(Danger.DEFAULT_ROTATION);
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
@@ -316,7 +354,7 @@ public class Level implements ILevel {
             getLevelObjects().get(i).render(batch);
         }
 
-        //render the player as well
+        //render the player here so it is on top of other objects
         if (getPlayer() != null)
             getPlayer().render(batch);
 

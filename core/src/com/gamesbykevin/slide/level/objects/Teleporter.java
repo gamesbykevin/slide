@@ -1,7 +1,5 @@
 package com.gamesbykevin.slide.level.objects;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 
@@ -10,10 +8,13 @@ import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 public class Teleporter extends LevelObject {
 
     //how fast to rotate
-    public static final float DEFAULT_ROTATION = -1f;
+    public static final float DEFAULT_ROTATION = -2f;
 
     //the teleporter this one is linked to
     private String linkId;
+
+    //the character from our level data used to create this teleporter
+    private String fileCharKey;
 
     /**
      * Default constructor
@@ -21,6 +22,14 @@ public class Teleporter extends LevelObject {
     public Teleporter() {
         setRotate(true);
         setRotationSpeed(DEFAULT_ROTATION);
+    }
+
+    public void setFileCharKey(String fileCharKey) {
+        this.fileCharKey = fileCharKey;
+    }
+
+    public String getFileCharKey() {
+        return this.fileCharKey;
     }
 
     public void setLinkId(String linkId) {

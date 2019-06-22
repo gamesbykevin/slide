@@ -41,6 +41,9 @@ public class CreateScreen extends LevelScreen {
     //what type did we select
     private String selectedId = null;
 
+    //keep track of the teleporter key
+    private int teleporterKeyIndex = 0;
+
     public CreateScreen(MyGdxGame game) {
         super(game);
 
@@ -92,6 +95,17 @@ public class CreateScreen extends LevelScreen {
         Level.START_X = LEVEL_X;
         Level.START_Y = LEVEL_Y;
         getLevel().reset();
+
+        //start at the beginning
+        setTeleporterKeyIndex(0);
+    }
+
+    public int getTeleporterKeyIndex() {
+        return this.teleporterKeyIndex;
+    }
+
+    public void setTeleporterKeyIndex(int teleporterKeyIndex) {
+        this.teleporterKeyIndex = teleporterKeyIndex;
     }
 
     public boolean isDragged() {

@@ -78,6 +78,7 @@ public class LevelObjectHelper {
         //assign the texture key
         object.setKey(key);
 
+        //return the level object
         return object;
     }
 }

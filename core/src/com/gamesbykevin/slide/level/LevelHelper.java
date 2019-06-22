@@ -12,6 +12,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gamesbykevin.slide.level.Level.updateCoordinates;
+import static com.gamesbykevin.slide.screen.CreateScreenHelper.TELEPORTER_KEYS;
+
 public class LevelHelper {
 
     //since our width is limited what is the max # of columns?
@@ -19,6 +22,9 @@ public class LevelHelper {
 
     //how about the recommended max allowed rows?
     public static final int MAX_ROWS = 20;
+
+    //how many teleporters can we have in 1 level
+    public static final int TELEPORTER_LIMIT = TELEPORTER_KEYS.length;
 
     public static Level create(String filename) throws IOException {
 
@@ -132,6 +138,8 @@ public class LevelHelper {
                 if (tmp1.charKey.equalsIgnoreCase(tmp2.charKey)) {
                     Teleporter tele1 = (Teleporter)level.getLevelObject(tmp1.id);
                     Teleporter tele2 = (Teleporter)level.getLevelObject(tmp2.id);
+                    tele1.setFileCharKey(tmp1.charKey);
+                    tele2.setFileCharKey(tmp2.charKey);
                     tele1.setLinkId(tmp2.id);
                     tele2.setLinkId(tmp1.id);
                 }
@@ -274,5 +282,88 @@ public class LevelHelper {
             this.id = id;
             this.charKey = charKey;
         }
+    }
+
+    //here we will find an open location nearby for the specified level object
+    public static void assignLocation(Level level, LevelObject object, int col, int row) {
+
+        for (int x = -3; x <= 3; x++) {
+            for (int y = -3; y <= 3; y++) {
+
+                if (x == 0 && y == 0)
+                    continue;
+
+                if (col + x < 0 || col + x >= MAX_COLS)
+                    continue;
+                if (row + y < 0 || row + y >= MAX_ROWS)
+                    continue;
+
+                //make sure there are no existing objects here
+                if (level.getLevelObject(col + x, row + y) == null) {
+                    object.setCol(col + x);
+                    object.setRow(row + y);
+                    updateCoordinates(object);
+                    return;
+                }
+            }
+        }
+
+        for (int x = 0; x < MAX_COLS; x++) {
+            for (int y = 0; y < MAX_ROWS; y++) {
+                if (level.getLevelObject(col + x, row + y) == null) {
+                    object.setCol(col + x);
+                    object.setRow(row + y);
+                    updateCoordinates(object);
+                    return;
+                }
+            }
+        }
+    }
+
+    public static List<String> getLevelCode(Level level) {
+
+        int cols = level.getMaxCol();
+        int rows = level.getMaxRow();
+
+        List<String> lines = new ArrayList<>();
+
+        for (int row = rows; row >= 0; row--) {
+
+            String line = "";
+
+            for (int col = 0; col <= cols; col++) {
+
+                LevelObject obj = level.getLevelObject(col, row);
+
+                if (obj == null) {
+
+                    //if null we will add a space
+                    line += " ";
+
+                } else {
+
+                    switch (obj.getKey()) {
+
+                        //teleporter keys are stored differently
+                        case Teleporter:
+                            line += ((Teleporter)obj).getFileCharKey();
+                            break;
+
+                        default:
+                            line += obj.getKey().getFileCharKey();
+                            break;
+                    }
+                }
+            }
+
+            lines.add(line);
+        }
+
+        System.out.println("----------------------------------");
+        for (int i = 0; i < lines.size(); i++) {
+            System.out.println(lines.get(i));
+        }
+
+        return lines;
     }
 }

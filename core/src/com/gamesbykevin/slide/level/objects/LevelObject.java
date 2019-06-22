@@ -91,7 +91,9 @@ public abstract class LevelObject extends Entity {
             sprite.setPosition(getX(), getY());
             sprite.setSize(getW(), getH());
             sprite.setOriginCenter();
-            sprite.rotate(getRotationSpeed());
+
+            //don't rotate here, else it will rotate too fast for multiple instances
+            //sprite.rotate(getRotationSpeed());
 
             //now we can add it to the batch to be rendered
             sprite.draw(batch);

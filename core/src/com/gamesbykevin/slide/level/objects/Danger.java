@@ -12,7 +12,7 @@ import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENA
 public class Danger extends LevelObject {
 
     //how fast to rotate
-    public static final float DEFAULT_ROTATION = 3f;
+    public static final float DEFAULT_ROTATION = 5f;
 
     //where is our particle meta particles at?
     private static final String PARTICLE_FILE = "cut.p";
