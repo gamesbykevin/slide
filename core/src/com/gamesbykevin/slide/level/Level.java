@@ -120,6 +120,10 @@ public class Level implements ILevel {
         if (!player.hasBounds()) {
             Rumble.reset();
             reset();
+
+            //vibrate if the option is enabled
+            if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
+                Gdx.input.vibrate(DURATION_VIBRATE);
         }
     }
 
@@ -151,10 +155,6 @@ public class Level implements ILevel {
      */
     @Override
     public void reset() {
-
-        //vibrate if the option is enabled
-        if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
-            Gdx.input.vibrate(DURATION_VIBRATE);
 
         //reset the time lapsed
         setLapsedComplete(0);

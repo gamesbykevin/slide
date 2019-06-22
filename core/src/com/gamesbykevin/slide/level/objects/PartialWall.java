@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 
+import static com.gamesbykevin.slide.level.Level.updateCoordinates;
+
 public class PartialWall extends LevelObject {
 
     //where will the wall head to?
@@ -69,9 +71,11 @@ public class PartialWall extends LevelObject {
         if (getDX() > 0 && getCol() >= getTargetCol() || getDX() < 0 && getCol() <= getTargetCol()) {
             setDX(VELOCITY_NONE);
             setCol(getTargetCol());
+            updateCoordinates(this);
         } else if (getDY() > 0 && getRow() >= getTargetRow() || getDY() < 0 && getRow() <= getTargetRow()) {
             setDY(VELOCITY_NONE);
             setRow(getTargetRow());
+            updateCoordinates(this);
         }
     }
 

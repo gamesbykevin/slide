@@ -44,7 +44,7 @@ public class MyGdxGame extends Game {
 	/**
 	 * How long do we vibrate the phone
 	 */
-	public static final int DURATION_VIBRATE = 1000;
+	public static final int DURATION_VIBRATE = 333;
 
 	@Override
 	public void create() {

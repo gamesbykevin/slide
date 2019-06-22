@@ -41,8 +41,6 @@ public class Danger extends LevelObject {
     @Override
     public void updateCollision(Level level) {
 
-        Player player = level.getPlayer();
-
         //vibrate if the option is enabled
         if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
             Gdx.input.vibrate(DURATION_VIBRATE);

@@ -8,7 +8,6 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.objects.LevelObject;
-import com.gamesbykevin.slide.level.objects.Player;
 
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_X;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_Y;
@@ -20,7 +19,7 @@ public class Controller implements InputProcessor {
     private final MyGdxGame game;
 
     //calculate the projected touch position
-    private Vector3 touchPos;
+    private Vector3 touchPos, touchPosRelease;
 
     //how many fingers are on the screen
     private int count = 0;
@@ -30,6 +29,7 @@ public class Controller implements InputProcessor {
 
         //our touch coordinates
         this.touchPos = new Vector3();
+        this.touchPosRelease = new Vector3();
 
         //make sure the controller has the input
         setInput();
@@ -142,15 +142,17 @@ public class Controller implements InputProcessor {
         if (count == 1) {
 
             //touch the coordinates
-            this.touchPos.x = screenX;
-            this.touchPos.y = screenY;
+            getTouchPos().x = screenX;
+            getTouchPos().y = screenY;
 
             //check if we selected something
             switch(getGame().getScreenHelper().getScreenIndex()) {
 
                 case SCREEN_CREATE:
+                    calculateTouchPosition(getTouchPos());
                     getGame().getScreenHelper().getCreateScreen().setPressed(true);
-                    calculateTouchPosition();
+                    getGame().getScreenHelper().getCreateScreen().setDragged(false);
+                    getGame().getScreenHelper().getCreateScreen().setReleased(false);
                     break;
             }
         }
@@ -172,35 +174,62 @@ public class Controller implements InputProcessor {
             switch(getGame().getScreenHelper().getScreenIndex()) {
 
                 case SCREEN_CREATE:
-                    getGame().getScreenHelper().getCreateScreen().setPressed(false);
+
+                    //if we don't have anything selected, let's play the level
+                    if (getGame().getScreenHelper().getCreateScreen().getSelectedId() == null) {
+
+                        //figure out where the new position is
+                        getTouchPosRelease().x = screenX;
+                        getTouchPosRelease().y = screenY;
+                        calculateTouchPosition(getTouchPosRelease());
+
+                        //now we can update the player movement
+                        managePlayerMovement(getTouchPosRelease().x, getTouchPos().y, getTouchPos().x, getTouchPosRelease().y);
+
+                    } else {
+
+                        //update released coordinates
+                        getTouchPos().x = screenX;
+                        getTouchPos().y = screenY;
+                        calculateTouchPosition(getTouchPos());
+
+                        //we have released
+                        getGame().getScreenHelper().getCreateScreen().setPressed(false);
+                        getGame().getScreenHelper().getCreateScreen().setDragged(false);
+                        getGame().getScreenHelper().getCreateScreen().setReleased(true);
+                    }
                     break;
 
                 case SCREEN_GAME:
-
-                    float xDiff = Math.abs(screenX - this.touchPos.x);
-                    float yDiff = Math.abs(screenY - this.touchPos.y);
-
-                    if (xDiff > yDiff) {
-
-                        if (screenX > this.touchPos.x) {
-                            moveRight();
-                        } else if (screenX < this.touchPos.x) {
-                            moveLeft();
-                        }
-
-                    } else if (xDiff < yDiff) {
-
-                        if (screenY < this.touchPos.y) {
-                            moveUp();
-                        } else if (screenY > this.touchPos.y) {
-                            moveDown();
-                        }
-                    }
+                    managePlayerMovement(screenX, screenY, getTouchPos().x, getTouchPos().y);
                     break;
             }
         }
 
         return false;
+    }
+
+    private void managePlayerMovement(float screenX, float screenY, float previousScreenX, float previousScreenY) {
+
+        float xDiff = Math.abs(screenX - previousScreenX);
+        float yDiff = Math.abs(screenY - previousScreenY);
+
+        if (xDiff > yDiff) {
+
+            if (screenX > previousScreenX) {
+                moveRight();
+            } else if (screenX < previousScreenX) {
+                moveLeft();
+            }
+
+        } else if (xDiff < yDiff) {
+
+            if (screenY < previousScreenY) {
+                moveUp();
+            } else if (screenY > previousScreenY) {
+                moveDown();
+            }
+        }
     }
 
     @Override
@@ -214,9 +243,16 @@ public class Controller implements InputProcessor {
         switch(getGame().getScreenHelper().getScreenIndex()) {
 
             case SCREEN_CREATE:
-                getTouchPos().x = screenX;
-                getTouchPos().y = screenY;
-                calculateTouchPosition();
+
+                //only update location if we are actually dragging an item
+                if (getGame().getScreenHelper().getCreateScreen().getSelectedId() != null) {
+                    getTouchPos().x = screenX;
+                    getTouchPos().y = screenY;
+                    calculateTouchPosition(getTouchPos());
+                    getGame().getScreenHelper().getCreateScreen().setPressed(false);
+                    getGame().getScreenHelper().getCreateScreen().setDragged(true);
+                    getGame().getScreenHelper().getCreateScreen().setReleased(false);
+                }
                 break;
         }
 
@@ -246,24 +282,20 @@ public class Controller implements InputProcessor {
     }
 
     public Vector3 getTouchPos() {
-        return touchPos;
+        return this.touchPos;
     }
 
-    public void calculateTouchPosition() {
-        calculateTouchPosition(getTouchPos().x, getTouchPos().y, getTouchPos().z);
+    public Vector3 getTouchPosRelease() {
+        return this.touchPosRelease;
     }
 
-    //do we need this?
-    public void calculateTouchPosition(float x, float y, float z) {
+    public void calculateTouchPosition(Vector3 position) {
 
-        //System.out.println("touchPos before: x=" + x + ", y=" + y + ", z=" + z);
-
-        //set our touch position accordingly
-        getTouchPos().set(x, y, z);
+        //System.out.println("touchPos before: x=" + getTouchPos().x + ", y=" + getTouchPos().y + ", z=" + getTouchPos().z);
 
         try {
             //now adjust the coordinates based on our camera projection
-            getGame().getScreenHelper().getCurrentScreen().getCamera().unproject(getTouchPos());
+            getGame().getScreenHelper().getCurrentScreen().getCamera().unproject(position);
         } catch (ScreenException e) {
             e.printStackTrace();
         }
@@ -344,5 +376,4 @@ public class Controller implements InputProcessor {
         //couldn't find the level
         return null;
     }
-
 }

@@ -33,6 +33,11 @@ public class CreateScreen extends LevelScreen {
     //did we touch the screen to select a level object?
     private boolean pressed = false;
 
+    //are we dragging something
+    private boolean dragged = false;
+
+    private boolean released = false;
+
     //what type did we select
     private String selectedId = null;
 
@@ -89,6 +94,22 @@ public class CreateScreen extends LevelScreen {
         getLevel().reset();
     }
 
+    public boolean isDragged() {
+        return this.dragged;
+    }
+
+    public void setDragged(boolean dragged) {
+        this.dragged = dragged;
+    }
+
+    public boolean isReleased() {
+        return this.released;
+    }
+
+    public void setReleased(boolean released) {
+        this.released = released;
+    }
+
     public boolean isPressed() {
         return this.pressed;
     }
@@ -106,6 +127,9 @@ public class CreateScreen extends LevelScreen {
     }
 
     public void reset() {
+        setPressed(false);
+        setDragged(false);
+        setReleased(false);
         getLevel().reset();
     }
 

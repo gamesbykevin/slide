@@ -2,9 +2,7 @@ package com.gamesbykevin.slide.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.gamesbykevin.slide.MyGdxGame;
-import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.LevelHelper;
-import com.gamesbykevin.slide.rumble.Rumble;
 
 import java.io.IOException;
 
@@ -64,8 +62,6 @@ public class GameScreen extends LevelScreen {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-        getLevel().reset();
     }
 
     @Override
