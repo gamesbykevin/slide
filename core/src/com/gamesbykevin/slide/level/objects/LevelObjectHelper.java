@@ -9,7 +9,7 @@ import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_WIDTH;
 
 public class LevelObjectHelper {
 
-    public static LevelObject create(Textures.Key key, int col, int row) {
+    public static LevelObject create(Textures.Key key, float col, float row) {
         LevelObject object = create(key);
         object.setCol(col);
         object.setRow(row);
@@ -17,6 +17,17 @@ public class LevelObjectHelper {
         object.setY((row * DEFAULT_HEIGHT) + getStartY());
         object.setW(DEFAULT_WIDTH);
         object.setH(DEFAULT_HEIGHT);
+
+        switch (key) {
+            case WallLeft:
+            case WallRight:
+            case WallUp:
+            case WallDown:
+                ((PartialWall)object).setResetCol(col);
+                ((PartialWall)object).setResetRow(row);
+                break;
+        }
+
         return object;
     }
 

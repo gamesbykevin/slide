@@ -12,9 +12,7 @@ import com.gamesbykevin.slide.level.objects.Player;
 
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_X;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_Y;
-import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_GAME;
-import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_MENU;
-import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_OPTIONS;
+import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class Controller implements InputProcessor {
 
@@ -62,10 +60,8 @@ public class Controller implements InputProcessor {
             try {
                 switch (getGame().getScreenHelper().getScreenIndex()) {
                     case SCREEN_OPTIONS:
-                        getGame().getScreenHelper().changeScreen(SCREEN_MENU);
-                        break;
-
                     case SCREEN_GAME:
+                    case SCREEN_CREATE:
                         getGame().getScreenHelper().changeScreen(SCREEN_MENU);
                         break;
                 }
@@ -93,16 +89,19 @@ public class Controller implements InputProcessor {
             try {
                 switch (getGame().getScreenHelper().getScreenIndex()) {
                     case SCREEN_GAME:
+                    case SCREEN_CREATE:
                         getGame().getScreenHelper().changeScreen(SCREEN_MENU);
                         break;
                 }
             } catch (ScreenException ex) {
                 ex.printStackTrace();
             }
+
         } else {
 
             switch (getGame().getScreenHelper().getScreenIndex()) {
                 case SCREEN_GAME:
+                case SCREEN_CREATE:
                     if (keycode == Input.Keys.RIGHT) {
                         moveRight();
                     } else if (keycode == Input.Keys.LEFT) {
@@ -132,8 +131,6 @@ public class Controller implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        //System.out.println("screen: x=" + screenX + ", y=" + screenY);
-
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
@@ -143,8 +140,19 @@ public class Controller implements InputProcessor {
 
         //if 1 finger touched track the coordinates
         if (count == 1) {
+
+            //touch the coordinates
             this.touchPos.x = screenX;
             this.touchPos.y = screenY;
+
+            //check if we selected something
+            switch(getGame().getScreenHelper().getScreenIndex()) {
+
+                case SCREEN_CREATE:
+                    getGame().getScreenHelper().getCreateScreen().setPressed(true);
+                    calculateTouchPosition();
+                    break;
+            }
         }
 
         return false;
@@ -162,6 +170,11 @@ public class Controller implements InputProcessor {
         if (count == 0) {
 
             switch(getGame().getScreenHelper().getScreenIndex()) {
+
+                case SCREEN_CREATE:
+                    getGame().getScreenHelper().getCreateScreen().setPressed(false);
+                    break;
+
                 case SCREEN_GAME:
 
                     float xDiff = Math.abs(screenX - this.touchPos.x);
@@ -197,6 +210,16 @@ public class Controller implements InputProcessor {
         if (getGame().isPaused())
             return false;
 
+        //check if we selected something
+        switch(getGame().getScreenHelper().getScreenIndex()) {
+
+            case SCREEN_CREATE:
+                getTouchPos().x = screenX;
+                getTouchPos().y = screenY;
+                calculateTouchPosition();
+                break;
+        }
+
         return false;
     }
 
@@ -206,6 +229,8 @@ public class Controller implements InputProcessor {
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
+
+
 
         return false;
     }
@@ -224,18 +249,26 @@ public class Controller implements InputProcessor {
         return touchPos;
     }
 
-    //do we need this?
-    public void calculateTouchPosition(float x, float y, float z) throws ScreenException {
+    public void calculateTouchPosition() {
+        calculateTouchPosition(getTouchPos().x, getTouchPos().y, getTouchPos().z);
+    }
 
-        System.out.println("touchPos before: x=" + x + ", y=" + y + ", z=" + z);
+    //do we need this?
+    public void calculateTouchPosition(float x, float y, float z) {
+
+        //System.out.println("touchPos before: x=" + x + ", y=" + y + ", z=" + z);
 
         //set our touch position accordingly
         getTouchPos().set(x, y, z);
 
-        //now adjust the coordinates based on our camera projection
-        getGame().getScreenHelper().getCurrentScreen().getCamera().unproject(getTouchPos());
+        try {
+            //now adjust the coordinates based on our camera projection
+            getGame().getScreenHelper().getCurrentScreen().getCamera().unproject(getTouchPos());
+        } catch (ScreenException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("touchPos after: x=" + getTouchPos().x + ", y=" + getTouchPos().y + ", z=" + getTouchPos().z);
+        //System.out.println("touchPos after: x=" + getTouchPos().x + ", y=" + getTouchPos().y + ", z=" + getTouchPos().z);
     }
 
     private void moveRight() {
@@ -295,11 +328,21 @@ public class Controller implements InputProcessor {
     }
 
     private LevelObject getPlayer() {
-        return this.getGame().getScreenHelper().getGameScreen().getLevel().getPlayer();
+        return getLevel().getPlayer();
     }
 
     private Level getLevel() {
-        return this.getGame().getScreenHelper().getGameScreen().getLevel();
+
+        switch(getGame().getScreenHelper().getScreenIndex()) {
+            case SCREEN_GAME:
+                return getGame().getScreenHelper().getGameScreen().getLevel();
+
+            case SCREEN_CREATE:
+                return getGame().getScreenHelper().getCreateScreen().getLevel();
+        }
+
+        //couldn't find the level
+        return null;
     }
 
 }

@@ -104,12 +104,12 @@ public class Indicator extends LevelObject {
     }
 
     @Override
-    public void render(SpriteBatch batch, Sprite sprite, BitmapFont font) {
+    public void render(SpriteBatch batch) {
 
         if (getLapsed() <= LEVEL_INDICATOR_DELAY) {
 
             //render if time has not passed
-            super.render(batch, sprite, font);
+            super.render(batch);
         }
     }
 }

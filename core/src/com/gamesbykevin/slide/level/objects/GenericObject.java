@@ -1,16 +1,18 @@
 package com.gamesbykevin.slide.level.objects;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
-import static com.gamesbykevin.slide.level.objects.PartialWall.CLOSE_VELOCITY;
 
 public class GenericObject extends LevelObject {
 
     @Override
     public void update() {
-        //nothing here
+
+        //call parent
+        super.update();
     }
 
     @Override
@@ -21,15 +23,15 @@ public class GenericObject extends LevelObject {
         switch (getKey()) {
 
             case RedirectNE:
-                if (player.getDX() > 0 && player.hasCollisionClose(this)) {
+                if (player.getDX() > 0) {
                     player.setCol(getCol());
-                    player.setRow(getRow() + 1);
+                    player.setRow(getRow() - 1);
                     player.stop();
                     player.setDY(-DEFAULT_VELOCITY_Y);
                 } else if (player.getDX() < 0) {
                     player.setCol(getCol() + 1);
                     player.stop();
-                } else if (player.getDY() > 0 && player.hasCollisionClose(this)) {
+                } else if (player.getDY() > 0) {
                     player.setRow(getRow());
                     player.setCol(getCol() - 1);
                     player.stop();
@@ -44,12 +46,12 @@ public class GenericObject extends LevelObject {
                 if (player.getDX() > 0) {
                     player.setCol(getCol() - 1);
                     player.stop();
-                } else if (player.getDX() < 0 && player.hasCollisionClose(this)) {
+                } else if (player.getDX() < 0) {
                     player.setCol(getCol());
                     player.setRow(getRow() - 1);
                     player.stop();
                     player.setDY(-DEFAULT_VELOCITY_Y);
-                } else if (player.getDY() > 0 && player.hasCollisionClose(this)) {
+                } else if (player.getDY() > 0) {
                     player.setCol(getCol() + 1);
                     player.setRow(getRow());
                     player.stop();
@@ -61,7 +63,7 @@ public class GenericObject extends LevelObject {
                 break;
 
             case RedirectSE:
-                if (player.getDX() > 0 && player.hasCollisionClose(this)) {
+                if (player.getDX() > 0) {
                     player.setCol(getCol());
                     player.setRow(getRow() + 1);
                     player.stop();
@@ -72,7 +74,7 @@ public class GenericObject extends LevelObject {
                 } else if (player.getDY() > 0) {
                     player.setRow(getRow() - 1);
                     player.stop();
-                } else if (player.getDY() < 0 && player.hasCollisionClose(this)) {
+                } else if (player.getDY() < 0) {
                     player.setRow(getRow());
                     player.setCol(getCol() - 1);
                     player.stop();
@@ -84,7 +86,7 @@ public class GenericObject extends LevelObject {
                 if (player.getDX() > 0) {
                     player.setCol(getCol() - 1);
                     player.stop();
-                } else if (player.getDX() < 0 && player.hasCollisionClose(this)) {
+                } else if (player.getDX() < 0) {
                     player.setCol(getCol());
                     player.setRow(getRow() + 1);
                     player.stop();
@@ -92,7 +94,7 @@ public class GenericObject extends LevelObject {
                 } else if (player.getDY() > 0) {
                     player.setRow(getRow() - 1);
                     player.stop();
-                } else if (player.getDY() < 0 && player.hasCollisionClose(this)) {
+                } else if (player.getDY() < 0) {
                     player.setCol(getCol() + 1);
                     player.setRow(getRow());
                     player.stop();
@@ -182,5 +184,10 @@ public class GenericObject extends LevelObject {
 
                 break;
         }
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
     }
 }

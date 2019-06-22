@@ -15,7 +15,10 @@ import java.util.List;
 public class LevelHelper {
 
     //since our width is limited what is the max # of columns?
-    private static final int MAX_COLS = 15;
+    public static final int MAX_COLS = 15;
+
+    //how about the recommended max allowed rows?
+    public static final int MAX_ROWS = 20;
 
     public static Level create(String filename) throws IOException {
 
@@ -236,7 +239,7 @@ public class LevelHelper {
                     ((Player)obj).setStartRow(row);
 
                     //assign this player to our level
-                    level.setPlayer(((Player)obj));
+                    level.add(obj);
                     break;
 
                 //if this is the goal we also need to create the indicator to show where the goal is

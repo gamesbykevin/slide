@@ -16,9 +16,7 @@ public class TexturesTest {
         assertEquals(Textures.Key.RedirectNE.getFileCharKey(), "D");
         assertEquals(Textures.Key.RedirectSE.getFileCharKey(), "E");
         assertEquals(Textures.Key.RedirectSW.getFileCharKey(), "F");
-        assertEquals(Textures.Key.Start.getFileCharKey(), "G");
         assertEquals(Textures.Key.Wall.getFileCharKey(), "H");
-        assertEquals(Textures.Key.Teleport.getFileCharKey(), "I");
         assertEquals(Textures.Key.Danger.getFileCharKey(), "J");
         assertEquals(Textures.Key.Goal.getFileCharKey(), "K");
         assertEquals(Textures.Key.Collected.getFileCharKey(), "L");

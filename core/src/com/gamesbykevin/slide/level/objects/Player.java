@@ -42,6 +42,9 @@ public class Player extends LevelObject {
     @Override
     public void update() {
 
+        //call parent
+        super.update();
+
         //update location
         setCol(getCol() + getDX());
         setRow(getRow() + getDY());
@@ -107,7 +110,7 @@ public class Player extends LevelObject {
     }
 
     @Override
-    public void render(SpriteBatch batch, Sprite sprite, BitmapFont font) {
+    public void render(SpriteBatch batch) {
 
         //only draw particles if we are moving
         if (getDX() != VELOCITY_NONE || getDY() != VELOCITY_NONE) {
@@ -145,6 +148,6 @@ public class Player extends LevelObject {
         }
 
         //render the player as well :)
-        super.render(batch, sprite, font);
+        super.render(batch);
     }
 }

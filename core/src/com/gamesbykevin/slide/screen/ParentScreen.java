@@ -54,9 +54,6 @@ public abstract class ParentScreen implements Screen {
 
     public ParentScreen(MyGdxGame game) {
 
-        //create a new sprite batch
-        this.batch = new SpriteBatch();
-
         //store game reference
         this.game = game;
 
@@ -112,6 +109,11 @@ public abstract class ParentScreen implements Screen {
     }
 
     public SpriteBatch getBatch() {
+
+        //create a new sprite batch if null
+        if (this.batch == null)
+            this.batch = new SpriteBatch();
+
         return this.batch;
     }
 

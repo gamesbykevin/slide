@@ -1,8 +1,6 @@
 package com.gamesbykevin.slide.level.objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.preferences.AppPreferences;
@@ -14,7 +12,7 @@ import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENA
 public class Danger extends LevelObject {
 
     //how fast to rotate
-    public static final float DEFAULT_ROTATION = 10f;
+    public static final float DEFAULT_ROTATION = 3f;
 
     //where is our particle meta particles at?
     private static final String PARTICLE_FILE = "cut.p";
@@ -35,7 +33,9 @@ public class Danger extends LevelObject {
 
     @Override
     public void update() {
-        //do anything here?
+
+        //call parent
+        super.update();
     }
 
     @Override
@@ -43,23 +43,20 @@ public class Danger extends LevelObject {
 
         Player player = level.getPlayer();
 
-        if (player.hasCollisionClose(this)) {
+        //vibrate if the option is enabled
+        if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
+            Gdx.input.vibrate(DURATION_VIBRATE);
 
-            //vibrate if the option is enabled
-            if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
-                Gdx.input.vibrate(DURATION_VIBRATE);
+        //play sound effect?
 
-            //play sound effect?
+        //shake the screen
+        Rumble.reset();
 
-            //shake the screen
-            Rumble.reset();
+        //reset level
+        level.reset();
 
-            //reset level
-            level.reset();
-
-            //display our particle effect
-            setDisplay(true);
-        }
+        //display our particle effect
+        setDisplay(true);
     }
 
     public boolean isDisplay() {
@@ -84,9 +81,9 @@ public class Danger extends LevelObject {
     }
 
     @Override
-    public void render(SpriteBatch batch, Sprite sprite, BitmapFont font) {
+    public void render(SpriteBatch batch) {
 
-        super.render(batch, sprite, font);
+        super.render(batch);
 
         if (isDisplay()) {
 

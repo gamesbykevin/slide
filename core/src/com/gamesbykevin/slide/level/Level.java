@@ -1,20 +1,19 @@
 package com.gamesbykevin.slide.level;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.level.objects.LevelObject;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.rumble.Rumble;
-import com.gamesbykevin.slide.screen.GameScreen;
 import com.gamesbykevin.slide.textures.Textures;
 
 import java.util.ArrayList;
 
-import static com.gamesbykevin.slide.MyGdxGame.DURATION_VIBRATE;
+import static com.gamesbykevin.slide.MyGdxGame.*;
+import static com.gamesbykevin.slide.level.LevelHelper.MAX_COLS;
+import static com.gamesbykevin.slide.level.LevelHelper.MAX_ROWS;
 import static com.gamesbykevin.slide.level.objects.LevelObject.*;
-import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
 import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
@@ -28,14 +27,11 @@ public class Level implements ILevel {
     private ArrayList<LevelObject> levelObjects;
 
     //start position of level
-    private static int START_X = 64;
-    private static int START_Y = 64;
+    public static int START_X = 64;
+    public static int START_Y = 64;
 
     //is the level solved
     private boolean solved = false;
-
-    //player we interact with
-    private Player player;
 
     //how much time has passed since we completed the level
     private float lapsedComplete = 0;
@@ -46,12 +42,16 @@ public class Level implements ILevel {
     //show user where they need to go
     private LevelObject indicator;
 
+    public Level() {
+        this(MAX_COLS, MAX_ROWS);
+    }
+
     public Level(int cols, int rows) {
 
         START_X = (int)((SCREEN_WIDTH - (cols * DEFAULT_WIDTH))   / 2);
         START_Y = (int)((SCREEN_HEIGHT - (rows * DEFAULT_HEIGHT)) / 2);
 
-        this.levelObjects = new ArrayList<LevelObject>();
+        this.levelObjects = new ArrayList<>();
     }
 
     public void setIndicator(LevelObject indicator) {
@@ -62,12 +62,8 @@ public class Level implements ILevel {
         return this.indicator;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Player getPlayer() {
-        return this.player;
+        return (Player)getLevelObject(Textures.Key.Player);
     }
 
     public static int getStartX() {
@@ -95,14 +91,13 @@ public class Level implements ILevel {
             return;
         }
 
-        //update the player
-        getPlayer().update();
-
         //update the indicator
-        getIndicator().update();
+        if (getIndicator() != null)
+            getIndicator().update();
 
-        //update the (x, y) coordinates
-        updateCoordinates(getPlayer());
+        //get the player
+        Player player = getPlayer();
+        player.update();
 
         //update our objects
         for (int j = 0; j < getLevelObjects().size(); j++) {
@@ -110,22 +105,30 @@ public class Level implements ILevel {
             //get current level object
             LevelObject tmp = getLevelObjects().get(j);
 
-            //update the (x, y) coordinates
-            updateCoordinates(tmp);
+            //don't check the player
+            if (tmp.getId().equals(player.getId()))
+                continue;
 
             //update the level object accordingly
             tmp.update();
 
-            //if there is collision update accordingly
-            if (getPlayer().hasCollisionNormal(tmp))
+            if (getPlayer().hasCollision(tmp))
                 tmp.updateCollision(this);
         }
 
         //if we went off screen reset the level
-        if (!getPlayer().hasBounds()) {
+        if (!player.hasBounds()) {
             Rumble.reset();
             reset();
         }
+    }
+
+    public static int getColumn(float x) {
+        return (int)((x - getStartX()) / DEFAULT_WIDTH);
+    }
+
+    public static int getRow(float y) {
+        return (int)((y - getStartY()) / DEFAULT_HEIGHT);
     }
 
     public static void updateCoordinates(LevelObject object) {
@@ -159,17 +162,16 @@ public class Level implements ILevel {
         //the level has not been solved (yet)
         setSolved(false);
 
-        //reset the player
-        getPlayer().reset(this);
-
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
             //get the current level object so it can be reset
             getLevelObjects().get(i).reset(this);
+            updateCoordinates(getLevelObjects().get(i));
         }
 
         //reset the indicator
-        getIndicator().reset(this);
+        if (getIndicator() != null)
+            getIndicator().reset(this);
     }
 
     public LevelObject getLevelObject(final String id) {
@@ -185,19 +187,48 @@ public class Level implements ILevel {
         return null;
     }
 
+    public LevelObject getLevelObject(float x, float y) {
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+
+            LevelObject obj = getLevelObjects().get(i);
+
+            if (obj.contains(x, y))
+                return obj;
+        }
+
+        //we didn't find it
+        return null;
+    }
+
+    public LevelObject getLevelObject(int col, int row) {
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+
+            LevelObject obj = getLevelObjects().get(i);
+
+            if (obj.getCol() != col || obj.getRow() != row)
+                continue;
+
+            return obj;
+        }
+
+        return null;
+    }
+
     public LevelObject getLevelObject(Textures.Key key, int col, int row) {
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
-            LevelObject object = getLevelObjects().get(i);
+            LevelObject obj = getLevelObjects().get(i);
 
-            if (object.getCol() != col || object.getRow() != row)
+            if (obj.getCol() != col || obj.getRow() != row)
                 continue;
 
-            if (object.getKey() != key)
+            if (obj.getKey() != key)
                 continue;
 
-            return object;
+            return obj;
         }
 
         return null;
@@ -218,28 +249,79 @@ public class Level implements ILevel {
         getLevelObjects().add(object);
     }
 
+    public void assignLocation(LevelObject object, int col, int row) {
+
+        for (int x = -2; x <= 2; x++) {
+            for (int y = -2; y <= 2; y++) {
+
+                if (x == 0 && y == 0)
+                    continue;
+
+                if (col + x < 0 || col + x >= MAX_COLS)
+                    continue;
+                if (row + y < 0 || row + y >= MAX_ROWS)
+                    continue;
+
+                //make sure there are no existing objects here
+                if (getLevelObject(col + x, row + y) == null) {
+                    object.setCol(col + x);
+                    object.setRow(row + y);
+                    updateCoordinates(object);
+                    return;
+                }
+            }
+        }
+
+        for (int x = 0; x < MAX_COLS; x++) {
+            for (int y = 0; y < MAX_ROWS; y++) {
+                if (getLevelObject(col + x, row + y) == null) {
+                    object.setCol(col + x);
+                    object.setRow(row + y);
+                    updateCoordinates(object);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void remove(Textures.Key key) {
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+            if (getLevelObjects().get(i).getKey() == key) {
+                getLevelObjects().remove(i);
+                i--;
+            }
+        }
+    }
+
+    public void remove(String id) {
+
+        for (int i = 0; i < getLevelObjects().size(); i++) {
+            if (getLevelObjects().get(i).getId().equals(id)) {
+                getLevelObjects().remove(i);
+                return;
+            }
+        }
+    }
+
     private ArrayList<LevelObject> getLevelObjects() {
         return this.levelObjects;
     }
 
-    public void render(GameScreen screen, SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
-            //get the level object
-            LevelObject obj = getLevelObjects().get(i);
-
-            //get the sprite containing our texture
-            Sprite sprite = screen.getTextures().getSprite(obj.getKey());
-
             //render the level object
-            obj.render(batch, sprite, screen.getFont());
+            getLevelObjects().get(i).render(batch);
         }
 
         //render the player as well
-        getPlayer().render(batch, screen.getTextures().getSprite(getPlayer().getKey()), screen.getFont());
+        if (getPlayer() != null)
+            getPlayer().render(batch);
 
         //render our goal indicator
-        getIndicator().render(batch, screen.getTextures().getSprite(getIndicator().getKey()), null);
+        if (getIndicator() != null)
+            getIndicator().render(batch);
     }
 }

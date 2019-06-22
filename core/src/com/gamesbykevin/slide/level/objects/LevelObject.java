@@ -6,6 +6,9 @@ import com.gamesbykevin.slide.entity.Entity;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
 
+import static com.gamesbykevin.slide.MyGdxGame.getTextures;
+import static com.gamesbykevin.slide.level.Level.updateCoordinates;
+
 public abstract class LevelObject extends Entity {
 
     //default size of a level object
@@ -20,8 +23,7 @@ public abstract class LevelObject extends Entity {
     public static final float VELOCITY_NONE = 0.00f;
 
     //distance(s) used to detect collision
-    public static final float DISTANCE_COLLISION_NORMAL = .9f;
-    public static final float DISTANCE_COLLISION_CLOSE = .1f;
+    public static final float DISTANCE_COLLISION = .5f;
 
     //what texture do we render for this object
     private Textures.Key key;
@@ -57,16 +59,16 @@ public abstract class LevelObject extends Entity {
     public void createParticleEffect(FileHandle fileHandle1, FileHandle fileHandle2) {
         this.particleEffect = new ParticleEffect();
         this.particleEffect.load(fileHandle1, fileHandle2);
-
-        //TextureAtlas atlas = new TextureAtlas();
-        //atlas.addRegion("explosion",new TextureRegion(new Texture("particles/explosion.png")));
-        //this.particleEffect.load(Gdx.files.internal("particles/explosion.p"), atlas);
     }
 
     /**
      * Logic to update
      */
-    public abstract void update();
+    public void update() {
+
+        if (getDX() != VELOCITY_NONE || getDY() != VELOCITY_NONE)
+            updateCoordinates(this);
+    }
 
     /**
      * Update the player based on the object
@@ -79,7 +81,11 @@ public abstract class LevelObject extends Entity {
      */
     public abstract void reset(Level level);
 
-    public void render(SpriteBatch batch, Sprite sprite, BitmapFont font) {
+    public void render(SpriteBatch batch) {
+        render(batch, getTextures().getSprite(getKey()));
+    }
+
+    private void render(SpriteBatch batch, Sprite sprite) {
 
         if (isRotate()) {
             sprite.setPosition(getX(), getY());
@@ -106,6 +112,7 @@ public abstract class LevelObject extends Entity {
     public void stop() {
         this.setDX(VELOCITY_NONE);
         this.setDY(VELOCITY_NONE);
+        updateCoordinates(this);
     }
 
     public boolean isRotate() {
@@ -132,12 +139,8 @@ public abstract class LevelObject extends Entity {
         this.key = key;
     }
 
-    public boolean hasCollisionNormal(LevelObject object) {
-        return hasCollision(object, DISTANCE_COLLISION_NORMAL);
-    }
-
-    public boolean hasCollisionClose(LevelObject object) {
-        return hasCollision(object, DISTANCE_COLLISION_CLOSE);
+    public boolean hasCollision(LevelObject object) {
+        return hasCollision(object, DISTANCE_COLLISION);
     }
 
     private boolean hasCollision(LevelObject object, float collisionDistance) {

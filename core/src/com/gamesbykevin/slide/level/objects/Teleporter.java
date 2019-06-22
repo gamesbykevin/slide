@@ -33,7 +33,9 @@ public class Teleporter extends LevelObject {
 
     @Override
     public void update() {
-        //nothing to do here
+
+        //call parent
+        super.update();
     }
 
     @Override
@@ -44,9 +46,6 @@ public class Teleporter extends LevelObject {
         //get the teleporter that we are linked to
         Teleporter teleporter = (Teleporter)level.getLevelObject(getLinkId());
 
-        if (!player.hasCollisionClose(this))
-            return;
-
         //we just came from this teleporter so we ignore
         if (player.getTeleporterId() != null && player.getTeleporterId().equals(getId()))
             return;
@@ -55,8 +54,6 @@ public class Teleporter extends LevelObject {
         player.setCol(teleporter.getCol());
         player.setRow(teleporter.getRow());
         player.setTeleporterId(teleporter.getId());
-
-        //update coordinates?
         updateCoordinates(player);
     }
 
@@ -66,7 +63,7 @@ public class Teleporter extends LevelObject {
     }
 
     @Override
-    public void render(SpriteBatch batch, Sprite sprite, BitmapFont font) {
-        super.render(batch, sprite, font);
+    public void render(SpriteBatch batch) {
+        super.render(batch);
     }
 }

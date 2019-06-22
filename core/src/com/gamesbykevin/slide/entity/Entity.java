@@ -35,6 +35,17 @@ public abstract class Entity {
         setDY(0);
     }
 
+    public boolean contains(float x, float y) {
+
+        //if not in range, return false
+        if (x < getX() || y < getY())
+            return false;
+        if (x > getX() + getW() || y > getY() + getH())
+            return false;
+
+        return true;
+    }
+
     public String getId() {
         return this.id;
     }

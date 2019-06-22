@@ -34,6 +34,7 @@ public class MenuScreen extends TemplateScreen {
 
         //Create buttons
         TextButton buttonPlay = new TextButton("Play", getSkin());
+        TextButton buttonCreate = new TextButton("Create", getSkin());
         TextButton buttonOptions = new TextButton("Options", getSkin());
         TextButton buttonRate = new TextButton("Rate", getSkin());
         TextButton buttonMore = new TextButton("More", getSkin());
@@ -45,6 +46,18 @@ public class MenuScreen extends TemplateScreen {
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     getGame().getScreenHelper().changeScreen(SCREEN_SELECT);
+                } catch (ScreenException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        //Add listeners to buttons
+        buttonCreate.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    getGame().getScreenHelper().changeScreen(SCREEN_CREATE);
                 } catch (ScreenException ex) {
                     ex.printStackTrace();
                 }
@@ -87,6 +100,8 @@ public class MenuScreen extends TemplateScreen {
 
         //Add buttons to table
         table.add(buttonPlay).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
+        table.row();
+        table.add(buttonCreate).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
         table.row();
         table.add(buttonOptions).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
         table.row();

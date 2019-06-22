@@ -2,11 +2,10 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 
-import static com.gamesbykevin.slide.MyGdxGame.FPS;
+import static com.gamesbykevin.slide.MyGdxGame.*;
 
 public class Bomb extends LevelObject {
 
@@ -21,9 +20,6 @@ public class Bomb extends LevelObject {
 
     //how much time to take away from our timer per frame
     public static final float TIME_DURATION = (1f / (FPS / 4));
-
-    //what is the width of the text
-    public static float TEXT_WIDTH;
 
     //do we start the countdown?
     private boolean countdown = false;
@@ -43,6 +39,9 @@ public class Bomb extends LevelObject {
 
     @Override
     public void update() {
+
+        //call parent
+        super.update();
 
         //if we haven't started the countdown
         if (!hasCountdown())
@@ -93,15 +92,15 @@ public class Bomb extends LevelObject {
     }
 
     @Override
-    public void render(SpriteBatch batch, Sprite sprite, BitmapFont font) {
+    public void render(SpriteBatch batch) {
 
         if (!hasTimeExpired()) {
 
             //render bomb if time has not expired
-            super.render(batch, sprite, font);
+            super.render(batch);
 
             //render the timer text...
-            font.draw(batch, "" + (int) (getTime()), getX() + ((getW() - TEXT_WIDTH) / 2), getY() + (getH() * .66f));
+            getFont().draw(batch, "" + (int) (getTime()), getX() + ((getW() - TEXT_WIDTH) / 2), getY() + (getH() * .66f));
 
         } else {
 

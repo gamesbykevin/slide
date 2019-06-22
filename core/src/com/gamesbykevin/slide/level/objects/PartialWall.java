@@ -1,5 +1,7 @@
 package com.gamesbykevin.slide.level.objects;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 
 public class PartialWall extends LevelObject {
@@ -55,6 +57,9 @@ public class PartialWall extends LevelObject {
     @Override
     public void update() {
 
+        //call parent
+        super.update();
+
         if (getDX() != VELOCITY_NONE)
             setCol(getCol() + getDX());
 
@@ -99,5 +104,10 @@ public class PartialWall extends LevelObject {
         setRow(getResetRow());
         setDX(VELOCITY_NONE);
         setDY(VELOCITY_NONE);
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
     }
 }
