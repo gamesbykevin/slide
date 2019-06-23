@@ -16,7 +16,6 @@ import static com.gamesbykevin.slide.screen.TemplateScreen.*;
 
 public class GameScreenHelper {
 
-
     protected static void maintainFps(long start) {
 
         //how long  did that take?

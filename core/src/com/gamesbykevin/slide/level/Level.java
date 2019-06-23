@@ -312,36 +312,6 @@ public class Level implements ILevel {
         return this.levelObjects;
     }
 
-    public int getMaxCol() {
-
-        int col = 0;
-
-        for (int i = 0; i < getLevelObjects().size(); i++) {
-
-            LevelObject obj = getLevelObjects().get(i);
-
-            if (obj.getCol() > col)
-                col = (int)obj.getCol();
-        }
-
-        return col;
-    }
-
-    public int getMaxRow() {
-
-        int row = 0;
-
-        for (int i = 0; i < getLevelObjects().size(); i++) {
-
-            LevelObject obj = getLevelObjects().get(i);
-
-            if (obj.getRow() > row)
-                row = (int)obj.getRow();
-        }
-
-        return row;
-    }
-
     public void render(SpriteBatch batch) {
 
         //rotate the sprites here 1 time since the sprite instance is shared

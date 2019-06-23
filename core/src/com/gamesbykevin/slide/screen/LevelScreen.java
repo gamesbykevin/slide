@@ -1,14 +1,8 @@
 package com.gamesbykevin.slide.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.rumble.Rumble;
-
-import java.io.IOException;
-
-import static com.gamesbykevin.slide.level.Level.LEVEL_INDEX;
 
 public abstract class LevelScreen extends TemplateScreen {
 

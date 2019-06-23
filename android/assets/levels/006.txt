@@ -1,17 +1,7 @@
- H          H
-      HH
-
-
-    NPO       H
-    NPONPO
-       NPO
-     NPO     H
-     NPO
-     NPO   M
-     NPO      H
-H        H
-
-      H
-    K   H
-     H
-             H
+   H       HH HH
+GG     G   HC DH
+GG  M  G     K
+           HF EH
+           HH HH
+  HF   EH
+  HHHHHHH

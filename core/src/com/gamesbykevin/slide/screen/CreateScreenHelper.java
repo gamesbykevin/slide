@@ -563,7 +563,5 @@ public class CreateScreenHelper {
                 screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                 break;
         }
-
-        getLevelCode(screen.getLevel());
     }
 }

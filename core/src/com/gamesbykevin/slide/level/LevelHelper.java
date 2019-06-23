@@ -26,6 +26,9 @@ public class LevelHelper {
     //how many teleporters can we have in 1 level
     public static final int TELEPORTER_LIMIT = TELEPORTER_KEYS.length;
 
+    //each line will be separated by this character
+    public static final String NEW_LINE_CHAR = "\n";
+
     public static Level create(String filename) throws IOException {
 
         //read text file to create level
@@ -113,7 +116,7 @@ public class LevelHelper {
                     String tmp = line.substring(col, col + 1);
 
                     //create the level object
-                    createLevelObject(level, false, teleportLocations, tmp, col, lines.size() - row);
+                    createLevelObject(level, false, teleportLocations, tmp, col, (lines.size()-1) - row);
                 }
 
                 //decrease the row
@@ -320,18 +323,13 @@ public class LevelHelper {
         }
     }
 
-    public static List<String> getLevelCode(Level level) {
+    public static String getLevelCode(Level level) {
 
-        int cols = level.getMaxCol();
-        int rows = level.getMaxRow();
+        String line = "";
 
-        List<String> lines = new ArrayList<>();
+        for (int row = MAX_ROWS - 1; row >= 0; row--) {
 
-        for (int row = rows; row >= 0; row--) {
-
-            String line = "";
-
-            for (int col = 0; col <= cols; col++) {
+            for (int col = 0; col < MAX_COLS; col++) {
 
                 LevelObject obj = level.getLevelObject(col, row);
 
@@ -356,14 +354,10 @@ public class LevelHelper {
                 }
             }
 
-            lines.add(line);
+            if (row > 0)
+                line += NEW_LINE_CHAR;
         }
 
-        System.out.println("----------------------------------");
-        for (int i = 0; i < lines.size(); i++) {
-            System.out.println(lines.get(i));
-        }
-
-        return lines;
+        return line;
     }
 }

@@ -45,7 +45,7 @@ public class MenuScreen extends TemplateScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
-                    getGame().getScreenHelper().changeScreen(SCREEN_SELECT);
+                    getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
                 } catch (ScreenException ex) {
                     ex.printStackTrace();
                 }
@@ -57,7 +57,7 @@ public class MenuScreen extends TemplateScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
-                    getGame().getScreenHelper().changeScreen(SCREEN_CREATE);
+                    getGame().getScreenHelper().changeScreen(SCREEN_SELECT_CREATE);
                 } catch (ScreenException ex) {
                     ex.printStackTrace();
                 }

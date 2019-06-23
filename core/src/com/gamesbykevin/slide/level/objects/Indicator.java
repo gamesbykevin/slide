@@ -99,6 +99,11 @@ public class Indicator extends LevelObject {
 
         LevelObject obj = level.getLevelObject(Textures.Key.Goal);
 
+        //if null, then the goal is locked
+        if (obj == null)
+            obj = level.getLevelObject(Textures.Key.Locked);
+
+        //this object should always exist
         setMinY(obj.getY() + (getH() * .65f));
         setMaxY(obj.getY() + (getH() * 1.5f));
     }

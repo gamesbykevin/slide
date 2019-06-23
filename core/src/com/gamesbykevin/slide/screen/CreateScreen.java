@@ -1,19 +1,19 @@
 package com.gamesbykevin.slide.screen;
 
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.level.objects.LevelObject;
 import com.gamesbykevin.slide.level.objects.LevelObjectHelper;
-import com.gamesbykevin.slide.level.objects.Player;
 import com.gamesbykevin.slide.level.objects.WallConnector;
+import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.textures.Textures;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gamesbykevin.slide.level.LevelHelper.MAX_COLS;
-import static com.gamesbykevin.slide.level.LevelHelper.MAX_ROWS;
+import static com.gamesbykevin.slide.level.LevelHelper.*;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_WIDTH;
 import static com.gamesbykevin.slide.screen.CreateScreenHelper.checkInput;
 import static com.gamesbykevin.slide.screen.GameScreenHelper.maintainFps;
@@ -44,8 +44,28 @@ public class CreateScreen extends LevelScreen {
     //keep track of the teleporter key
     private int teleporterKeyIndex = 0;
 
+    //which save did we select
+    private int saveIndex;
+
+    //do we want to exit the screen?
+    private boolean exit = false;
+
     public CreateScreen(MyGdxGame game) {
         super(game);
+    }
+
+    public boolean isExit() {
+        return this.exit;
+    }
+
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
+
+    public void create() {
+
+        //we don't want to exit (yet...)
+        setExit(false);
 
         //create our list
         this.createObjects = new ArrayList<>();
@@ -78,18 +98,54 @@ public class CreateScreen extends LevelScreen {
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSE,     9,     row - 3));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSW,     11,    row - 3));
 
-        //create an empty level
-        super.setLevel(LevelHelper.create(new ArrayList<>()));
+        //if we have the level saved, load it
+        if (AppPreferences.hasLevelSave(getSaveIndex())) {
 
-        //every level has to have a player
-        Player player = (Player)LevelObjectHelper.create(Textures.Key.Player, (MAX_COLS / 2), (MAX_ROWS / 2));
-        player.setStartCol((int)player.getCol());
-        player.setStartRow((int)player.getRow());
-        getLevel().add(player);
+            //split the value into an array
+            String[] data = AppPreferences.getLevelSave(getSaveIndex()).split(NEW_LINE_CHAR);
 
-        //every level has to have a goal
-        LevelObject goal = LevelObjectHelper.create(Textures.Key.Goal, (MAX_COLS / 2) + 2, (MAX_ROWS / 2));
-        getLevel().add(goal);
+            List<String> lines = new ArrayList<>();
+
+            for (int i = 0; i < data.length; i++) {
+                lines.add(data[i]);
+            }
+
+            //create an empty level
+            super.setLevel(LevelHelper.create(lines));
+
+        } else {
+
+            List<String> lines = new ArrayList<>();
+
+            for (int r = 0; r < MAX_ROWS; r++) {
+
+                String line = "";
+
+                for (int c = 0; c < MAX_COLS; c++) {
+
+                    if (r == (MAX_ROWS / 2)) {
+
+                        if (c == (MAX_COLS / 2) - 2) {
+                            line += Textures.Key.Player.getFileCharKey();
+                        } else if (c == (MAX_COLS / 2) + 2) {
+                            line += Textures.Key.Goal.getFileCharKey();
+                        } else {
+                            line += " ";
+                        }
+
+                    } else {
+                        line += " ";
+                    }
+                }
+
+                //add the line to the list
+                lines.add(line);
+            }
+
+            //create an empty level
+            super.setLevel(LevelHelper.create(lines));
+
+        }
 
         //make sure the level start coordinates are correct
         Level.START_X = LEVEL_X;
@@ -98,6 +154,14 @@ public class CreateScreen extends LevelScreen {
 
         //start at the beginning
         setTeleporterKeyIndex(0);
+    }
+
+    public int getSaveIndex() {
+        return this.saveIndex;
+    }
+
+    public void setSaveIndex(int saveIndex) {
+        this.saveIndex = saveIndex;
     }
 
     public int getTeleporterKeyIndex() {
@@ -165,6 +229,30 @@ public class CreateScreen extends LevelScreen {
 
     @Override
     public void render(float delta) {
+
+        if (isExit()) {
+
+            //reset the level
+            getLevel().reset();
+
+            //then save the level data
+            AppPreferences.setLevelSave(
+                    getGame().getScreenHelper().getCreateScreen().getSaveIndex(),
+                    LevelHelper.getLevelCode(getGame().getScreenHelper().getCreateScreen().getLevel())
+            );
+
+            try {
+
+                //go back to the menu screen
+                getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_MENU);
+
+            } catch (ScreenException e) {
+                e.printStackTrace();
+            }
+
+            //don't continue any further
+            return;
+        }
 
         //call parent
         super.render(delta);

@@ -7,7 +7,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.level.objects.LevelObject;
+import com.gamesbykevin.slide.preferences.AppPreferences;
+import com.sun.glass.ui.Window;
 
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_X;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_Y;
@@ -89,8 +92,14 @@ public class Controller implements InputProcessor {
             try {
                 switch (getGame().getScreenHelper().getScreenIndex()) {
                     case SCREEN_GAME:
-                    case SCREEN_CREATE:
+                        //go back to the menu
                         getGame().getScreenHelper().changeScreen(SCREEN_MENU);
+                        break;
+
+                    case SCREEN_CREATE:
+
+                        //flag that we want to exit
+                        getGame().getScreenHelper().getCreateScreen().setExit(true);
                         break;
                 }
             } catch (ScreenException ex) {
