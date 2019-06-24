@@ -12,8 +12,7 @@ import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 public abstract class LevelObject extends Entity {
 
     //default size of a level object
-    public static final float DEFAULT_WIDTH = 32;
-    public static final float DEFAULT_HEIGHT = 32;
+    public static float DEFAULT_DIMENSION = 32;
 
     //default speed
     public static final float DEFAULT_VELOCITY_X = .33f;
@@ -46,8 +45,8 @@ public abstract class LevelObject extends Entity {
         super();
 
         //default values
-        setW(DEFAULT_WIDTH);
-        setH(DEFAULT_HEIGHT);
+        setW(DEFAULT_DIMENSION);
+        setH(DEFAULT_DIMENSION);
         setRotate(false);
         setRotationSpeed(0);
     }

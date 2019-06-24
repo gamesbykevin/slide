@@ -1,7 +1,5 @@
 package com.gamesbykevin.slide.level.objects;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
@@ -11,9 +9,6 @@ import static com.gamesbykevin.slide.level.objects.PartialWall.CLOSE_VELOCITY;
 public class WallConnector extends LevelObject {
 
     boolean hide = false;
-
-    //how big is this when we render
-    private static final int RENDER_SIZE = 64;
 
     @Override
     public void update() {
@@ -84,11 +79,14 @@ public class WallConnector extends LevelObject {
             final float w = getW();
             final float h = getH();
 
+            //wall connector will be slightly bigger
+            float size = (DEFAULT_DIMENSION * 2);
+
             //change position so it appears that blocks are connected
-            setX(x - (RENDER_SIZE / 4));
-            setY(y - (RENDER_SIZE / 4));
-            setW(RENDER_SIZE);
-            setH(RENDER_SIZE);
+            setX(x - (size / 4));
+            setY(y - (size / 4));
+            setW(size);
+            setH(size);
 
             super.render(batch);
 

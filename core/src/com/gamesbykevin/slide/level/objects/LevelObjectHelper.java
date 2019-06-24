@@ -2,10 +2,8 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.gamesbykevin.slide.textures.Textures;
 
-import static com.gamesbykevin.slide.level.Level.getStartX;
-import static com.gamesbykevin.slide.level.Level.getStartY;
-import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_HEIGHT;
-import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_WIDTH;
+import static com.gamesbykevin.slide.level.Level.*;
+import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_DIMENSION;
 
 public class LevelObjectHelper {
 
@@ -13,10 +11,9 @@ public class LevelObjectHelper {
         LevelObject object = create(key);
         object.setCol(col);
         object.setRow(row);
-        object.setX((col * DEFAULT_WIDTH)  + getStartX());
-        object.setY((row * DEFAULT_HEIGHT) + getStartY());
-        object.setW(DEFAULT_WIDTH);
-        object.setH(DEFAULT_HEIGHT);
+        updateCoordinates(object);
+        object.setW(DEFAULT_DIMENSION);
+        object.setH(DEFAULT_DIMENSION);
 
         switch (key) {
             case WallLeft:

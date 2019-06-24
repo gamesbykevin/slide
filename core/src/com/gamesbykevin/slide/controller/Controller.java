@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.level.objects.LevelObject;
-import com.gamesbykevin.slide.preferences.AppPreferences;
-import com.sun.glass.ui.Window;
 
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_X;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_Y;
@@ -58,23 +55,8 @@ public class Controller implements InputProcessor {
         if (getGame().isPaused())
             return false;
 
-        if (keycode == Input.Keys.BACK) {
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
 
-            try {
-                switch (getGame().getScreenHelper().getScreenIndex()) {
-                    case SCREEN_OPTIONS:
-                    case SCREEN_GAME:
-                    case SCREEN_CREATE:
-                        getGame().getScreenHelper().changeScreen(SCREEN_MENU);
-                        break;
-                }
-
-                // Do your optional back button handling (show pause menu?)
-                System.out.println("BACK PRESSED!!!");
-
-            } catch (ScreenException ex) {
-                ex.printStackTrace();
-            }
         }
 
         return false;
@@ -91,7 +73,14 @@ public class Controller implements InputProcessor {
 
             try {
                 switch (getGame().getScreenHelper().getScreenIndex()) {
+
                     case SCREEN_GAME:
+                        getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
+                        break;
+
+                    case SCREEN_SELECT_LEVEL:
+                    case SCREEN_SELECT_CREATE:
+                    case SCREEN_OPTIONS:
                         //go back to the menu
                         getGame().getScreenHelper().changeScreen(SCREEN_MENU);
                         break;

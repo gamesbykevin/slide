@@ -17,11 +17,22 @@ import static com.gamesbykevin.slide.screen.CreateScreenHelper.TELEPORTER_KEYS;
 
 public class LevelHelper {
 
-    //since our width is limited what is the max # of columns?
-    public static final int MAX_COLS = 15;
+    //different dimension sizes
+    public static final int DIMENSION_SMALL = 24;
+    public static final int DIMENSION_NORMAL = 32;
+    public static final int DIMENSION_LARGE = 48;
 
-    //how about the recommended max allowed rows?
-    public static final int MAX_ROWS = 20;
+    //if the level size is different we can display different sized objects
+    public static final int SMALL_SIZE_COLS = 20;
+    public static final int SMALL_SIZE_ROWS = 25;
+
+    //if the level size is different we can display different sized objects
+    public static final int NORMAL_SIZE_COLS = 15;
+    public static final int NORMAL_SIZE_ROWS = 20;
+
+    //if the level size is different we can display different sized objects
+    public static final int LARGE_SIZE_COLS = 10;
+    public static final int LARGE_SIZE_ROWS = 15;
 
     //how many teleporters can we have in 1 level
     public static final int TELEPORTER_LIMIT = TELEPORTER_KEYS.length;
@@ -68,7 +79,10 @@ public class LevelHelper {
         //create list for our teleporters
         List<TeleportLocation> teleportLocations = new ArrayList<>();
 
-        if (cols >= MAX_COLS && cols > rows) {
+        //if the columns are longer, rotate the level
+        final boolean flip = (cols > rows);
+
+        if (flip) {
 
             //create our level
             level = new Level(rows, cols);
@@ -296,9 +310,9 @@ public class LevelHelper {
                 if (x == 0 && y == 0)
                     continue;
 
-                if (col + x < 0 || col + x >= MAX_COLS)
+                if (col + x < 0 || col + x >= level.getCols())
                     continue;
-                if (row + y < 0 || row + y >= MAX_ROWS)
+                if (row + y < 0 || row + y >= level.getRows())
                     continue;
 
                 //make sure there are no existing objects here
@@ -311,8 +325,8 @@ public class LevelHelper {
             }
         }
 
-        for (int x = 0; x < MAX_COLS; x++) {
-            for (int y = 0; y < MAX_ROWS; y++) {
+        for (int x = 0; x < level.getCols(); x++) {
+            for (int y = 0; y < level.getRows(); y++) {
                 if (level.getLevelObject(col + x, row + y) == null) {
                     object.setCol(col + x);
                     object.setRow(row + y);
@@ -326,17 +340,25 @@ public class LevelHelper {
     public static String getLevelCode(Level level) {
 
         String line = "";
+        System.out.println("-----------------START-----------------");
 
-        for (int row = MAX_ROWS - 1; row >= 0; row--) {
+        //is the level empty? (meaning only a player and goal)
+        boolean empty = true;
 
-            for (int col = 0; col < MAX_COLS; col++) {
+        for (int row = level.getRows() - 1; row >= 0; row--) {
+
+            String tmp = "";
+
+            for (int col = 0; col < level.getCols(); col++) {
 
                 LevelObject obj = level.getLevelObject(col, row);
+
+                String charKey = "";
 
                 if (obj == null) {
 
                     //if null we will add a space
-                    line += " ";
+                    charKey = " ";
 
                 } else {
 
@@ -344,19 +366,38 @@ public class LevelHelper {
 
                         //teleporter keys are stored differently
                         case Teleporter:
-                            line += ((Teleporter)obj).getFileCharKey();
+                            charKey = ((Teleporter)obj).getFileCharKey();
+                            empty = false;
+                            break;
+
+                        case Player:
+                        case Goal:
+                            charKey = obj.getKey().getFileCharKey();
                             break;
 
                         default:
-                            line += obj.getKey().getFileCharKey();
+                            charKey = obj.getKey().getFileCharKey();
+                            empty = false;
                             break;
                     }
                 }
+
+                //concatenate the character key
+                line += charKey;
+                tmp += charKey;
             }
+
+            System.out.println(tmp);
 
             if (row > 0)
                 line += NEW_LINE_CHAR;
         }
+
+        System.out.println("-----------------END-------------------");
+
+        //if the level is empty we won't store anything
+        if (empty)
+            line = "";
 
         return line;
     }

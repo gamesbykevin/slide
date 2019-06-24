@@ -7,6 +7,7 @@ import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
+import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 
 public class Indicator extends LevelObject {
 
@@ -102,6 +103,13 @@ public class Indicator extends LevelObject {
         //if null, then the goal is locked
         if (obj == null)
             obj = level.getLevelObject(Textures.Key.Locked);
+
+        //place right above the goal
+        setCol(obj.getCol());
+        setRow(obj.getRow() + 1);
+
+        //place in the right location
+        updateCoordinates(this);
 
         //this object should always exist
         setMinY(obj.getY() + (getH() * .65f));

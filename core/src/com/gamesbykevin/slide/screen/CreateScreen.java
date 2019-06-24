@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gamesbykevin.slide.level.LevelHelper.*;
-import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_WIDTH;
+import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_DIMENSION;
 import static com.gamesbykevin.slide.screen.CreateScreenHelper.checkInput;
 import static com.gamesbykevin.slide.screen.GameScreenHelper.maintainFps;
 
@@ -36,6 +36,7 @@ public class CreateScreen extends LevelScreen {
     //are we dragging something
     private boolean dragged = false;
 
+    //did we release something
     private boolean released = false;
 
     //what type did we select
@@ -70,33 +71,37 @@ public class CreateScreen extends LevelScreen {
         //create our list
         this.createObjects = new ArrayList<>();
 
-        int row = -1;
+        final float row = -1.5f;
 
+        //set start so we know where to render create objects
         Level.START_X = LEVEL_X;
         Level.START_Y = LEVEL_Y;
 
+        //assume objects will be small
+        DEFAULT_DIMENSION = DIMENSION_SMALL;
+
         //create the divider
-        this.divider = (WallConnector)LevelObjectHelper.create(Textures.Key.WallConnectorH, 0, -1);
+        this.divider = (WallConnector)LevelObjectHelper.create(Textures.Key.WallConnectorH, 0, row);
 
         //add our customized objects
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Teleporter,     1f,    row - 1));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Wall,           3f,    row - 1));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Danger,         5f,    row - 1));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Bomb,           7f,    row - 1));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Goal,           9f,    row - 1));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Locked,         11f,   row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Teleporter,     2f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Wall,           4f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Danger,         6f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Bomb,           8f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Goal,           10f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Locked,         12f,   row - 1));
 
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallUp,         13,    row - 1));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorV, 13,    row - 2));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallDown,       13,    row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallUp,         14f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorV, 14f,    row - 2));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallDown,       14f,    row - 3));
 
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallLeft,       1,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorH, 2,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallRight,      3,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNW,     5,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNE,     7,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSE,     9,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSW,     11,    row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallLeft,       2f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorH, 4f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallRight,      6f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNW,     8f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNE,     10f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSE,     12f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSW,     14f,    row - 3));
 
         //if we have the level saved, load it
         if (AppPreferences.hasLevelSave(getSaveIndex())) {
@@ -117,17 +122,17 @@ public class CreateScreen extends LevelScreen {
 
             List<String> lines = new ArrayList<>();
 
-            for (int r = 0; r < MAX_ROWS; r++) {
+            for (int r = 0; r < SMALL_SIZE_ROWS; r++) {
 
                 String line = "";
 
-                for (int c = 0; c < MAX_COLS; c++) {
+                for (int c = 0; c < SMALL_SIZE_COLS; c++) {
 
-                    if (r == (MAX_ROWS / 2)) {
+                    if (r == (SMALL_SIZE_ROWS / 2)) {
 
-                        if (c == (MAX_COLS / 2) - 2) {
+                        if (c == (SMALL_SIZE_COLS / 2) - 2) {
                             line += Textures.Key.Player.getFileCharKey();
-                        } else if (c == (MAX_COLS / 2) + 2) {
+                        } else if (c == (SMALL_SIZE_COLS / 2) + 2) {
                             line += Textures.Key.Goal.getFileCharKey();
                         } else {
                             line += " ";
@@ -146,11 +151,6 @@ public class CreateScreen extends LevelScreen {
             super.setLevel(LevelHelper.create(lines));
 
         }
-
-        //make sure the level start coordinates are correct
-        Level.START_X = LEVEL_X;
-        Level.START_Y = LEVEL_Y;
-        getLevel().reset();
 
         //start at the beginning
         setTeleporterKeyIndex(0);
@@ -208,12 +208,17 @@ public class CreateScreen extends LevelScreen {
         setPressed(false);
         setDragged(false);
         setReleased(false);
+        Level.START_X = LEVEL_X;
+        Level.START_Y = LEVEL_Y;
         getLevel().reset();
     }
 
     @Override
     public void show() {
         super.show();
+
+        //reset to be safe
+        reset();
 
         //make sure game controller has input
         getGame().getController().setInput();
@@ -237,14 +242,14 @@ public class CreateScreen extends LevelScreen {
 
             //then save the level data
             AppPreferences.setLevelSave(
-                    getGame().getScreenHelper().getCreateScreen().getSaveIndex(),
+                getGame().getScreenHelper().getCreateScreen().getSaveIndex(),
                     LevelHelper.getLevelCode(getGame().getScreenHelper().getCreateScreen().getLevel())
             );
 
             try {
 
                 //go back to the menu screen
-                getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_MENU);
+                getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_SELECT_CREATE);
 
             } catch (ScreenException e) {
                 e.printStackTrace();
@@ -257,8 +262,8 @@ public class CreateScreen extends LevelScreen {
         //call parent
         super.render(delta);
 
-        for (int col = 0; col < MAX_COLS; col++) {
-            getDivider().setX(col * DEFAULT_WIDTH);
+        for (int col = SMALL_SIZE_COLS; col >= 0; col--) {
+            getDivider().setX(col * DEFAULT_DIMENSION);
             getDivider().render(getBatch());
         }
 

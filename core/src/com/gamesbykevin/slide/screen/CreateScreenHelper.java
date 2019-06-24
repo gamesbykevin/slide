@@ -156,7 +156,7 @@ public class CreateScreenHelper {
             return;
 
         //if position is out of bounds, let's try to remove the object
-        if (col < 0 || col >= MAX_COLS || row < 0 || row >= MAX_ROWS) {
+        if (col < 0 || col >= SMALL_SIZE_COLS || row < 0 || row >= SMALL_SIZE_ROWS) {
             removeReleasedLevelObject(screen, obj);
             return;
         }
@@ -171,7 +171,7 @@ public class CreateScreenHelper {
         switch (obj.getKey()) {
 
             case WallLeft:
-                if (col >= 0 && col < MAX_COLS - 2 && screen.getLevel().getLevelObject(col + 1, row) == null && screen.getLevel().getLevelObject(col + 2, row) == null) {
+                if (col >= 0 && col < SMALL_SIZE_COLS - 2 && screen.getLevel().getLevelObject(col + 1, row) == null && screen.getLevel().getLevelObject(col + 2, row) == null) {
 
                     obj1 = screen.getLevel().getLevelObject((int) (obj.getCol() + 1), (int) (obj.getRow()));
                     obj1.setCol(col + 1);
@@ -194,7 +194,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallRight:
-                if (col > 1 && col < MAX_COLS && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col - 2, row) == null) {
+                if (col > 1 && col < SMALL_SIZE_COLS && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col - 2, row) == null) {
 
                     obj1 = screen.getLevel().getLevelObject((int) (obj.getCol() - 1), (int) (obj.getRow()));
                     obj1.setCol(col - 1);
@@ -217,7 +217,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallConnectorH:
-                if (col > 0 && col < MAX_COLS - 1 && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col + 1, row) == null) {
+                if (col > 0 && col < SMALL_SIZE_COLS - 1 && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col + 1, row) == null) {
 
                     obj1 = screen.getLevel().getLevelObject((int) (obj.getCol() - 1), (int) (obj.getRow()));
                     obj1.setCol(col - 1);
@@ -240,7 +240,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallUp:
-                if (row > 1 && row < MAX_ROWS && screen.getLevel().getLevelObject(col, row - 1) == null && screen.getLevel().getLevelObject(col, row - 2) == null) {
+                if (row > 1 && row < SMALL_SIZE_ROWS && screen.getLevel().getLevelObject(col, row - 1) == null && screen.getLevel().getLevelObject(col, row - 2) == null) {
 
                     obj1 = screen.getLevel().getLevelObject((int) (obj.getCol()), (int) (obj.getRow() - 1));
                     obj1.setCol(col);
@@ -263,7 +263,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallDown:
-                if (row >= 0 && row < MAX_ROWS - 2 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row + 2) == null) {
+                if (row >= 0 && row < SMALL_SIZE_ROWS - 2 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row + 2) == null) {
 
                     obj1 = screen.getLevel().getLevelObject((int) (obj.getCol()), (int) (obj.getRow() + 1));
                     obj1.setCol(col);
@@ -286,7 +286,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallConnectorV:
-                if (row > 0 && row < MAX_ROWS - 1 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row - 1) == null) {
+                if (row > 0 && row < SMALL_SIZE_ROWS - 1 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row - 1) == null) {
 
                     obj1 = screen.getLevel().getLevelObject((int) (obj.getCol()), (int) (obj.getRow() + 1));
                     obj1.setCol(col);
@@ -398,7 +398,7 @@ public class CreateScreenHelper {
             return;
 
         //if we didn't release within the level, no need to continue
-        if (col < 0 || col >= MAX_COLS || row < 0 || row >= MAX_ROWS)
+        if (col < 0 || col >= SMALL_SIZE_COLS || row < 0 || row >= SMALL_SIZE_ROWS)
             return;
 
         //also make sure we aren't placing the object on top of another
@@ -412,7 +412,7 @@ public class CreateScreenHelper {
 
             //add 3 items to the level
             case WallLeft:
-                if (col < MAX_COLS - 2 && screen.getLevel().getLevelObject(col + 1, row) == null && screen.getLevel().getLevelObject(col + 2, row) == null) {
+                if (col < SMALL_SIZE_COLS - 2 && screen.getLevel().getLevelObject(col + 1, row) == null && screen.getLevel().getLevelObject(col + 2, row) == null) {
                     screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallConnectorH,col + 1, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallRight,     col + 2, row));
@@ -428,7 +428,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallConnectorH:
-                if (col > 0 && col < MAX_COLS - 1 && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col + 1, row) == null) {
+                if (col > 0 && col < SMALL_SIZE_COLS - 1 && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col + 1, row) == null) {
                     screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallLeft,col - 1, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallRight,col + 1, row));
@@ -445,7 +445,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallDown:
-                if (row < MAX_ROWS - 2 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row + 2) == null) {
+                if (row < SMALL_SIZE_ROWS - 2 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row + 2) == null) {
                     screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(WallConnectorV, col, row + 1));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallUp, col, row + 2));
@@ -453,7 +453,7 @@ public class CreateScreenHelper {
                 break;
 
             case WallConnectorV:
-                if (row > 0 && row < MAX_ROWS - 1 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row - 1) == null) {
+                if (row > 0 && row < SMALL_SIZE_ROWS - 1 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row - 1) == null) {
                     screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallDown, col, row - 1));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallUp, col, row + 1));

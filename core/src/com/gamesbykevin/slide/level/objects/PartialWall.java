@@ -1,6 +1,5 @@
 package com.gamesbykevin.slide.level.objects;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 

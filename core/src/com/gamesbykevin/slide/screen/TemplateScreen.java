@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -55,8 +56,14 @@ public class TemplateScreen extends ParentScreen {
     //did we prompt user when they hit the back button
     private boolean prompt = false;
 
+    //needed to capture input from keyboard/mobile as well as the stage
+    private InputMultiplexer inputMultiplexer;
+
     public TemplateScreen(MyGdxGame game) {
         super(game);
+
+        //create our input multiplexer
+        this.inputMultiplexer = new InputMultiplexer();
 
         //load our atlas and skin
         atlas = new TextureAtlas("skin/skin.atlas");
@@ -122,9 +129,22 @@ public class TemplateScreen extends ParentScreen {
 
     public void captureMenuInput() {
 
-        //stage should control input:
-        Gdx.input.setInputProcessor(getStage());
+        //clear anything we have added
+        getInputMultiplexer().clear();
+
+        //add the stage and controller so we can check input for both
+        getInputMultiplexer().addProcessor(getStage());
+        getInputMultiplexer().addProcessor(getGame().getController());
+
+        //then set the multiplexer to capture both input
+        Gdx.input.setInputProcessor(getInputMultiplexer());
+
+        //catch the back key as well
         Gdx.input.setCatchBackKey(true);
+    }
+
+    private InputMultiplexer getInputMultiplexer() {
+        return this.inputMultiplexer;
     }
 
     protected Skin getSkin() {

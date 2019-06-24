@@ -7,12 +7,13 @@ import com.gamesbykevin.slide.level.objects.LevelObject;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
 import java.util.ArrayList;
 
 import static com.gamesbykevin.slide.MyGdxGame.*;
 import static com.gamesbykevin.slide.level.LevelHelper.*;
-import static com.gamesbykevin.slide.level.objects.LevelObject.*;
+import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_DIMENSION;
 import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
@@ -41,16 +42,40 @@ public class Level implements ILevel {
     //show user where they need to go
     private LevelObject indicator;
 
+    //how big is our level?
+    private final int cols, rows;
+
     public Level() {
-        this(MAX_COLS, MAX_ROWS);
+        this(SMALL_SIZE_COLS, SMALL_SIZE_ROWS);
     }
 
     public Level(int cols, int rows) {
 
-        START_X = (int)((SCREEN_WIDTH - (cols * DEFAULT_WIDTH))   / 2);
-        START_Y = (int)((SCREEN_HEIGHT - (rows * DEFAULT_HEIGHT)) / 2);
+        //save the level size
+        this.cols = cols;
+        this.rows = rows;
+
+        //we can render different size objects depending on how large the level is
+        if (getCols() <= LARGE_SIZE_COLS && getRows() <= LARGE_SIZE_ROWS ) {
+            DEFAULT_DIMENSION = DIMENSION_LARGE;
+        } else if (getCols() <= NORMAL_SIZE_COLS && getRows() <= NORMAL_SIZE_ROWS) {
+            DEFAULT_DIMENSION = DIMENSION_NORMAL;
+        } else if (getCols() <= SMALL_SIZE_COLS && getRows() <= SMALL_SIZE_ROWS) {
+            DEFAULT_DIMENSION = DIMENSION_SMALL;
+        }
+
+        START_X = (int)((SCREEN_WIDTH - (getCols() * DEFAULT_DIMENSION))   / 2);
+        START_Y = (int)((SCREEN_HEIGHT - (getRows() * DEFAULT_DIMENSION)) / 2);
 
         this.levelObjects = new ArrayList<>();
+    }
+
+    public int getCols() {
+        return this.cols;
+    }
+
+    public int getRows() {
+        return this.rows;
     }
 
     public void setIndicator(LevelObject indicator) {
@@ -127,18 +152,18 @@ public class Level implements ILevel {
     }
 
     public static int getColumn(float x) {
-        return (int)((x - getStartX()) / DEFAULT_WIDTH);
+        return (int)((x - getStartX()) / DEFAULT_DIMENSION);
     }
 
     public static int getRow(float y) {
-        return (int)((y - getStartY()) / DEFAULT_HEIGHT);
+        return (int)((y - getStartY()) / DEFAULT_DIMENSION);
     }
 
     public static void updateCoordinates(LevelObject object) {
 
         //update the (x, y) coordinates
-        object.setX((object.getCol() * DEFAULT_WIDTH) + getStartX());
-        object.setY((object.getRow() * DEFAULT_HEIGHT) + getStartY());
+        object.setX((object.getCol() * DEFAULT_DIMENSION) + getStartX());
+        object.setY((object.getRow() * DEFAULT_DIMENSION) + getStartY());
     }
 
     public float getLapsedComplete() {
@@ -169,8 +194,7 @@ public class Level implements ILevel {
         }
 
         //reset the indicator
-        if (getIndicator() != null)
-            getIndicator().reset(this);
+        getIndicator().reset(this);
     }
 
     public LevelObject getLevelObject(final String id) {
