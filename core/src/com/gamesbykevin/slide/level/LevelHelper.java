@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.gamesbykevin.slide.level.objects.*;
+import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.textures.Textures;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
+import static com.gamesbykevin.slide.screen.CreateScreen.EDITING;
 import static com.gamesbykevin.slide.screen.CreateScreenHelper.TELEPORTER_KEYS;
 
 public class LevelHelper {
@@ -63,6 +65,11 @@ public class LevelHelper {
     }
 
     public static Level create(List<String> lines) {
+
+        //remove empty parts of the level that are irrelevant when playing a level
+        if (!EDITING) {
+            lines = trim(lines);
+        }
 
         int rows = lines.size();
         int cols = 0;
@@ -181,7 +188,7 @@ public class LevelHelper {
     private static void createLevelObject(Level level, boolean flip, List<TeleportLocation> teleportLocations, String tmp, int col, int row) {
 
         //skip checking space or underscore
-        if (tmp.equalsIgnoreCase(" ") || tmp.equalsIgnoreCase("_"))
+        if (tmp.equalsIgnoreCase(" "))
             return;
 
         //get the appropriate key
@@ -400,5 +407,128 @@ public class LevelHelper {
             line = "";
 
         return line;
+    }
+
+    public static List<String> getCreatedLevelLines(int index) {
+
+        //split the value into an array
+        String[] data = AppPreferences.getLevelSave(index).split(NEW_LINE_CHAR);
+
+        List<String> lines = new ArrayList<>();
+
+        for (int i = 0; i < data.length; i++) {
+            lines.add(data[i]);
+        }
+
+        return lines;
+    }
+
+    private static List<String> trim(List<String> lines) {
+
+        for (int row = 0; row < lines.size(); row++) {
+
+            String line = lines.get(row);
+
+            //did we find anything in this row?
+            boolean found = false;
+
+            for (int col = 0; col < line.length(); col++) {
+                if (!line.substring(col, col + 1).equals(" ")) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            } else {
+
+                //remove the row if we didn't find anything
+                lines.remove(row);
+                row--;
+            }
+        }
+
+        for (int row = lines.size() - 1; row >= 0; row--) {
+
+            String line = lines.get(row);
+
+            //did we find anything in this row?
+            boolean found = false;
+
+            for (int col = 0; col < line.length(); col++) {
+                if (!line.substring(col, col + 1).equals(" ")) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            } else {
+
+                //remove the row if we didn't find anything
+                lines.remove(row);
+            }
+        }
+
+        for (int col = 0; col < lines.get(0).length(); col++) {
+
+            boolean found = false;
+
+            for (int row = 0; row < lines.size(); row++) {
+
+                String line = lines.get(row);
+
+                if (!line.substring(col, col + 1).equals(" ")) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            } else {
+
+                for (int row = 0; row < lines.size(); row++) {
+
+                    String line = lines.get(row);
+
+                    //remove the 1st character from the line
+                    lines.set(row, line.substring(1));
+                }
+
+                col--;
+            }
+        }
+
+        while (true) {
+
+            boolean found = false;
+
+            for (int row = 0; row < lines.size(); row++) {
+
+                String line = lines.get(row);
+
+                if (!line.substring(line.length() - 2, line.length() - 1).equals(" ")) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            } else {
+                for (int row = 0; row < lines.size(); row++) {
+
+                    String line = lines.get(row);
+
+                    //remove the 1st character from the line
+                    lines.set(row, line.substring(0, line.length() - 1));
+                }
+            }
+        }
+
+        return lines;
     }
 }

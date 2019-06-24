@@ -16,6 +16,7 @@ public class ScreenHelper {
     public static final int SCREEN_SELECT_LEVEL = 4;
     public static final int SCREEN_CREATE = 5;
     public static final int SCREEN_SELECT_CREATE = 6;
+    public static final int SCREEN_SELECT_LEVEL_CUSTOM = 7;
 
     //what screen are we on?
     private int screenIndex = SCREEN_SPLASH;
@@ -28,6 +29,7 @@ public class ScreenHelper {
     private LevelSelectScreen levelSelectScreen;
     private CreateScreen createScreen;
     private CreateSelectScreen createSelectScreen;
+    private LevelSelectCustomScreen levelSelectCustomScreen;
 
     private final MyGdxGame game;
 
@@ -47,6 +49,14 @@ public class ScreenHelper {
 
     private MyGdxGame getGame() {
         return this.game;
+    }
+
+    public LevelSelectCustomScreen getLevelSelectCustomScreen() {
+
+        if (this.levelSelectCustomScreen == null)
+            this.levelSelectCustomScreen = new LevelSelectCustomScreen(getGame());
+
+        return this.levelSelectCustomScreen;
     }
 
     public CreateSelectScreen getCreateSelectScreen() {
@@ -145,6 +155,9 @@ public class ScreenHelper {
 
             case SCREEN_SELECT_CREATE:
                 return getCreateSelectScreen();
+
+            case SCREEN_SELECT_LEVEL_CUSTOM:
+                return getLevelSelectCustomScreen();
 
             default:
                 throw new ScreenException("Screen not found: " + getScreenIndex());

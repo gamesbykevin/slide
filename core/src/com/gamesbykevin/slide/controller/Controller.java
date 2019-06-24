@@ -8,6 +8,7 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.objects.LevelObject;
+import com.gamesbykevin.slide.screen.GameScreen;
 
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_X;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_Y;
@@ -75,12 +76,18 @@ public class Controller implements InputProcessor {
                 switch (getGame().getScreenHelper().getScreenIndex()) {
 
                     case SCREEN_GAME:
-                        getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
+
+                        if (GameScreen.CUSTOM_LEVEL) {
+                            getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL_CUSTOM);
+                        } else {
+                            getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
+                        }
                         break;
 
                     case SCREEN_SELECT_LEVEL:
                     case SCREEN_SELECT_CREATE:
                     case SCREEN_OPTIONS:
+                    case SCREEN_SELECT_LEVEL_CUSTOM:
                         //go back to the menu
                         getGame().getScreenHelper().changeScreen(SCREEN_MENU);
                         break;

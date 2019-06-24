@@ -1,6 +1,7 @@
 package com.gamesbykevin.slide.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
@@ -25,7 +26,6 @@ public class LevelSelectScreen extends CustomSelectScreen {
         super.setColumns(COLUMNS);
         super.setPadding(PADDING);
         super.setTotal(Gdx.files.internal("levels").list().length);
-        create();
     }
 
     @Override
@@ -37,8 +37,12 @@ public class LevelSelectScreen extends CustomSelectScreen {
     public void handleClick(int index) {
 
         try {
+
             //assign the selected level
             Level.LEVEL_INDEX = index;
+
+            //we are playing the games levels
+            GameScreen.CUSTOM_LEVEL = false;
 
             //switch to the game screen
             getGame().getScreenHelper().changeScreen(SCREEN_GAME);

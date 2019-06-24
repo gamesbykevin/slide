@@ -11,7 +11,7 @@ import com.gamesbykevin.slide.MyGdxGame;
 
 public abstract class CustomSelectScreen extends TemplateScreen {
 
-    //container with all our selections
+    //our container table
     private Table container;
 
     //customize our screen
@@ -22,6 +22,17 @@ public abstract class CustomSelectScreen extends TemplateScreen {
 
     public CustomSelectScreen(MyGdxGame game) {
         super(game);
+
+        //our container table
+        this.container = new Table();
+        getContainer().setFillParent(true);
+
+        //add the container to our stage
+        getStage().addActor(container);
+    }
+
+    public Table getContainer() {
+        return this.container;
     }
 
     public int getTotal() {
@@ -56,22 +67,9 @@ public abstract class CustomSelectScreen extends TemplateScreen {
         this.padding = padding;
     }
 
-    private Table getContainer() {
-        return this.container;
-    }
-
     protected void create() {
 
-        //this container will have our buttons and the scroll pane
-        container = new Table();
-
-        //make entire size of screen
-        getContainer().setFillParent(true);
-
-        //add the container to our stage
-        getStage().addActor(getContainer());
-
-        //create our table with level select buttons
+        //create table to contain the gui
         Table table = new Table();
 
         //we need to allow the user to scroll
@@ -148,6 +146,18 @@ public abstract class CustomSelectScreen extends TemplateScreen {
     @Override
     public void show() {
         super.show();
+
+        //remove anything from the container
+        getContainer().clear();
+
+        //clear the stage
+        super.getStage().clear();
+
+        //add our container table
+        super.getStage().addActor(getContainer());
+
+        //create the screen
+        create();
     }
 
     @Override

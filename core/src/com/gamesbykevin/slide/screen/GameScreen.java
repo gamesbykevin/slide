@@ -31,6 +31,9 @@ public class GameScreen extends LevelScreen {
     //normal zoom
     private static final float ZOOM_DEFAULT = 1f;
 
+    //are we playing levels we created
+    public static boolean CUSTOM_LEVEL = false;
+
     public GameScreen(MyGdxGame game) {
         super(game);
     }
@@ -53,12 +56,21 @@ public class GameScreen extends LevelScreen {
 
     public void reset() {
 
+        //flag if we are editing a level
+        CreateScreen.EDITING = false;
+
         this.setZoomRate(ZOOM_DEFAULT);
 
         try {
             //create our level
-            setLevel(LevelHelper.create(Gdx.files.internal("levels").list()[LEVEL_INDEX].name()));
+            if (CUSTOM_LEVEL) {
+                setLevel(LevelHelper.create(LevelHelper.getCreatedLevelLines(LEVEL_INDEX)));
+            } else {
+                setLevel(LevelHelper.create(Gdx.files.internal("levels").list()[LEVEL_INDEX].name()));
+            }
+
             getLevel().reset();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }

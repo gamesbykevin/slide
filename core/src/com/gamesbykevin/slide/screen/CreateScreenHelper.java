@@ -390,6 +390,9 @@ public class CreateScreenHelper {
                 screen.getLevel().remove(obj.getId());
                 break;
         }
+
+        //reset the level
+        screen.getLevel().reset();
     }
 
     private static void releasedCreateObject(CreateScreen screen, LevelObject obj, int col, int row) {
@@ -563,5 +566,8 @@ public class CreateScreenHelper {
                 screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
                 break;
         }
+
+        //reset the level
+        screen.getLevel().reset();
     }
 }

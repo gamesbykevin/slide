@@ -3,11 +3,10 @@ package com.gamesbykevin.slide.screen;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
+import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 
-import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_CREATE;
-
-public class CreateSelectScreen extends CustomSelectScreen {
+public class LevelSelectCustomScreen extends CustomSelectScreen {
 
     //how big is each button
     private static final float BUTTON_SIZE = 150f;
@@ -18,7 +17,7 @@ public class CreateSelectScreen extends CustomSelectScreen {
     //provide some space between each selection
     private static final int PADDING = 40;
 
-    public CreateSelectScreen(MyGdxGame game) {
+    public LevelSelectCustomScreen(MyGdxGame game) {
         super(game);
         super.setButtonSize(BUTTON_SIZE);
         super.setColumns(COLUMNS);
@@ -36,12 +35,18 @@ public class CreateSelectScreen extends CustomSelectScreen {
 
         try {
 
-            //load the selected level
-            getGame().getScreenHelper().getCreateScreen().setSaveIndex(index);
-            getGame().getScreenHelper().getCreateScreen().create();
+            //if we don't have a level saved, don't do anything
+            if (!AppPreferences.hasLevelSave(index))
+                return;
+
+            //assign the selected level
+            Level.LEVEL_INDEX = index;
+
+            //we are loading a custom level
+            GameScreen.CUSTOM_LEVEL = true;
 
             //switch to the game screen
-            getGame().getScreenHelper().changeScreen(SCREEN_CREATE);
+            getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_GAME);
 
         } catch (ScreenException e) {
             e.printStackTrace();
@@ -54,7 +59,7 @@ public class CreateSelectScreen extends CustomSelectScreen {
         if (AppPreferences.hasLevelSave(index)) {
             return (index + 1) + "";
         } else {
-            return "New";
+            return "";
         }
     }
 
@@ -70,6 +75,6 @@ public class CreateSelectScreen extends CustomSelectScreen {
 
     @Override
     public String getTitleText() {
-        return "Create Level";
+        return "Select Created Level";
     }
 }

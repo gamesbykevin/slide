@@ -20,6 +20,9 @@ import static com.gamesbykevin.slide.screen.GameScreenHelper.maintainFps;
 
 public class CreateScreen extends LevelScreen {
 
+    //are we editing a level?
+    public static boolean EDITING = false;
+
     //where do we want the level to start
     public static final int LEVEL_X = 0;
     public static final int LEVEL_Y = 160;
@@ -65,6 +68,9 @@ public class CreateScreen extends LevelScreen {
 
     public void create() {
 
+        //flag if we are editing a level
+        EDITING = true;
+
         //we don't want to exit (yet...)
         setExit(false);
 
@@ -96,24 +102,18 @@ public class CreateScreen extends LevelScreen {
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallDown,       14f,    row - 3));
 
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallLeft,       2f,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorH, 4f,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallRight,      6f,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNW,     8f,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNE,     10f,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSE,     12f,     row - 3));
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSW,     14f,    row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorH, 3f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallRight,      4f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNW,     6f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectNE,     8f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSE,     10f,     row - 3));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.RedirectSW,     12f,    row - 3));
 
         //if we have the level saved, load it
         if (AppPreferences.hasLevelSave(getSaveIndex())) {
 
-            //split the value into an array
-            String[] data = AppPreferences.getLevelSave(getSaveIndex()).split(NEW_LINE_CHAR);
-
-            List<String> lines = new ArrayList<>();
-
-            for (int i = 0; i < data.length; i++) {
-                lines.add(data[i]);
-            }
+            //get the level data from our app preferences
+            List<String> lines = LevelHelper.getCreatedLevelLines(getSaveIndex());
 
             //create an empty level
             super.setLevel(LevelHelper.create(lines));
