@@ -7,11 +7,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.level.objects.LevelObject;
+import com.gamesbykevin.slide.level.objects.Player;
 import com.gamesbykevin.slide.screen.GameScreen;
 
-import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_X;
-import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_VELOCITY_Y;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class Controller implements InputProcessor {
@@ -271,8 +269,6 @@ public class Controller implements InputProcessor {
         if (getGame().isPaused())
             return false;
 
-
-
         return false;
     }
 
@@ -315,11 +311,11 @@ public class Controller implements InputProcessor {
             return;
 
         //get the player object
-        LevelObject player = getPlayer();
+        Player player = getPlayer();
 
         //only move if not moving
-        if (player.getDY() == 0 && player.getDX() == 0)
-            player.setDX(DEFAULT_VELOCITY_X);
+        if (!player.isMoving())
+            player.setMoveRight(true);
     }
 
     private void moveLeft() {
@@ -329,11 +325,11 @@ public class Controller implements InputProcessor {
             return;
 
         //get the player object
-        LevelObject player = getPlayer();
+        Player player = getPlayer();
 
         //only move if not moving
-        if (player.getDY() == 0 && player.getDX() == 0)
-            player.setDX(-DEFAULT_VELOCITY_X);
+        if (!player.isMoving())
+            player.setMoveLeft(true);
     }
 
     private void moveUp() {
@@ -343,11 +339,11 @@ public class Controller implements InputProcessor {
             return;
 
         //get the player object
-        LevelObject player = getPlayer();
+        Player player = getPlayer();
 
         //only move if not moving
-        if (player.getDY() == 0 && player.getDX() == 0)
-            player.setDY(DEFAULT_VELOCITY_Y);
+        if (!player.isMoving())
+            player.setMoveUp(true);
     }
 
     private void moveDown() {
@@ -357,14 +353,14 @@ public class Controller implements InputProcessor {
             return;
 
         //get the player object
-        LevelObject player = getPlayer();
+        Player player = getPlayer();
 
         //only move if not moving
-        if (player.getDY() == 0 && player.getDX() == 0)
-            player.setDY(-DEFAULT_VELOCITY_Y);
+        if (!player.isMoving())
+            player.setMoveDown(true);
     }
 
-    private LevelObject getPlayer() {
+    private Player getPlayer() {
         return getLevel().getPlayer();
     }
 

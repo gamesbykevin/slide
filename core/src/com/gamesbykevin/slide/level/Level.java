@@ -121,6 +121,11 @@ public class Level implements ILevel {
 
         //get the player
         Player player = getPlayer();
+
+        //check if we can detonate a bomb
+        player.checkBombs(this);
+
+        //update the player
         player.update();
 
         //update our objects
@@ -129,7 +134,7 @@ public class Level implements ILevel {
             //get current level object
             LevelObject tmp = getLevelObjects().get(j);
 
-            //don't check the player
+            //if this is the player
             if (tmp.getId().equals(player.getId()))
                 continue;
 

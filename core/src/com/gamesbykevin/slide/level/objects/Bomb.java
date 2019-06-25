@@ -12,13 +12,13 @@ public class Bomb extends LevelObject {
     private float time = TIME_START;
 
     //how long is our timer
-    public static final float TIME_START = 5f;
+    public static final float TIME_START = 9f;
 
     //when has time expired?
     public static final float TIME_EXPIRED = 0f;
 
     //how much time to take away from our timer per frame
-    public static final float TIME_DURATION = (1f / (FPS / 4));
+    public static final float TIME_DURATION = (1f / FPS);
 
     //do we start the countdown?
     private boolean countdown = false;
@@ -65,14 +65,16 @@ public class Bomb extends LevelObject {
 
         //lets position the player the right way if the bomb has not yet exploded
         if (!hasTimeExpired()) {
-            if (level.getPlayer().getDX() > 0) {
-                level.getPlayer().setCol(getCol() - 1);
-            } else if (level.getPlayer().getDX() < 0) {
-                level.getPlayer().setCol(getCol() + 1);
-            } else if (level.getPlayer().getDY() > 0) {
-                level.getPlayer().setRow(getRow() - 1);
-            } else if (level.getPlayer().getDY() < 0) {
-                level.getPlayer().setRow(getRow() + 1);
+            Player player = level.getPlayer();
+
+            if (player.getDX() > 0) {
+                player.setCol(getCol() - 1);
+            } else if (player.getDX() < 0) {
+                player.setCol(getCol() + 1);
+            } else if (player.getDY() > 0) {
+                player.setRow(getRow() - 1);
+            } else if (player.getDY() < 0) {
+                player.setRow(getRow() + 1);
             }
 
             //stop moving the player

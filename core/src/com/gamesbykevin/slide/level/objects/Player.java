@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
@@ -21,6 +22,8 @@ public class Player extends LevelObject {
     //where is our particle meta particles at?
     private static final String PARTICLE_FILE = "player_particle.p";
 
+    private boolean moveRight = false, moveLeft = false, moveUp = false, moveDown = false;
+
     /**
      * Default constructor
      */
@@ -31,6 +34,46 @@ public class Player extends LevelObject {
         getParticleEffect().start();
     }
 
+    public boolean hasVelocity() {
+        return (getDX() != VELOCITY_NONE || getDY() != VELOCITY_NONE);
+    }
+
+    public boolean isMoving() {
+        return (isMoveLeft() || isMoveRight() || isMoveUp() || isMoveDown());
+    }
+
+    public boolean isMoveRight() {
+        return this.moveRight;
+    }
+
+    public void setMoveRight(boolean moveRight) {
+        this.moveRight = moveRight;
+    }
+
+    public boolean isMoveLeft() {
+        return this.moveLeft;
+    }
+
+    public void setMoveLeft(boolean moveLeft) {
+        this.moveLeft = moveLeft;
+    }
+
+    public boolean isMoveUp() {
+        return this.moveUp;
+    }
+
+    public void setMoveUp(boolean moveUp) {
+        this.moveUp = moveUp;
+    }
+
+    public boolean isMoveDown() {
+        return this.moveDown;
+    }
+
+    public void setMoveDown(boolean moveDown) {
+        this.moveDown = moveDown;
+    }
+
     public void setTeleporterId(String teleporterId) {
         this.teleporterId = teleporterId;
     }
@@ -39,11 +82,50 @@ public class Player extends LevelObject {
         return this.teleporterId;
     }
 
+    public void checkBombs(Level level) {
+
+        //if ready to move but haven't started
+        if (isMoving() && !hasVelocity()) {
+
+            LevelObject obj = null;
+            int col = (int)getCol();
+            int row = (int)getRow();
+
+            if (isMoveUp()) {
+                obj = level.getLevelObject(col, row + 1);
+            } else if (isMoveDown()) {
+                obj = level.getLevelObject(col, row - 1);
+            } else if (isMoveLeft()) {
+                obj = level.getLevelObject(col - 1, row);
+            } else if (isMoveRight()) {
+                obj = level.getLevelObject(col + 1, row);
+            }
+
+            //if we are next to a bomb we can detonate now
+            if (obj != null && obj.getKey() == Textures.Key.Bomb)
+                ((Bomb)obj).setTime(Bomb.TIME_EXPIRED);
+        }
+    }
+
     @Override
     public void update() {
 
         //call parent
         super.update();
+
+        //if we are ready to move, but have not just yet
+        if (isMoving() && !hasVelocity()) {
+
+        }
+
+        if (isMoveRight())
+            setDX(DEFAULT_VELOCITY_X);
+        if (isMoveLeft())
+            setDX(-DEFAULT_VELOCITY_X);
+        if (isMoveDown())
+            setDY(-DEFAULT_VELOCITY_Y);
+        if (isMoveUp())
+            setDY(DEFAULT_VELOCITY_Y);
 
         //update location
         setCol(getCol() + getDX());
@@ -74,6 +156,12 @@ public class Player extends LevelObject {
 
         //reset the teleporter when we stop
         setTeleporterId(null);
+
+        //stop moving
+        setMoveDown(false);
+        setMoveLeft(false);
+        setMoveRight(false);
+        setMoveUp(false);
 
         //call parent
         super.stop();
