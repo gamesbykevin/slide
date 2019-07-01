@@ -26,41 +26,56 @@ public class Goal extends LevelObject {
     @Override
     public void updateCollision(Level level) {
 
-        if (isLocked())
-            return;
-
         Player player = level.getPlayer();
 
-        boolean done = false;
+        if (isLocked()) {
 
-        if (player.getDX() > 0) {
-            if (player.getCol() >= getCol())
-                done = true;
-        } else if (player.getDX() < 0) {
-            if (player.getCol() <= getCol())
-                done = true;
-        } else if (player.getDY() > 0) {
-            if (player.getRow() >= getRow())
-                done = true;
-        } else if (player.getDY() < 0) {
-            if (player.getRow() <= getRow())
-                done = true;
-        }
-
-        if (done) {
-
-            //place on the goal
-            player.setCol(getCol());
-            player.setRow(getRow());
-
-            //update x,y render
-            updateCoordinates(player);
+            if (player.getDX() > 0) {
+                player.setCol(getCol() - 1);
+            } else if (player.getDX() < 0) {
+                player.setCol(getCol() + 1);
+            } else if (player.getDY() > 0) {
+                player.setRow(getRow() - 1);
+            } else if (player.getDY() < 0) {
+                player.setRow(getRow() + 1);
+            }
 
             //stop motion
             player.stop();
 
-            //we solved the level!!!
-            level.setSolved(true);
+        } else {
+
+            boolean done = false;
+
+            if (player.getDX() > 0) {
+                if (player.getCol() >= getCol())
+                    done = true;
+            } else if (player.getDX() < 0) {
+                if (player.getCol() <= getCol())
+                    done = true;
+            } else if (player.getDY() > 0) {
+                if (player.getRow() >= getRow())
+                    done = true;
+            } else if (player.getDY() < 0) {
+                if (player.getRow() <= getRow())
+                    done = true;
+            }
+
+            if (done) {
+
+                //place on the goal
+                player.setCol(getCol());
+                player.setRow(getRow());
+
+                //update x,y render
+                updateCoordinates(player);
+
+                //stop motion
+                player.stop();
+
+                //we solved the level!!!
+                level.setSolved(true);
+            }
         }
     }
 
