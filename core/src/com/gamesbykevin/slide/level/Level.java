@@ -6,8 +6,6 @@ import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.level.objects.LevelObject;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.rumble.Rumble;
-import com.gamesbykevin.slide.textures.Textures;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 import java.util.ArrayList;
 
@@ -87,7 +85,7 @@ public class Level implements ILevel {
     }
 
     public Player getPlayer() {
-        return (Player)getLevelObject(Textures.Key.Player);
+        return (Player)getLevelObject(LevelObject.Type.Player);
     }
 
     public static int getStartX() {
@@ -117,7 +115,7 @@ public class Level implements ILevel {
 
         //update the indicator
         if (getIndicator() != null)
-            getIndicator().update();
+            getIndicator().update(this);
 
         //get the player
         Player player = getPlayer();
@@ -126,7 +124,7 @@ public class Level implements ILevel {
         player.checkBombs(this);
 
         //update the player
-        player.update();
+        player.update(this);
 
         //update our objects
         for (int j = 0; j < getLevelObjects().size(); j++) {
@@ -139,7 +137,7 @@ public class Level implements ILevel {
                 continue;
 
             //update the level object accordingly
-            tmp.update();
+            tmp.update(this);
 
             if (getPlayer().hasCollision(tmp))
                 tmp.updateCollision(this);
@@ -244,7 +242,7 @@ public class Level implements ILevel {
         return null;
     }
 
-    public LevelObject getLevelObject(Textures.Key key, int col, int row) {
+    public LevelObject getLevelObject(LevelObject.Type type, int col, int row) {
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
@@ -253,7 +251,7 @@ public class Level implements ILevel {
             if (obj.getCol() != col || obj.getRow() != row)
                 continue;
 
-            if (obj.getKey() != key)
+            if (!obj.getType().equals(type))
                 continue;
 
             return obj;
@@ -262,7 +260,7 @@ public class Level implements ILevel {
         return null;
     }
 
-    public int getCount(Textures.Key key) {
+    public int getCount(LevelObject.Type type) {
 
         int count = 0;
 
@@ -270,18 +268,18 @@ public class Level implements ILevel {
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
             //if the key matches keep track of the count
-            if (getLevelObjects().get(i).getKey() == key)
+            if (getLevelObjects().get(i).getType().equals(type))
                 count++;
         }
 
         return count;
     }
 
-    public LevelObject getLevelObject(Textures.Key key) {
+    public LevelObject getLevelObject(LevelObject.Type type) {
 
         //search the level objects for the type
         for (int i = 0; i < getLevelObjects().size(); i++) {
-            if (getLevelObjects().get(i).getKey() == key)
+            if (getLevelObjects().get(i).getType().equals(type))
                 return getLevelObjects().get(i);
         }
 
@@ -291,20 +289,21 @@ public class Level implements ILevel {
     public void add(LevelObject object) {
 
         //if adding a teleporter we have to stay within limits
-        if (object.getKey() == Textures.Key.Teleporter) {
-
-            //if we exceed the limit we won't add the object
-            if (getCount(object.getKey()) >= TELEPORTER_LIMIT)
-                return;
+        switch (object.getType()) {
+            case Teleporter:
+                //if we exceed the limit we won't add the object
+                if (getCount(object.getType()) >= TELEPORTER_LIMIT)
+                    return;
+                break;
         }
 
         getLevelObjects().add(object);
     }
 
-    public void remove(Textures.Key key) {
+    public void remove(LevelObject.Type type) {
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
-            if (getLevelObjects().get(i).getKey() == key) {
+            if (getLevelObjects().get(i).getType().equals(type)) {
                 getLevelObjects().remove(i);
                 i--;
             }
@@ -327,7 +326,7 @@ public class Level implements ILevel {
         for (int i = 0; i < getLevelObjects().size(); i++) {
             LevelObject obj = getLevelObjects().get(i);
 
-            if (obj.getKey() != Textures.Key.Teleporter)
+            if (!obj.getType().equals(LevelObject.Type.Teleporter))
                 continue;
 
             if (((Teleporter)obj).getFileCharKey().equals(key))
@@ -343,9 +342,8 @@ public class Level implements ILevel {
 
     public void render(SpriteBatch batch) {
 
-        //rotate the sprites here 1 time since the sprite instance is shared
-        getTextures().getSprite(Textures.Key.Teleporter).rotate(Teleporter.DEFAULT_ROTATION);
-        getTextures().getSprite(Textures.Key.Danger).rotate(Danger.DEFAULT_ROTATION);
+        //rotate the sprites here once
+        getTextures().rotateSprites();
 
         for (int i = 0; i < getLevelObjects().size(); i++) {
 

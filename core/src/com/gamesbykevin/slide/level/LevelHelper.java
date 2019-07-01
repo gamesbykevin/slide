@@ -150,7 +150,7 @@ public class LevelHelper {
 
             TeleportLocation tmp1 = teleportLocations.get(i);
 
-            for (int j = 0; j < teleportLocations.size(); j++) {
+            for (int j = i + 1; j < teleportLocations.size(); j++) {
 
                 //don't check self
                 if (j == i)
@@ -166,6 +166,90 @@ public class LevelHelper {
                     tele2.setFileCharKey(tmp2.charKey);
                     tele1.setLinkId(tmp2.id);
                     tele2.setLinkId(tmp1.id);
+
+                    switch (j) {
+
+                        case 0:
+                        default:
+                            tele1.setTextureKey(Textures.Key.Teleporter0);
+                            tele2.setTextureKey(Textures.Key.Teleporter0);
+                            break;
+
+                        case 1:
+                            tele1.setTextureKey(Textures.Key.Teleporter1);
+                            tele2.setTextureKey(Textures.Key.Teleporter1);
+                            break;
+
+                        case 2:
+                            tele1.setTextureKey(Textures.Key.Teleporter2);
+                            tele2.setTextureKey(Textures.Key.Teleporter2);
+                            break;
+
+                        case 3:
+                            tele1.setTextureKey(Textures.Key.Teleporter3);
+                            tele2.setTextureKey(Textures.Key.Teleporter3);
+                            break;
+
+                        case 4:
+                            tele1.setTextureKey(Textures.Key.Teleporter4);
+                            tele2.setTextureKey(Textures.Key.Teleporter4);
+                            break;
+
+                        case 5:
+                            tele1.setTextureKey(Textures.Key.Teleporter5);
+                            tele2.setTextureKey(Textures.Key.Teleporter5);
+                            break;
+
+                        case 6:
+                            tele1.setTextureKey(Textures.Key.Teleporter6);
+                            tele2.setTextureKey(Textures.Key.Teleporter6);
+                            break;
+
+                        case 7:
+                            tele1.setTextureKey(Textures.Key.Teleporter7);
+                            tele2.setTextureKey(Textures.Key.Teleporter7);
+                            break;
+
+                        case 8:
+                            tele1.setTextureKey(Textures.Key.Teleporter8);
+                            tele2.setTextureKey(Textures.Key.Teleporter8);
+                            break;
+
+                        case 9:
+                            tele1.setTextureKey(Textures.Key.Teleporter9);
+                            tele2.setTextureKey(Textures.Key.Teleporter9);
+                            break;
+
+                        case 10:
+                            tele1.setTextureKey(Textures.Key.Teleporter10);
+                            tele2.setTextureKey(Textures.Key.Teleporter10);
+                            break;
+
+                        case 11:
+                            tele1.setTextureKey(Textures.Key.Teleporter11);
+                            tele2.setTextureKey(Textures.Key.Teleporter11);
+                            break;
+
+                        case 12:
+                            tele1.setTextureKey(Textures.Key.Teleporter12);
+                            tele2.setTextureKey(Textures.Key.Teleporter12);
+                            break;
+
+                        case 13:
+                            tele1.setTextureKey(Textures.Key.Teleporter13);
+                            tele2.setTextureKey(Textures.Key.Teleporter13);
+                            break;
+
+                        case 14:
+                            tele1.setTextureKey(Textures.Key.Teleporter14);
+                            tele2.setTextureKey(Textures.Key.Teleporter14);
+                            break;
+
+                        case 15:
+                            tele1.setTextureKey(Textures.Key.Teleporter15);
+                            tele2.setTextureKey(Textures.Key.Teleporter15);
+                            break;
+                    }
                 }
             }
         }
@@ -201,7 +285,7 @@ public class LevelHelper {
         if (key == null) {
 
             //if the key doesn't match, we assume it is a teleporter
-            obj = LevelObjectHelper.create(Textures.Key.Teleporter, col, row);
+            obj = LevelObjectHelper.create(Textures.Key.Teleporter0, col, row);
 
             //add our teleport location
             teleportLocations.add(new TeleportLocation(tmp, obj.getId()));
@@ -276,6 +360,7 @@ public class LevelHelper {
 
                 //if this is the goal we also need to create the indicator to show where the goal is
                 case Goal:
+                case Locked:
                     level.setIndicator(LevelObjectHelper.create(Textures.Key.Indicator, (int)obj.getCol(), (int)obj.getRow() + 1));
                     level.add(obj);
                     break;
@@ -369,9 +454,7 @@ public class LevelHelper {
 
                 } else {
 
-                    switch (obj.getKey()) {
-
-                        //teleporter keys are stored differently
+                    switch (obj.getType()) {
                         case Teleporter:
                             charKey = ((Teleporter)obj).getFileCharKey();
                             empty = false;
@@ -379,11 +462,11 @@ public class LevelHelper {
 
                         case Player:
                         case Goal:
-                            charKey = obj.getKey().getFileCharKey();
+                            charKey = obj.getTextureKey().getFileCharKey();
                             break;
 
                         default:
-                            charKey = obj.getKey().getFileCharKey();
+                            charKey = obj.getTextureKey().getFileCharKey();
                             empty = false;
                             break;
                     }

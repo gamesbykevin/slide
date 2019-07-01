@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.MyGdxGame.*;
 
@@ -30,6 +31,7 @@ public class Bomb extends LevelObject {
      * Default constructor
      */
     public Bomb() {
+        super(Type.Bomb);
         super.createParticleEffect(Gdx.files.internal(PARTICLE_PATH + PARTICLE_FILE), Gdx.files.internal(PARTICLE_PATH));
 
         //tell it to start at the beginning
@@ -37,10 +39,10 @@ public class Bomb extends LevelObject {
     }
 
     @Override
-    public void update() {
+    public void update(Level level) {
 
         //call parent
-        super.update();
+        super.update(level);
 
         //if we haven't started the countdown
         if (!hasCountdown())

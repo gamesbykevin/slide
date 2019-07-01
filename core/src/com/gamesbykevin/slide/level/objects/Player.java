@@ -28,6 +28,8 @@ public class Player extends LevelObject {
      * Default constructor
      */
     public Player() {
+        super(Type.Player);
+        setTextureKey(Textures.Key.Player);
         super.createParticleEffect(Gdx.files.internal(PARTICLE_PATH + PARTICLE_FILE), Gdx.files.internal(PARTICLE_PATH));
         this.particleEmitter = getParticleEffect().getEmitters().first();
         this.particleEmitter.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
@@ -102,21 +104,16 @@ public class Player extends LevelObject {
             }
 
             //if we are next to a bomb we can detonate now
-            if (obj != null && obj.getKey() == Textures.Key.Bomb)
+            if (obj != null && obj.getType().equals(Type.Bomb))
                 ((Bomb)obj).setTime(Bomb.TIME_EXPIRED);
         }
     }
 
     @Override
-    public void update() {
+    public void update(Level level) {
 
         //call parent
-        super.update();
-
-        //if we are ready to move, but have not just yet
-        if (isMoving() && !hasVelocity()) {
-
-        }
+        super.update(level);
 
         if (isMoveRight())
             setDX(DEFAULT_VELOCITY_X);
@@ -212,15 +209,26 @@ public class Player extends LevelObject {
             //update particle effect
             getParticleEffect().update(Gdx.graphics.getDeltaTime());
 
+            ParticleEmitter.ScaledNumericValue angle = this.particleEmitter.getAngle();
+
             //change the angle depending on how we are moving
             if (getDX() != VELOCITY_NONE) {
-                ParticleEmitter.ScaledNumericValue angle = this.particleEmitter.getAngle();
-                angle.setHigh(0);
-                angle.setLow(0);
+
+                if (getDX() < 0) {
+                    angle.setHigh(0);
+                    angle.setLow(0);
+                } else {
+                    angle.setHigh(180);
+                    angle.setLow(180);
+                }
             } else if (getDY() != VELOCITY_NONE) {
-                ParticleEmitter.ScaledNumericValue angle = this.particleEmitter.getAngle();
-                angle.setHigh(90);
-                angle.setLow(90);
+                if (getDY() < 0) {
+                    angle.setHigh(90);
+                    angle.setLow(90);
+                } else {
+                    angle.setHigh(270);
+                    angle.setLow(270);
+                }
             }
 
             //if particle animation is done, start it again

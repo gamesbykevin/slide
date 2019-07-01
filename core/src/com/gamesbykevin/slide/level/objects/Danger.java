@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.rumble.Rumble;
+import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.MyGdxGame.DURATION_VIBRATE;
 import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
@@ -24,6 +25,7 @@ public class Danger extends LevelObject {
      * Default constructor
      */
     public Danger() {
+        super(Type.Danger);
         setRotate(true);
         setRotationSpeed(DEFAULT_ROTATION);
 
@@ -32,10 +34,10 @@ public class Danger extends LevelObject {
     }
 
     @Override
-    public void update() {
+    public void update(Level level) {
 
         //call parent
-        super.update();
+        super.update(level);
     }
 
     @Override

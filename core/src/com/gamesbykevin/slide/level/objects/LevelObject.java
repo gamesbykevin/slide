@@ -25,7 +25,7 @@ public abstract class LevelObject extends Entity {
     public static final float DISTANCE_COLLISION = .5f;
 
     //what texture do we render for this object
-    private Textures.Key key;
+    private Textures.Key textureKey;
 
     //do we rotate?
     private boolean rotate = false;
@@ -39,16 +39,35 @@ public abstract class LevelObject extends Entity {
     //where is our particle meta particles
     public static final String PARTICLE_PATH = "particles/";
 
-    public LevelObject() {
+    public enum Type {
+        Bomb, Danger, Dot, Goal, Indicator, Key, LockedGoal, PartialWall,
+        Player, Redirect, Teleporter, Wall, WallConnector
+    }
+
+    //what type of level object is this?
+    private Type type;
+
+    public LevelObject(Type type) {
 
         //call parent
         super();
+
+        //assign the level object type
+        setType(type);
 
         //default values
         setW(DEFAULT_DIMENSION);
         setH(DEFAULT_DIMENSION);
         setRotate(false);
         setRotationSpeed(0);
+    }
+
+    public Type getType() {
+        return this.type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public ParticleEffect getParticleEffect() {
@@ -63,7 +82,7 @@ public abstract class LevelObject extends Entity {
     /**
      * Logic to update
      */
-    public void update() {
+    public void update(Level level) {
 
         if (getDX() != VELOCITY_NONE || getDY() != VELOCITY_NONE)
             updateCoordinates(this);
@@ -81,7 +100,7 @@ public abstract class LevelObject extends Entity {
     public abstract void reset(Level level);
 
     public void render(SpriteBatch batch) {
-        render(batch, getTextures().getSprite(getKey()));
+        render(batch, getTextures().getSprite(getTextureKey()));
     }
 
     private void render(SpriteBatch batch, Sprite sprite) {
@@ -132,19 +151,19 @@ public abstract class LevelObject extends Entity {
         this.rotationSpeed = rotationSpeed;
     }
 
-    public Textures.Key getKey() {
-        return this.key;
+    public Textures.Key getTextureKey() {
+        return this.textureKey;
     }
 
-    public void setKey(Textures.Key key) {
-        this.key = key;
+    public void setTextureKey(Textures.Key textureKey) {
+        this.textureKey = textureKey;
     }
 
     public boolean hasCollision(LevelObject object) {
         return hasCollision(object, DISTANCE_COLLISION);
     }
 
-    private boolean hasCollision(LevelObject object, float collisionDistance) {
+    public boolean hasCollision(LevelObject object, float collisionDistance) {
 
         //calculate distance
         double x = Math.pow(getCol() - object.getCol(), 2);

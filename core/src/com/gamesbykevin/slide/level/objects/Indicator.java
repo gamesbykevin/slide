@@ -30,7 +30,8 @@ public class Indicator extends LevelObject {
      * Default constructor
      */
     public Indicator() {
-        //do anything here
+        super(Type.Indicator);
+        super.setTextureKey(Textures.Key.Indicator);
     }
 
     private boolean isAscending() {
@@ -66,7 +67,7 @@ public class Indicator extends LevelObject {
     }
 
     @Override
-    public void update() {
+    public void update(Level level) {
 
         setLapsed(getLapsed() + FRAME_MS);
 
@@ -98,11 +99,11 @@ public class Indicator extends LevelObject {
     public void reset(Level level) {
         setLapsed(0);
 
-        LevelObject obj = level.getLevelObject(Textures.Key.Goal);
+        LevelObject obj = level.getLevelObject(Type.Goal);
 
         //if null, then the goal is locked
         if (obj == null)
-            obj = level.getLevelObject(Textures.Key.Locked);
+            obj = level.getLevelObject(Type.LockedGoal);
 
         //place right above the goal
         setCol(obj.getCol());

@@ -16,11 +16,23 @@ public class PartialWall extends LevelObject {
     //how fast can the wall move
     public static final float CLOSE_VELOCITY = .2f;
 
+    //is the wall vertical
+    private boolean vertical;
+
     /**
      * Default constructor
      */
-    public PartialWall() {
-        //do anything here
+    public PartialWall(boolean vertical) {
+        super(Type.PartialWall);
+        setVertical(vertical);
+    }
+
+    public boolean isVertical() {
+        return this.vertical;
+    }
+
+    public void setVertical(boolean vertical) {
+        this.vertical = vertical;
     }
 
     public float getResetCol() {
@@ -56,10 +68,10 @@ public class PartialWall extends LevelObject {
     }
 
     @Override
-    public void update() {
+    public void update(Level level) {
 
         //call parent
-        super.update();
+        super.update(level);
 
         if (getDX() != VELOCITY_NONE)
             setCol(getCol() + getDX());

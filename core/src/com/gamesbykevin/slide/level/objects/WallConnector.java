@@ -2,7 +2,6 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.level.objects.PartialWall.CLOSE_VELOCITY;
 
@@ -10,11 +9,27 @@ public class WallConnector extends LevelObject {
 
     boolean hide = false;
 
+    //is the connector vertical
+    private boolean vertical;
+
+    public WallConnector(boolean vertical) {
+        super(Type.WallConnector);
+        setVertical(vertical);
+    }
+
+    public boolean isVertical() {
+        return this.vertical;
+    }
+
+    public void setVertical(boolean vertical) {
+        this.vertical = vertical;
+    }
+
     @Override
-    public void update() {
+    public void update(Level level) {
 
         //call parent
-        super.update();
+        super.update(level);
     }
 
     @Override
@@ -22,8 +37,8 @@ public class WallConnector extends LevelObject {
 
         //if not hidden, check further
         if (!hide) {
-            LevelObject right = level.getLevelObject(Textures.Key.WallRight, (int) getCol() + 1, (int) getRow());
-            LevelObject left = level.getLevelObject(Textures.Key.WallLeft, (int) getCol() - 1, (int) getRow());
+            LevelObject right = level.getLevelObject(Type.PartialWall, (int) getCol() + 1, (int) getRow());
+            LevelObject left = level.getLevelObject(Type.PartialWall, (int) getCol() - 1, (int) getRow());
 
             //if the walls exist, let's see if we can close them
             if (right != null && left != null) {
@@ -41,8 +56,8 @@ public class WallConnector extends LevelObject {
             } else {
 
                 //if we don't have right/left walls, then we have down/up
-                LevelObject up = level.getLevelObject(Textures.Key.WallUp, (int) getCol(), (int) getRow() + 1);
-                LevelObject down = level.getLevelObject(Textures.Key.WallDown, (int) getCol(), (int) getRow() - 1);
+                LevelObject up = level.getLevelObject(Type.PartialWall, (int) getCol(), (int) getRow() + 1);
+                LevelObject down = level.getLevelObject(Type.PartialWall, (int) getCol(), (int) getRow() - 1);
 
                 //up wall moves down
                 up.setDY(-CLOSE_VELOCITY);

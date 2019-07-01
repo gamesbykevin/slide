@@ -7,6 +7,7 @@ import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 import static com.gamesbykevin.slide.level.LevelHelper.*;
+import static com.gamesbykevin.slide.level.objects.LevelObject.Type;
 import static com.gamesbykevin.slide.textures.Textures.Key.*;
 
 public class CreateScreenHelper {
@@ -168,7 +169,7 @@ public class CreateScreenHelper {
         LevelObject obj1;
         LevelObject obj2;
 
-        switch (obj.getKey()) {
+        switch (obj.getTextureKey()) {
 
             case WallLeft:
                 if (col >= 0 && col < SMALL_SIZE_COLS - 2 && screen.getLevel().getLevelObject(col + 1, row) == null && screen.getLevel().getLevelObject(col + 2, row) == null) {
@@ -331,7 +332,7 @@ public class CreateScreenHelper {
             return;
 
         //if an items is out of bounds let's see if we can remove it
-        switch (obj.getKey()) {
+        switch (obj.getTextureKey()) {
 
             case WallLeft:
                 screen.getLevel().remove(obj.getId());
@@ -369,7 +370,22 @@ public class CreateScreenHelper {
                 screen.getLevel().remove(screen.getLevel().getLevelObject((int)(obj.getCol()), (int)(obj.getRow() + 1)).getId());
                 break;
 
-            case Teleporter:
+            case Teleporter0:
+            case Teleporter1:
+            case Teleporter2:
+            case Teleporter3:
+            case Teleporter4:
+            case Teleporter5:
+            case Teleporter6:
+            case Teleporter7:
+            case Teleporter8:
+            case Teleporter9:
+            case Teleporter10:
+            case Teleporter11:
+            case Teleporter12:
+            case Teleporter13:
+            case Teleporter14:
+            case Teleporter15:
                 screen.getLevel().remove(obj.getId());
 
                 //get the teleporter linked to the one we removed
@@ -411,12 +427,12 @@ public class CreateScreenHelper {
         LevelObject tmp;
 
         //let's see what is added so we can act accordingly
-        switch (obj.getKey()) {
+        switch (obj.getTextureKey()) {
 
             //add 3 items to the level
             case WallLeft:
                 if (col < SMALL_SIZE_COLS - 2 && screen.getLevel().getLevelObject(col + 1, row) == null && screen.getLevel().getLevelObject(col + 2, row) == null) {
-                    screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                    screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallConnectorH,col + 1, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallRight,     col + 2, row));
                 }
@@ -424,7 +440,7 @@ public class CreateScreenHelper {
 
             case WallRight:
                 if (col > 1 && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col - 2, row) == null) {
-                    screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                    screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallConnectorH,col - 1, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallLeft,col - 2, row));
                 }
@@ -432,7 +448,7 @@ public class CreateScreenHelper {
 
             case WallConnectorH:
                 if (col > 0 && col < SMALL_SIZE_COLS - 1 && screen.getLevel().getLevelObject(col - 1, row) == null && screen.getLevel().getLevelObject(col + 1, row) == null) {
-                    screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                    screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallLeft,col - 1, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallRight,col + 1, row));
                 }
@@ -441,7 +457,7 @@ public class CreateScreenHelper {
             //add 3 items to the level
             case WallUp:
                 if (row > 1 && screen.getLevel().getLevelObject(col, row - 1) == null && screen.getLevel().getLevelObject(col, row - 2) == null) {
-                    screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                    screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(WallConnectorV, col, row - 1));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallDown, col, row - 2));
                 }
@@ -449,7 +465,7 @@ public class CreateScreenHelper {
 
             case WallDown:
                 if (row < SMALL_SIZE_ROWS - 2 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row + 2) == null) {
-                    screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                    screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(WallConnectorV, col, row + 1));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallUp, col, row + 2));
                 }
@@ -457,7 +473,7 @@ public class CreateScreenHelper {
 
             case WallConnectorV:
                 if (row > 0 && row < SMALL_SIZE_ROWS - 1 && screen.getLevel().getLevelObject(col, row + 1) == null && screen.getLevel().getLevelObject(col, row - 1) == null) {
-                    screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                    screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallDown, col, row - 1));
                     screen.getLevel().add(LevelObjectHelper.create(Textures.Key.WallUp, col, row + 1));
                 }
@@ -465,18 +481,19 @@ public class CreateScreenHelper {
 
             //check if there is a locked goal
             case Goal:
-                tmp = screen.getLevel().getLevelObject(Locked);
+                tmp = screen.getLevel().getLevelObject(Type.LockedGoal);
 
                 if (tmp != null) {
-                    tmp.setKey(Goal);
+                    tmp.setType(Type.Goal);
+                    tmp.setTextureKey(Goal);
                     tmp.setCol(col);
                     tmp.setRow(row);
                     updateCoordinates(tmp);
 
                     //we don't need the key anymore
-                    screen.getLevel().remove(Textures.Key.Key);
+                    screen.getLevel().remove(Type.Key);
                 } else {
-                    tmp = screen.getLevel().getLevelObject(Goal);
+                    tmp = screen.getLevel().getLevelObject(Type.Goal);
 
                     if (tmp != null) {
                         tmp.setCol(col);
@@ -490,11 +507,12 @@ public class CreateScreenHelper {
 
             //check if there is an unlocked goal, then add key
             case Locked:
-                tmp = screen.getLevel().getLevelObject(Goal);
+                tmp = screen.getLevel().getLevelObject(Type.Goal);
 
                 //if there is a goal, we can update the existing because there can be only 1
                 if (tmp != null) {
-                    tmp.setKey(Locked);
+                    tmp.setTextureKey(Locked);
+                    tmp.setType(Type.LockedGoal);
                     tmp.setCol(col);
                     tmp.setRow(row);
                     updateCoordinates(tmp);
@@ -505,7 +523,7 @@ public class CreateScreenHelper {
                     screen.getLevel().add(levelObject);
                 } else {
 
-                    tmp = screen.getLevel().getLevelObject(Locked);
+                    tmp = screen.getLevel().getLevelObject(Type.LockedGoal);
 
                     //if locked exists we only need to update it's location
                     if (tmp != null) {
@@ -519,11 +537,26 @@ public class CreateScreenHelper {
                 break;
 
             //add an extra teleporter
-            case Teleporter:
+            case Teleporter0:
+            case Teleporter1:
+            case Teleporter2:
+            case Teleporter3:
+            case Teleporter4:
+            case Teleporter5:
+            case Teleporter6:
+            case Teleporter7:
+            case Teleporter8:
+            case Teleporter9:
+            case Teleporter10:
+            case Teleporter11:
+            case Teleporter12:
+            case Teleporter13:
+            case Teleporter14:
+            case Teleporter15:
 
                 //make sure the telporters are linked together
-                Teleporter teleporter1 = (Teleporter)LevelObjectHelper.create(obj.getKey(), col, row);
-                Teleporter teleporter2 = (Teleporter)LevelObjectHelper.create(obj.getKey(), col, row);
+                Teleporter teleporter1 = (Teleporter)LevelObjectHelper.create(obj.getTextureKey(), col, row);
+                Teleporter teleporter2 = (Teleporter)LevelObjectHelper.create(obj.getTextureKey(), col, row);
 
                 //make sure the teleporters are linked to each other
                 teleporter1.setLinkId(teleporter2.getId());
@@ -542,6 +575,89 @@ public class CreateScreenHelper {
                             break;
                         }
                     }
+                }
+
+                switch (screen.getTeleporterKeyIndex()) {
+                    case 0:
+                    default:
+                        teleporter1.setTextureKey(Teleporter0);
+                        teleporter2.setTextureKey(Teleporter0);
+                        break;
+
+                    case 1:
+                        teleporter1.setTextureKey(Teleporter1);
+                        teleporter2.setTextureKey(Teleporter1);
+                        break;
+
+                    case 2:
+                        teleporter1.setTextureKey(Teleporter2);
+                        teleporter2.setTextureKey(Teleporter2);
+                        break;
+
+                    case 3:
+                        teleporter1.setTextureKey(Teleporter3);
+                        teleporter2.setTextureKey(Teleporter3);
+                        break;
+
+                    case 4:
+                        teleporter1.setTextureKey(Teleporter4);
+                        teleporter2.setTextureKey(Teleporter4);
+                        break;
+
+                    case 5:
+                        teleporter1.setTextureKey(Teleporter5);
+                        teleporter2.setTextureKey(Teleporter5);
+                        break;
+
+                    case 6:
+                        teleporter1.setTextureKey(Teleporter6);
+                        teleporter2.setTextureKey(Teleporter6);
+                        break;
+
+                    case 7:
+                        teleporter1.setTextureKey(Teleporter7);
+                        teleporter2.setTextureKey(Teleporter7);
+                        break;
+
+                    case 8:
+                        teleporter1.setTextureKey(Teleporter8);
+                        teleporter2.setTextureKey(Teleporter8);
+                        break;
+
+                    case 9:
+                        teleporter1.setTextureKey(Teleporter9);
+                        teleporter2.setTextureKey(Teleporter9);
+                        break;
+
+                    case 10:
+                        teleporter1.setTextureKey(Teleporter10);
+                        teleporter2.setTextureKey(Teleporter10);
+                        break;
+
+                    case 11:
+                        teleporter1.setTextureKey(Teleporter11);
+                        teleporter2.setTextureKey(Teleporter11);
+                        break;
+
+                    case 12:
+                        teleporter1.setTextureKey(Teleporter12);
+                        teleporter2.setTextureKey(Teleporter12);
+                        break;
+
+                    case 13:
+                        teleporter1.setTextureKey(Teleporter13);
+                        teleporter2.setTextureKey(Teleporter13);
+                        break;
+
+                    case 14:
+                        teleporter1.setTextureKey(Teleporter14);
+                        teleporter2.setTextureKey(Teleporter14);
+                        break;
+
+                    case 15:
+                        teleporter1.setTextureKey(Teleporter15);
+                        teleporter2.setTextureKey(Teleporter15);
+                        break;
                 }
 
                 //assign the char key
@@ -563,7 +679,7 @@ public class CreateScreenHelper {
 
             default:
                 //anything else we can just add to the level
-                screen.getLevel().add(LevelObjectHelper.create(obj.getKey(), col, row));
+                screen.getLevel().add(LevelObjectHelper.create(obj.getTextureKey(), col, row));
                 break;
         }
 

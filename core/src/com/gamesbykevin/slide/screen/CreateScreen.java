@@ -90,7 +90,7 @@ public class CreateScreen extends LevelScreen {
         this.divider = (WallConnector)LevelObjectHelper.create(Textures.Key.WallConnectorH, 0, row);
 
         //add our customized objects
-        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Teleporter,     2f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Teleporter0,     2f,    row - 1));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Wall,           4f,    row - 1));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Danger,         6f,    row - 1));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Bomb,           8f,    row - 1));
@@ -100,6 +100,8 @@ public class CreateScreen extends LevelScreen {
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallUp,         14f,    row - 1));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorV, 14f,    row - 2));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallDown,       14f,    row - 3));
+
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Dot,            16f,    row - 1));
 
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallLeft,       2f,     row - 3));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorH, 3f,     row - 3));

@@ -20,6 +20,7 @@ public class Teleporter extends LevelObject {
      * Default constructor
      */
     public Teleporter() {
+        super(Type.Teleporter);
         setRotate(true);
         setRotationSpeed(DEFAULT_ROTATION);
     }
@@ -38,13 +39,6 @@ public class Teleporter extends LevelObject {
 
     public String getLinkId() {
         return this.linkId;
-    }
-
-    @Override
-    public void update() {
-
-        //call parent
-        super.update();
     }
 
     @Override
