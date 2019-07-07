@@ -13,9 +13,6 @@ public class Player extends LevelObject {
     //start location needed to reset
     private int startCol, startRow;
 
-    //used to change the angle of the particles
-    private ParticleEmitter particleEmitter;
-
     //which teleporter did we come from
     private String teleporterId;
 
@@ -31,9 +28,6 @@ public class Player extends LevelObject {
         super(Type.Player);
         setTextureKey(Textures.Key.Player);
         super.createParticleEffect(Gdx.files.internal(PARTICLE_PATH + PARTICLE_FILE), Gdx.files.internal(PARTICLE_PATH));
-        this.particleEmitter = getParticleEffect().getEmitters().first();
-        this.particleEmitter.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-        getParticleEffect().start();
     }
 
     public boolean hasVelocity() {
@@ -197,50 +191,55 @@ public class Player extends LevelObject {
     @Override
     public void render(SpriteBatch batch) {
 
-        //only draw particles if we are moving
-        if (getDX() != VELOCITY_NONE || getDY() != VELOCITY_NONE) {
+        //render particles if we have them
+        if (getParticleEffect() != null) {
 
-            //make sure the particles are in the correct position etc...
-            getParticleEffect().setPosition(
-                    getX() + (getW() / 2),
-                    getY() + (getH() / 2)
-            );
+            //only draw particles if we are moving
+            if (getDX() != VELOCITY_NONE || getDY() != VELOCITY_NONE) {
 
-            //update particle effect
-            getParticleEffect().update(Gdx.graphics.getDeltaTime());
+                //make sure the particles are in the correct position etc...
+                getParticleEffect().setPosition(
+                        getX() + (getW() / 2),
+                        getY() + (getH() / 2)
+                );
 
-            ParticleEmitter.ScaledNumericValue angle = this.particleEmitter.getAngle();
+                //update particle effect
+                getParticleEffect().update(Gdx.graphics.getDeltaTime());
 
-            //change the angle depending on how we are moving
-            if (getDX() != VELOCITY_NONE) {
+                ParticleEmitter.ScaledNumericValue angle = getParticleEmitter().getAngle();
 
-                if (getDX() < 0) {
-                    angle.setHigh(0);
-                    angle.setLow(0);
-                } else {
-                    angle.setHigh(180);
-                    angle.setLow(180);
+                //change the angle depending on how we are moving
+                if (getDX() != VELOCITY_NONE) {
+
+                    if (getDX() < 0) {
+                        angle.setHigh(0);
+                        angle.setLow(0);
+                    } else {
+                        angle.setHigh(180);
+                        angle.setLow(180);
+                    }
+                } else if (getDY() != VELOCITY_NONE) {
+                    if (getDY() < 0) {
+                        angle.setHigh(90);
+                        angle.setLow(90);
+                    } else {
+                        angle.setHigh(270);
+                        angle.setLow(270);
+                    }
                 }
-            } else if (getDY() != VELOCITY_NONE) {
-                if (getDY() < 0) {
-                    angle.setHigh(90);
-                    angle.setLow(90);
-                } else {
-                    angle.setHigh(270);
-                    angle.setLow(270);
-                }
+
+                //if particle animation is done, start it again
+                if (getParticleEffect().isComplete())
+                    getParticleEffect().start();
+
+                //render our particle(s)
+                getParticleEffect().draw(batch);
+
+            } else {
+
+                //update particle effect
+                getParticleEffect().update(Gdx.graphics.getDeltaTime());
             }
-
-            //if particle animation is done, start it again
-            if (getParticleEffect().isComplete())
-                getParticleEffect().start();
-
-            //render our particle(s)
-            getParticleEffect().draw(batch);
-        } else {
-
-            //update particle effect
-            getParticleEffect().update(Gdx.graphics.getDeltaTime());
         }
 
         //render the player as well :)

@@ -32,10 +32,8 @@ public class Bomb extends LevelObject {
      */
     public Bomb() {
         super(Type.Bomb);
+        super.setTextureKey(Textures.Key.Bomb);
         super.createParticleEffect(Gdx.files.internal(PARTICLE_PATH + PARTICLE_FILE), Gdx.files.internal(PARTICLE_PATH));
-
-        //tell it to start at the beginning
-        getParticleEffect().start();
     }
 
     @Override
@@ -58,7 +56,8 @@ public class Bomb extends LevelObject {
             setTime(TIME_EXPIRED);
 
             //make sure the particles are in the correct position etc...
-            getParticleEffect().setPosition(getX() + (getW() / 2), getY() + (getH() / 2));
+            if (getParticleEffect() != null)
+                getParticleEffect().setPosition(getX() + (getW() / 2), getY() + (getH() / 2));
         }
     }
 
@@ -91,7 +90,9 @@ public class Bomb extends LevelObject {
     public void reset(Level level) {
         setTime(TIME_START);
         setCountdown(false);
-        getParticleEffect().start();
+
+        if (getParticleEffect() != null)
+            getParticleEffect().start();
     }
 
     @Override
@@ -108,7 +109,7 @@ public class Bomb extends LevelObject {
         } else {
 
             //else we will draw a particle effect
-            if (!getParticleEffect().isComplete()) {
+            if (getParticleEffect() != null && !getParticleEffect().isComplete()) {
 
                 //update particle animation
                 getParticleEffect().update(Gdx.graphics.getDeltaTime());

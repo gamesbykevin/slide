@@ -1,5 +1,7 @@
 package com.gamesbykevin.slide.level.objects;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.entity.Entity;
@@ -8,6 +10,8 @@ import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.MyGdxGame.getTextures;
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
+import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
+import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
 
 public abstract class LevelObject extends Entity {
 
@@ -30,11 +34,11 @@ public abstract class LevelObject extends Entity {
     //do we rotate?
     private boolean rotate = false;
 
-    //the rotation speed in degrees
-    private float rotationSpeed = 0;
-
     //any level object can have particles
     private ParticleEffect particleEffect;
+
+    //used to change the angle of the particles, etc...
+    private ParticleEmitter particleEmitter;
 
     //where is our particle meta particles
     public static final String PARTICLE_PATH = "particles/";
@@ -59,7 +63,6 @@ public abstract class LevelObject extends Entity {
         setW(DEFAULT_DIMENSION);
         setH(DEFAULT_DIMENSION);
         setRotate(false);
-        setRotationSpeed(0);
     }
 
     public Type getType() {
@@ -75,8 +78,22 @@ public abstract class LevelObject extends Entity {
     }
 
     public void createParticleEffect(FileHandle fileHandle1, FileHandle fileHandle2) {
-        this.particleEffect = new ParticleEffect();
-        this.particleEffect.load(fileHandle1, fileHandle2);
+
+        //particles currently break in html
+        if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
+            this.particleEffect = new ParticleEffect();
+            this.particleEffect.load(fileHandle1, fileHandle2);
+
+            this.particleEmitter = getParticleEffect().getEmitters().first();
+            this.particleEmitter.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
+            //tell it to start at the beginning
+            getParticleEffect().start();
+        }
+    }
+
+    public ParticleEmitter getParticleEmitter() {
+        return this.particleEmitter;
     }
 
     /**
@@ -110,9 +127,6 @@ public abstract class LevelObject extends Entity {
             sprite.setSize(getW(), getH());
             sprite.setOriginCenter();
 
-            //don't rotate here, else it will rotate too fast for multiple instances
-            //sprite.rotate(getRotationSpeed());
-
             //now we can add it to the batch to be rendered
             sprite.draw(batch);
 
@@ -141,14 +155,6 @@ public abstract class LevelObject extends Entity {
 
     public void setRotate(boolean rotate) {
         this.rotate = rotate;
-    }
-
-    public float getRotationSpeed() {
-        return this.rotationSpeed;
-    }
-
-    public void setRotationSpeed(float rotationSpeed) {
-        this.rotationSpeed = rotationSpeed;
     }
 
     public Textures.Key getTextureKey() {

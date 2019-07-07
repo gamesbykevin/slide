@@ -26,8 +26,8 @@ public class Danger extends LevelObject {
      */
     public Danger() {
         super(Type.Danger);
+        super.setTextureKey(Textures.Key.Danger);
         setRotate(true);
-        setRotationSpeed(DEFAULT_ROTATION);
 
         //create our particle
         super.createParticleEffect(Gdx.files.internal(PARTICLE_PATH + PARTICLE_FILE), Gdx.files.internal(PARTICLE_PATH));
@@ -73,11 +73,13 @@ public class Danger extends LevelObject {
         //do we need to reset anything here
         setDisplay(false);
 
-        //make sure it starts from the beginning
-        getParticleEffect().reset();
+        if (getParticleEffect() != null) {
+            //make sure it starts from the beginning
+            getParticleEffect().reset();
 
-        //make sure the particles are in the correct position etc...
-        getParticleEffect().setPosition(getX() + (getW() / 2), getY() + (getH() / 2));
+            //make sure the particles are in the correct position etc...
+            getParticleEffect().setPosition(getX() + (getW() / 2), getY() + (getH() / 2));
+        }
     }
 
     @Override
@@ -85,7 +87,7 @@ public class Danger extends LevelObject {
 
         super.render(batch);
 
-        if (isDisplay()) {
+        if (getParticleEffect() != null && isDisplay()) {
 
             if (!getParticleEffect().isComplete()) {
 

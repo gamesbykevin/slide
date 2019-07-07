@@ -22,7 +22,6 @@ public class Teleporter extends LevelObject {
     public Teleporter() {
         super(Type.Teleporter);
         setRotate(true);
-        setRotationSpeed(DEFAULT_ROTATION);
     }
 
     public void setFileCharKey(String fileCharKey) {
