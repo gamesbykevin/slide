@@ -66,7 +66,16 @@ public class GameScreen extends LevelScreen {
             if (CUSTOM_LEVEL) {
                 setLevel(LevelHelper.create(LevelHelper.getCreatedLevelLines(LEVEL_INDEX)));
             } else {
-                setLevel(LevelHelper.create(Gdx.files.internal("levels").list()[LEVEL_INDEX].name()));
+
+                String levelName = (LEVEL_INDEX + 1) + "";
+
+                while (levelName.length() < 3) {
+                    levelName = "0" + levelName;
+                }
+
+                levelName += ".txt";
+
+                setLevel(LevelHelper.create(levelName));
             }
 
             getLevel().reset();
