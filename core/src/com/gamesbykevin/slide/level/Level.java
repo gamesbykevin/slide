@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gamesbykevin.slide.graphics.Overlay;
 import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.level.objects.LevelObject;
 import com.gamesbykevin.slide.preferences.AppPreferences;
@@ -10,6 +11,7 @@ import com.gamesbykevin.slide.rumble.Rumble;
 import java.util.ArrayList;
 
 import static com.gamesbykevin.slide.MyGdxGame.*;
+import static com.gamesbykevin.slide.graphics.Overlay.OVERLAY_DURATION_GAMEPLAY;
 import static com.gamesbykevin.slide.level.LevelHelper.*;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_DIMENSION;
 import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
@@ -18,11 +20,21 @@ import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
 
 public class Level implements ILevel {
 
+    public enum Objective {
+        Goal,
+        Unlock,
+        Bomb,
+        Gem
+    }
+
     //which level are we on?
     public static int LEVEL_INDEX = 0;
 
     //list of objects in the level
     private ArrayList<LevelObject> levelObjects;
+
+    //display what the level objective is
+    private Overlay overlay;
 
     //start position of level
     public static int START_X = 64;
@@ -42,6 +54,9 @@ public class Level implements ILevel {
 
     //how big is our level?
     private final int cols, rows;
+
+    //what is the level objective
+    private Objective objective = Objective.Goal;
 
     public Level() {
         this(SMALL_SIZE_COLS, SMALL_SIZE_ROWS);
@@ -65,7 +80,43 @@ public class Level implements ILevel {
         START_X = (int)((SCREEN_WIDTH - (getCols() * DEFAULT_DIMENSION))   / 2);
         START_Y = (int)((SCREEN_HEIGHT - (getRows() * DEFAULT_DIMENSION)) / 2);
 
+        //create our list of level objects
         this.levelObjects = new ArrayList<>();
+    }
+
+    public void setObjective(Objective objective) {
+
+        this.objective = objective;
+
+        if (getOverlay() == null) {
+
+            //our level objective overlay
+            switch (objective) {
+                case Goal:
+                    this.overlay = new Overlay(Overlay.OVERLAY_TEXT_GAMEPLAY_GOAL, Overlay.OVERLAY_TRANSPARENCY_GAMEPLAY, OVERLAY_DURATION_GAMEPLAY);
+                    break;
+
+                case Bomb:
+                    this.overlay = new Overlay(Overlay.OVERLAY_TEXT_GAMEPLAY_BOMB, Overlay.OVERLAY_TRANSPARENCY_GAMEPLAY, OVERLAY_DURATION_GAMEPLAY);
+                    break;
+
+                case Gem:
+                    this.overlay = new Overlay(Overlay.OVERLAY_TEXT_GAMEPLAY_GEM, Overlay.OVERLAY_TRANSPARENCY_GAMEPLAY, OVERLAY_DURATION_GAMEPLAY);
+                    break;
+
+                case Unlock:
+                    this.overlay = new Overlay(Overlay.OVERLAY_TEXT_GAMEPLAY_LOCKED, Overlay.OVERLAY_TRANSPARENCY_GAMEPLAY, OVERLAY_DURATION_GAMEPLAY);
+                    break;
+            }
+        }
+    }
+
+    public Objective getObjective() {
+        return this.objective;
+    }
+
+    public Overlay getOverlay() {
+        return this.overlay;
     }
 
     public int getCols() {
@@ -152,6 +203,9 @@ public class Level implements ILevel {
             if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
                 Gdx.input.vibrate(DURATION_VIBRATE);
         }
+
+        //check if we meet the level objective
+        verifyObjective(this);
     }
 
     public static int getColumn(float x) {
@@ -196,8 +250,13 @@ public class Level implements ILevel {
             updateCoordinates(getLevelObjects().get(i));
         }
 
+        //reset the level overlay
+        if (getOverlay() != null)
+            getOverlay().reset();
+
         //reset the indicator
-        getIndicator().reset(this);
+        if (getIndicator() != null)
+            getIndicator().reset(this);
     }
 
     public LevelObject getLevelObject(final String id) {
@@ -358,5 +417,9 @@ public class Level implements ILevel {
         //render our goal indicator
         if (getIndicator() != null)
             getIndicator().render(batch);
+
+        //draw the overlay
+        if (getOverlay() != null)
+            getOverlay().draw(batch);
     }
 }

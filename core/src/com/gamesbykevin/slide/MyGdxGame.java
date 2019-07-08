@@ -41,6 +41,9 @@ public class MyGdxGame extends Game {
 	 */
 	public static final float FRAME_MS = (1000f / FPS);
 
+	//how much time to take away from our timer per frame
+	public static final float TIME_DURATION = (1f / FPS);
+
 	/**
 	 * How long do we vibrate the phone
 	 */

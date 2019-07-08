@@ -1,6 +1,5 @@
 package com.gamesbykevin.slide.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.level.LevelHelper;
 
@@ -62,6 +61,7 @@ public class GameScreen extends LevelScreen {
         this.setZoomRate(ZOOM_DEFAULT);
 
         try {
+
             //create our level
             if (CUSTOM_LEVEL) {
                 setLevel(LevelHelper.create(LevelHelper.getCreatedLevelLines(LEVEL_INDEX)));
@@ -142,8 +142,7 @@ public class GameScreen extends LevelScreen {
         } else if (getGame().isPaused()) {
 
             //if paused show the overlay
-            super.drawOverlay();
-
+            getOverlay().draw(getBatch());
         }
 
         //finished rendering
@@ -163,7 +162,7 @@ public class GameScreen extends LevelScreen {
         super.captureMenuInput();
 
         //draw an overlay
-        super.drawOverlay();
+        getOverlay().draw(getBatch());
 
         //act the stage
         getStage().act();

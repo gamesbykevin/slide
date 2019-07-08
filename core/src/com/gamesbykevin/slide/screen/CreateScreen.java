@@ -156,6 +156,10 @@ public class CreateScreen extends LevelScreen {
 
         //start at the beginning
         setTeleporterKeyIndex(0);
+
+        //don't show the level overlay when creating a level
+        getLevel().setObjective(Level.Objective.Goal);
+        getLevel().getOverlay().setDisplay(false);
     }
 
     public int getSaveIndex() {
@@ -213,6 +217,10 @@ public class CreateScreen extends LevelScreen {
         Level.START_X = LEVEL_X;
         Level.START_Y = LEVEL_Y;
         getLevel().reset();
+
+        //don't show the level overlay when creating a level
+        getLevel().setObjective(Level.Objective.Goal);
+        getLevel().getOverlay().setDisplay(false);
     }
 
     @Override

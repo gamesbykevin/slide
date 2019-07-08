@@ -72,9 +72,6 @@ public class Goal extends LevelObject {
 
                 //stop motion
                 player.stop();
-
-                //we solved the level!!!
-                level.setSolved(true);
             }
         }
     }

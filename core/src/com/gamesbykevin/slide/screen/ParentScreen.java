@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.graphics.Overlay;
 
 public abstract class ParentScreen implements Screen {
 
@@ -22,26 +23,11 @@ public abstract class ParentScreen implements Screen {
     //game object for reference
     private final MyGdxGame game;
 
-    //texture for a single black pixel used for our overlay
-    private Texture pixelMapTexture;
-
     //our background image
     private Texture backgroundImage;
 
     //how to draw our background
     private Rectangle backgroundRect;
-
-    //font to draw text on screen
-    private BitmapFont bitmapFont;
-
-    //what to display when paused
-    private String pauseText = "Paused";
-
-    //where do we render the text
-    private final float pauseX, pauseY;
-
-    //font metrics
-    private GlyphLayout glyphLayout;
 
     //render all objects simultaneously
     private SpriteBatch batch;
@@ -49,8 +35,8 @@ public abstract class ParentScreen implements Screen {
     //camera perspective to project etc... images
     private OrthographicCamera camera;
 
-    //how visible is our overlay
-    private static final float OVERLAY_TRANSPARENCY = .45f;
+    //our overlay screen
+    private Overlay overlay;
 
     public ParentScreen(MyGdxGame game) {
 
@@ -70,34 +56,15 @@ public abstract class ParentScreen implements Screen {
         this.backgroundRect.height = SCREEN_HEIGHT;
         this.backgroundRect.x = 0;
         this.backgroundRect.y = 0;
+    }
 
-        //create a single pixel
-        Pixmap pixmap = new Pixmap( 1, 1, Pixmap.Format.RGBA8888 );
-        pixmap.setColor( 0, 0, 0, OVERLAY_TRANSPARENCY);
-        pixmap.fillRectangle(0, 0, 1, 1);
+    public Overlay getOverlay() {
 
-        //create new texture referencing the pixel
-        this.pixelMapTexture = new Texture( pixmap );
+        if (this.overlay == null) {
+            this.overlay = new Overlay(Overlay.OVERLAY_TEXT_PAUSED, Overlay.OVERLAY_TRANSPARENCY_PAUSED);
+        }
 
-        //we no longer need this
-        pixmap.dispose();
-        pixmap = null;
-
-        //create our bitmap font object
-        this.bitmapFont = new BitmapFont();
-
-        //font will be white
-        this.bitmapFont.setColor(1, 1, 1, 1);
-
-        //change font size
-        this.bitmapFont.getData().setScale(1.5f);
-
-        //create our layout so we can calculate the font metrics
-        this.glyphLayout = new GlyphLayout(this.bitmapFont, pauseText);
-
-        //reference the font metrics so we can place our text in the middle of the screen
-        this.pauseX = (SCREEN_WIDTH / 2) - (glyphLayout.width / 2);
-        this.pauseY = (SCREEN_HEIGHT / 2) - (glyphLayout.height / 2);
+        return this.overlay;
     }
 
     public Texture getBackgroundImage() {
@@ -169,15 +136,6 @@ public abstract class ParentScreen implements Screen {
         getBatch().begin();
     }
 
-    public void drawOverlay() {
-
-        //draw overlay
-        getBatch().draw(this.pixelMapTexture, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-        //render "paused" text
-        bitmapFont.draw(getBatch(), glyphLayout, pauseX, pauseY);
-    }
-
     public void drawBackground() {
         drawBackground(getBatch());
     }
@@ -195,18 +153,17 @@ public abstract class ParentScreen implements Screen {
     @Override
     public void dispose() {
 
-        if (bitmapFont != null)
-            bitmapFont.dispose();
         if (batch != null)
             batch.dispose();
         if (backgroundImage != null)
             backgroundImage.dispose();
+        if (overlay != null)
+            overlay.dispose();
 
         this.backgroundRect = null;
         this.backgroundImage = null;
         this.batch = null;
-        this.bitmapFont = null;
-        this.glyphLayout = null;
+        this.overlay = null;
     }
 
     public OrthographicCamera getCamera() {

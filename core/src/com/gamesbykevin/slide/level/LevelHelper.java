@@ -145,6 +145,22 @@ public class LevelHelper {
             }
         }
 
+        //let's look at the level to determine the level objective
+        boolean bomb = (level.getLevelObject(LevelObject.Type.Bomb) != null);
+        boolean gem = (level.getLevelObject(LevelObject.Type.Gem) != null);
+        boolean locked = (level.getLevelObject(LevelObject.Type.LockedGoal) != null);
+        boolean goal = (level.getLevelObject(LevelObject.Type.Goal) != null);
+
+        if (gem) {
+            level.setObjective(Level.Objective.Gem);
+        } else if (bomb && !locked && !goal) {
+            level.setObjective(Level.Objective.Bomb);
+        } else if (locked) {
+            level.setObjective(Level.Objective.Unlock);
+        } else {
+            level.setObjective(Level.Objective.Goal);
+        }
+
         //let's connect the teleporters now
         for (int i = 0; i < teleportLocations.size(); i++) {
 
@@ -613,5 +629,29 @@ public class LevelHelper {
         }
 
         return lines;
+    }
+
+    protected static void verifyObjective(Level level) {
+
+        Goal goal;
+        Player player = level.getPlayer();
+
+        switch (level.getObjective()) {
+            case Goal:
+                goal = (Goal)level.getLevelObject(LevelObject.Type.Goal);
+                level.setSolved(goal.getCol() == player.getCol() && goal.getRow() == player.getRow());
+                break;
+
+            case Unlock:
+                goal = (Goal)level.getLevelObject(LevelObject.Type.LockedGoal);
+                level.setSolved(goal.getCol() == player.getCol() && goal.getRow() == player.getRow());
+                break;
+
+            case Gem:
+                break;
+
+            case Bomb:
+                break;
+        }
     }
 }

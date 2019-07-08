@@ -18,9 +18,6 @@ public class Bomb extends LevelObject {
     //when has time expired?
     public static final float TIME_EXPIRED = 0f;
 
-    //how much time to take away from our timer per frame
-    public static final float TIME_DURATION = (1f / FPS);
-
     //do we start the countdown?
     private boolean countdown = false;
 
