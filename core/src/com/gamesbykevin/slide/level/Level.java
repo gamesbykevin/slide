@@ -58,6 +58,12 @@ public class Level implements ILevel {
     //what is the level objective
     private Objective objective = Objective.Goal;
 
+    //keep track of the number of items we impacted
+    private int countBomb = 0, countGem = 0;
+
+    //keep track of the total
+    private int totalBomb = 0, totalGem = 0;
+
     public Level() {
         this(SMALL_SIZE_COLS, SMALL_SIZE_ROWS);
     }
@@ -82,6 +88,38 @@ public class Level implements ILevel {
 
         //create our list of level objects
         this.levelObjects = new ArrayList<>();
+    }
+
+    public int getCountBomb() {
+        return this.countBomb;
+    }
+
+    public void setCountBomb(int countBomb) {
+        this.countBomb = countBomb;
+    }
+
+    public int getCountGem() {
+        return this.countGem;
+    }
+
+    public void setCountGem(int countGem) {
+        this.countGem = countGem;
+    }
+
+    public int getTotalBomb() {
+        return this.totalBomb;
+    }
+
+    public void setTotalBomb(int totalBomb) {
+        this.totalBomb = totalBomb;
+    }
+
+    public int getTotalGem() {
+        return this.totalGem;
+    }
+
+    public void setTotalGem(int totalGem) {
+        this.totalGem = totalGem;
     }
 
     public void setObjective(Objective objective) {
@@ -243,6 +281,10 @@ public class Level implements ILevel {
         //the level has not been solved (yet)
         setSolved(false);
 
+        //reset the count back to 0
+        setCountBomb(0);
+        setCountGem(0);
+
         for (int i = 0; i < getLevelObjects().size(); i++) {
 
             //get the current level object so it can be reset
@@ -349,6 +391,17 @@ public class Level implements ILevel {
 
         //if adding a teleporter we have to stay within limits
         switch (object.getType()) {
+
+            //count the number of bombs in case the objective is to destroy all bombs
+            case Bomb:
+                setTotalBomb(getTotalBomb() + 1);
+                break;
+
+            //count the number of gems in case the objective is to collect all the gems
+            case Gem:
+                setTotalGem(getTotalGem() + 1);
+                break;
+
             case Teleporter:
                 //if we exceed the limit we won't add the object
                 if (getCount(object.getType()) >= TELEPORTER_LIMIT)

@@ -43,11 +43,18 @@ public class Bomb extends LevelObject {
         if (!hasCountdown())
             return;
 
+        //did the time expire
+        boolean previousExpired = hasTimeExpired();
+
         //update timer
-        setTime(getTime() - TIME_DURATION);
+        setTime(getTime() - (TIME_DURATION * 2));
 
         //if time expired
         if (hasTimeExpired()) {
+
+            //if this bomb just expired add to the count
+            if (!previousExpired)
+                level.setCountBomb(level.getCountBomb() + 1);
 
             //time has expired
             setTime(TIME_EXPIRED);

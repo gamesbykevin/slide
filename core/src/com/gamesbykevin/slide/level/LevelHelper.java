@@ -648,9 +648,11 @@ public class LevelHelper {
                 break;
 
             case Gem:
+                level.setSolved(level.getCountGem() >= level.getTotalGem());
                 break;
 
             case Bomb:
+                level.setSolved(level.getCountBomb() >= level.getTotalBomb());
                 break;
         }
     }

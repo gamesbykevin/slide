@@ -100,8 +100,10 @@ public class Player extends LevelObject {
             //if we are next to a bomb we can detonate now
             if (obj != null && obj.getType().equals(Type.Bomb)) {
 
-                if (((Bomb)obj).hasCountdown())
+                if (((Bomb)obj).hasCountdown()) {
                     ((Bomb) obj).setTime(Bomb.TIME_EXPIRED);
+                    level.setCountBomb(level.getCountBomb() + 1);
+                }
             }
         }
     }

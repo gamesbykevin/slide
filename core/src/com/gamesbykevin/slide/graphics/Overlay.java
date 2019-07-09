@@ -73,7 +73,7 @@ public class Overlay {
         this.bitmapFont.setColor(1, 1, 1, 1);
 
         //change font size
-        this.bitmapFont.getData().setScale(1.5f);
+        this.bitmapFont.getData().setScale(1.25f);
 
         //create our layout so we can calculate the font metrics
         this.glyphLayout = new GlyphLayout(this.bitmapFont, text);

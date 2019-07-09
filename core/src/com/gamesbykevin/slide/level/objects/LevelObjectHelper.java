@@ -43,6 +43,10 @@ public class LevelObjectHelper {
 
         switch (key) {
 
+            case Gem:
+                object = new Gem();
+                break;
+
             case Key:
                 object = new Key();
                 break;
@@ -133,7 +137,7 @@ public class LevelObjectHelper {
                 break;
 
             default:
-                throw new LevelObjectException("Texture key not found here:" + key);
+                throw new LevelObjectException("Texture key not found here: " + key);
         }
 
         object.setTextureKey(key);

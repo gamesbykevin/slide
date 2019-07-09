@@ -59,7 +59,8 @@ public class Textures {
         WallDown("wall_d.png", "R"),
         WallConnectorH("pipe_h.png", "P"),
         WallConnectorV("pipe_v.png", "S"),
-        Dot("dot.png", "T");
+        Dot("dot.png", "T"),
+        Gem("gem.png", "U");
 
         private final String filename;
         private final String fileCharKey;
@@ -122,6 +123,7 @@ public class Textures {
         add(Key.Collected);
         add(Key.Danger);
         add(Key.Indicator);
+        add(Key.Gem);
     }
 
     private void add(Key key) {
