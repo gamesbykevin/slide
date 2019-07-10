@@ -1,7 +1,5 @@
 package com.gamesbykevin.slide.level.objects;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
@@ -12,7 +10,7 @@ import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 public class Indicator extends LevelObject {
 
     //how long do we render the indicator to complete a level (in milliseconds)
-    public static final float LEVEL_INDICATOR_DELAY = 3000;
+    public static final float LEVEL_INDICATOR_DELAY = 5000;
 
     //how much time has passed
     private float lapsed = 0;

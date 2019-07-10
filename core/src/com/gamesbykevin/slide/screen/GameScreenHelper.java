@@ -10,8 +10,7 @@ import com.gamesbykevin.slide.exception.ScreenException;
 import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
 import static com.gamesbykevin.slide.screen.MenuScreen.URL_MORE;
 import static com.gamesbykevin.slide.screen.MenuScreen.URL_RATE;
-import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_GAME;
-import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_OPTIONS;
+import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 import static com.gamesbykevin.slide.screen.TemplateScreen.*;
 
 public class GameScreenHelper {
@@ -50,29 +49,17 @@ public class GameScreenHelper {
         table.center();
 
         //Create buttons
-        TextButton buttonPlay = new TextButton("Play", screen.getSkin());
-        TextButton buttonOptions = new TextButton("Options", screen.getSkin());
+        TextButton buttonSelect = new TextButton("Select", screen.getSkin());
         TextButton buttonRate = new TextButton("Rate", screen.getSkin());
         TextButton buttonMore = new TextButton("More", screen.getSkin());
-        TextButton buttonExit = new TextButton("Exit", screen.getSkin());
+        TextButton buttonMenu = new TextButton("Menu", screen.getSkin());
 
         //Add listeners to buttons
-        buttonPlay.addListener(new ClickListener() {
+        buttonSelect.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
-                    screen.getGame().getScreenHelper().changeScreen(SCREEN_GAME);
-                } catch (ScreenException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-
-        buttonOptions.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    screen.getGame().getScreenHelper().changeScreen(SCREEN_OPTIONS);
+                    screen.getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
                 } catch (ScreenException ex) {
                     ex.printStackTrace();
                 }
@@ -93,32 +80,25 @@ public class GameScreenHelper {
             }
         });
 
-        buttonExit.addListener(new ClickListener() {
+        buttonMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                //exit the game
-                Gdx.app.exit();
+                try {
+                    screen.getGame().getScreenHelper().changeScreen(SCREEN_MENU);
+                } catch (ScreenException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
         //Add buttons to table
-        table.add(buttonPlay).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
-        table.row();
-        table.add(buttonOptions).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
+        table.add(buttonSelect).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
         table.row();
         table.add(buttonRate).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
         table.row();
         table.add(buttonMore).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
-
-        switch(Gdx.app.getType()) {
-
-            //only the desktop application we can exit
-            case Desktop:
-                table.row();
-                table.add(buttonExit).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
-                break;
-        }
+        table.row();
+        table.add(buttonMenu).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
 
         //Add table to stage
         screen.getStage().addActor(table);

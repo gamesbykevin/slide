@@ -60,7 +60,8 @@ public class Textures {
         WallConnectorH("pipe_h.png", "P"),
         WallConnectorV("pipe_v.png", "S"),
         Dot("dot.png", "T"),
-        Gem("gem.png", "U");
+        Gem("gem.png", "U"),
+        GoBack("back.png", "");
 
         private final String filename;
         private final String fileCharKey;
@@ -124,6 +125,16 @@ public class Textures {
         add(Key.Danger);
         add(Key.Indicator);
         add(Key.Gem);
+
+        //only certain platforms will have go back
+        switch (Gdx.app.getType()) {
+            case WebGL:
+            case Desktop:
+            case Applet:
+            case HeadlessDesktop:
+                add(Key.GoBack);
+                break;
+        }
     }
 
     private void add(Key key) {

@@ -1,8 +1,12 @@
 package com.gamesbykevin.slide.screen;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.rumble.Rumble;
+import com.gamesbykevin.slide.textures.Textures;
+
+import static com.gamesbykevin.slide.MyGdxGame.getTextures;
 
 public abstract class LevelScreen extends TemplateScreen {
 
@@ -14,6 +18,11 @@ public abstract class LevelScreen extends TemplateScreen {
 
     //how fast do we scroll?
     private int scrollSpeed;
+
+    //how big is the go back button
+    public static final int GO_BACK_SIZE = 36;
+    public static final int GO_BACK_X = 0;
+    public static final int GO_BACK_Y = 0;
 
     public LevelScreen(MyGdxGame game) {
         super(game);
@@ -45,6 +54,13 @@ public abstract class LevelScreen extends TemplateScreen {
     @Override
     public void show() {
         super.show();
+
+        Sprite sprite = getTextures().getSprite(Textures.Key.GoBack);
+
+        if (sprite != null) {
+            sprite.setPosition(GO_BACK_X, GO_BACK_Y);
+            sprite.setSize(GO_BACK_SIZE, GO_BACK_SIZE);
+        }
     }
 
     @Override
@@ -82,5 +98,13 @@ public abstract class LevelScreen extends TemplateScreen {
         //render the game objects
         getLevel().update();
         getLevel().render(getBatch());
+
+        //get the go back button
+        Sprite sprite = getTextures().getSprite(Textures.Key.GoBack);
+
+        //only render if it exists
+        if (sprite != null) {
+            sprite.draw(getBatch());
+        }
     }
 }

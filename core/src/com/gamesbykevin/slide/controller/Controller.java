@@ -8,7 +8,11 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.objects.Player;
+import com.gamesbykevin.slide.screen.CreateScreen;
 import com.gamesbykevin.slide.screen.GameScreen;
+import com.gamesbykevin.slide.screen.LevelScreen;
+import com.gamesbykevin.slide.textures.Textures;
+import com.sun.glass.ui.Window;
 
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
@@ -186,8 +190,26 @@ public class Controller implements InputProcessor {
                         getTouchPosRelease().y = screenY;
                         calculateTouchPosition(getTouchPosRelease());
 
-                        //now we can update the player movement
-                        managePlayerMovement(getTouchPosRelease().x, getTouchPos().y, getTouchPos().x, getTouchPosRelease().y);
+                        //only move the player if we touched the playable area
+                        if (getTouchPosRelease().y >= CreateScreen.LEVEL_Y && getTouchPos().y >= CreateScreen.LEVEL_Y) {
+                            managePlayerMovement(getTouchPosRelease().x, getTouchPos().y, getTouchPos().x, getTouchPosRelease().y);
+                        } else {
+
+                            //if we touched "go back"
+                            if (getTouchPosRelease().x >= LevelScreen.GO_BACK_X && getTouchPosRelease().x <= LevelScreen.GO_BACK_X + LevelScreen.GO_BACK_SIZE) {
+                                if (getTouchPosRelease().y >= LevelScreen.GO_BACK_Y && getTouchPosRelease().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
+
+                                    //also make sure "go back" exists
+                                    if (getGame().getTextures().getSprite(Textures.Key.GoBack) != null) {
+                                        try {
+                                            getGame().getScreenHelper().changeScreen(SCREEN_SELECT_CREATE);
+                                        } catch (ScreenException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                     } else {
 
@@ -204,7 +226,24 @@ public class Controller implements InputProcessor {
                     break;
 
                 case SCREEN_GAME:
+
                     managePlayerMovement(screenX, screenY, getTouchPos().x, getTouchPos().y);
+
+                    //if we touched "go back"
+                    calculateTouchPosition(getTouchPos());
+                    if (getTouchPos().x >= LevelScreen.GO_BACK_X && getTouchPos().x <= LevelScreen.GO_BACK_X + LevelScreen.GO_BACK_SIZE) {
+                        if (getTouchPos().y >= LevelScreen.GO_BACK_Y && getTouchPos().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
+
+                            //also make sure "go back" exists
+                            if (getGame().getTextures().getSprite(Textures.Key.GoBack) != null) {
+                                try {
+                                    getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
+                                } catch (ScreenException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
                     break;
             }
         }
