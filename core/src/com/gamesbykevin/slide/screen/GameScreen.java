@@ -118,7 +118,7 @@ public class GameScreen extends LevelScreen {
 
             if (getLevel().getLapsedComplete() >= LEVEL_COMPLETE_DELAY) {
 
-                //draw the game over screen
+                //draw the menu screen
                 drawGameover();
 
             } else {
@@ -143,6 +143,11 @@ public class GameScreen extends LevelScreen {
 
             //if paused show the overlay
             getOverlay().draw(getBatch());
+
+        } else if (getLevel().getLapsedComplete() >= LEVEL_COMPLETE_DELAY) {
+
+            //draw the menu screen
+            drawGameover();
         }
 
         //finished rendering

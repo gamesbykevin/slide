@@ -55,7 +55,7 @@ public abstract class LevelScreen extends TemplateScreen {
     public void show() {
         super.show();
 
-        Sprite sprite = getTextures().getSprite(Textures.Key.GoBack);
+        Sprite sprite = getTextures().getSprite(Textures.Key.GoBackMenu);
 
         if (sprite != null) {
             sprite.setPosition(GO_BACK_X, GO_BACK_Y);
@@ -100,7 +100,7 @@ public abstract class LevelScreen extends TemplateScreen {
         getLevel().render(getBatch());
 
         //get the go back button
-        Sprite sprite = getTextures().getSprite(Textures.Key.GoBack);
+        Sprite sprite = getTextures().getSprite(Textures.Key.GoBackMenu);
 
         //only render if it exists
         if (sprite != null) {

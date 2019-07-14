@@ -14,6 +14,7 @@ import com.gamesbykevin.slide.screen.LevelScreen;
 import com.gamesbykevin.slide.textures.Textures;
 import com.sun.glass.ui.Window;
 
+import static com.gamesbykevin.slide.level.Level.LEVEL_COMPLETE_DELAY;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class Controller implements InputProcessor {
@@ -200,12 +201,8 @@ public class Controller implements InputProcessor {
                                 if (getTouchPosRelease().y >= LevelScreen.GO_BACK_Y && getTouchPosRelease().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
 
                                     //also make sure "go back" exists
-                                    if (getGame().getTextures().getSprite(Textures.Key.GoBack) != null) {
-                                        try {
-                                            getGame().getScreenHelper().changeScreen(SCREEN_SELECT_CREATE);
-                                        } catch (ScreenException e) {
-                                            e.printStackTrace();
-                                        }
+                                    if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
+                                        getGame().getScreenHelper().getGameScreen().getLevel().setLapsedComplete(LEVEL_COMPLETE_DELAY);
                                     }
                                 }
                             }
@@ -235,12 +232,8 @@ public class Controller implements InputProcessor {
                         if (getTouchPos().y >= LevelScreen.GO_BACK_Y && getTouchPos().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
 
                             //also make sure "go back" exists
-                            if (getGame().getTextures().getSprite(Textures.Key.GoBack) != null) {
-                                try {
-                                    getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
-                                } catch (ScreenException e) {
-                                    e.printStackTrace();
-                                }
+                            if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
+                                getGame().getScreenHelper().getGameScreen().getLevel().setLapsedComplete(LEVEL_COMPLETE_DELAY);
                             }
                         }
                     }

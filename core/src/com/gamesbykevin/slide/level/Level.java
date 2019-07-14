@@ -15,6 +15,7 @@ import static com.gamesbykevin.slide.graphics.Overlay.OVERLAY_DURATION_GAMEPLAY;
 import static com.gamesbykevin.slide.level.LevelHelper.*;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_DIMENSION;
 import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
+import static com.gamesbykevin.slide.preferences.AppPreferences.setLevelCompleted;
 import static com.gamesbykevin.slide.screen.CreateScreen.EDITING;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
@@ -191,6 +192,14 @@ public class Level implements ILevel {
     }
 
     public void setSolved(boolean solved) {
+
+        //if we are marking this solved for the first time
+        if (!EDITING && !isSolved() && solved) {
+
+            //record that we beat the level
+            setLevelCompleted(LEVEL_INDEX, true);
+        }
+
         this.solved = solved;
     }
 

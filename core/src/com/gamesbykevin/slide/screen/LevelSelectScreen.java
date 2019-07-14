@@ -1,12 +1,12 @@
 package com.gamesbykevin.slide.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 
+import static com.gamesbykevin.slide.preferences.AppPreferences.hasLevelCompleted;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_GAME;
 
 public class LevelSelectScreen extends CustomSelectScreen {
@@ -54,7 +54,12 @@ public class LevelSelectScreen extends CustomSelectScreen {
 
     @Override
     public String getButtonText(int index) {
-        return (index + 1) + "";
+
+        if (hasLevelCompleted(index)) {
+            return "Solved";
+        } else {
+            return (index + 1) + "";
+        }
     }
 
     @Override

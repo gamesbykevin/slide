@@ -61,7 +61,7 @@ public class Textures {
         WallConnectorV("pipe_v.png", "S"),
         Dot("dot.png", "T"),
         Gem("gem.png", "U"),
-        GoBack("back.png", "");
+        GoBackMenu("back.png", "");
 
         private final String filename;
         private final String fileCharKey;
@@ -132,7 +132,7 @@ public class Textures {
             case Desktop:
             case Applet:
             case HeadlessDesktop:
-                add(Key.GoBack);
+                add(Key.GoBackMenu);
                 break;
         }
     }
