@@ -126,6 +126,10 @@ public class Player extends LevelObject {
         //update location
         setCol(getCol() + getDX());
         setRow(getRow() + getDY());
+
+        //stop displaying the overlay if the player is moving
+        if (hasVelocity())
+            level.getOverlay().setDisplay(false);
     }
 
     @Override

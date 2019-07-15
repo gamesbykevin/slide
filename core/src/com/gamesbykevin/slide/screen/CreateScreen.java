@@ -259,7 +259,7 @@ public class CreateScreen extends LevelScreen {
             try {
 
                 //go back to the menu screen
-                getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_SELECT_CREATE);
+                getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_MENU);
 
             } catch (ScreenException e) {
                 e.printStackTrace();

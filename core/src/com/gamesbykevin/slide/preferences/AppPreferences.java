@@ -17,7 +17,7 @@ public class AppPreferences {
     private static final String PREFS_NAME = "slide_game_options";
 
     //how many levels can we save in our shared preferences
-    public static final int MAX_LEVEL_SAVE = 10;
+    public static final int MAX_LEVEL_SAVE = 20;
 
     private static Preferences getPrefs() {
         return Gdx.app.getPreferences(PREFS_NAME);

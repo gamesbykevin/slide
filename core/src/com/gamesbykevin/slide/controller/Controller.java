@@ -200,9 +200,11 @@ public class Controller implements InputProcessor {
                             if (getTouchPosRelease().x >= LevelScreen.GO_BACK_X && getTouchPosRelease().x <= LevelScreen.GO_BACK_X + LevelScreen.GO_BACK_SIZE) {
                                 if (getTouchPosRelease().y >= LevelScreen.GO_BACK_Y && getTouchPosRelease().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
 
-                                    //also make sure "go back" exists
+                                    //also make sure button exists
                                     if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
-                                        getGame().getScreenHelper().getGameScreen().getLevel().setLapsedComplete(LEVEL_COMPLETE_DELAY);
+
+                                        //flag that we want to exit, which will also save the level
+                                        getGame().getScreenHelper().getCreateScreen().setExit(true);
                                     }
                                 }
                             }
