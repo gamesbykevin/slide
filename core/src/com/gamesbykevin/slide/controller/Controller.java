@@ -12,7 +12,6 @@ import com.gamesbykevin.slide.screen.CreateScreen;
 import com.gamesbykevin.slide.screen.GameScreen;
 import com.gamesbykevin.slide.screen.LevelScreen;
 import com.gamesbykevin.slide.textures.Textures;
-import com.sun.glass.ui.Window;
 
 import static com.gamesbykevin.slide.level.Level.LEVEL_COMPLETE_DELAY;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;

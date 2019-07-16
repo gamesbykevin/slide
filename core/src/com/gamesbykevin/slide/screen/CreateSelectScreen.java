@@ -5,6 +5,7 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_CREATE;
 
 public class CreateSelectScreen extends CustomSelectScreen {
@@ -54,7 +55,7 @@ public class CreateSelectScreen extends CustomSelectScreen {
         if (AppPreferences.hasLevelSave(index)) {
             return (index + 1) + "";
         } else {
-            return "New";
+            return getMyBundle().get("createSelectScreenNew");
         }
     }
 
@@ -70,6 +71,6 @@ public class CreateSelectScreen extends CustomSelectScreen {
 
     @Override
     public String getTitleText() {
-        return "Create Level";
+        return getMyBundle().get("createSelectScreenTitleText");
     }
 }

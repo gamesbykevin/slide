@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.exception.ScreenException;
 
 import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.screen.MenuScreen.URL_MORE;
 import static com.gamesbykevin.slide.screen.MenuScreen.URL_RATE;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
@@ -49,10 +50,10 @@ public class GameScreenHelper {
         table.center();
 
         //Create buttons
-        TextButton buttonSelect = new TextButton("Select", screen.getSkin());
-        TextButton buttonRate = new TextButton("Rate", screen.getSkin());
-        TextButton buttonMore = new TextButton("More", screen.getSkin());
-        TextButton buttonMenu = new TextButton("Menu", screen.getSkin());
+        TextButton buttonSelect = new TextButton(getMyBundle().get("gameScreenHelperSelect"), screen.getSkin());
+        TextButton buttonRate = new TextButton(getMyBundle().get("gameScreenHelperRate"), screen.getSkin());
+        TextButton buttonMore = new TextButton(getMyBundle().get("gameScreenHelperMore"), screen.getSkin());
+        TextButton buttonMenu = new TextButton(getMyBundle().get("gameScreenHelperMenu"), screen.getSkin());
 
         //Add listeners to buttons
         buttonSelect.addListener(new ClickListener() {

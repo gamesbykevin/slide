@@ -6,6 +6,8 @@ import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
+
 public class LevelSelectCustomScreen extends CustomSelectScreen {
 
     //how big is each button
@@ -75,6 +77,6 @@ public class LevelSelectCustomScreen extends CustomSelectScreen {
 
     @Override
     public String getTitleText() {
-        return "Select Created Level";
+        return getMyBundle().get("levelSelectCustomScreenTitleText");
     }
 }

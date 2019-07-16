@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class MenuScreen extends TemplateScreen {
@@ -33,13 +34,13 @@ public class MenuScreen extends TemplateScreen {
         table.center();
 
         //Create buttons
-        TextButton buttonPlay = new TextButton("Play", getSkin());
-        TextButton buttonPlayCustom = new TextButton("Play Custom", getSkin());
-        TextButton buttonCreate = new TextButton("Create", getSkin());
-        TextButton buttonOptions = new TextButton("Options", getSkin());
-        TextButton buttonRate = new TextButton("Rate", getSkin());
-        TextButton buttonMore = new TextButton("More", getSkin());
-        TextButton buttonExit = new TextButton("Exit", getSkin());
+        TextButton buttonPlay = new TextButton(getMyBundle().get("menuScreenPlay"), getSkin());
+        TextButton buttonPlayCustom = new TextButton(getMyBundle().get("menuScreenPlayCustom"), getSkin());
+        TextButton buttonCreate = new TextButton(getMyBundle().get("menuScreenCreate"), getSkin());
+        TextButton buttonOptions = new TextButton(getMyBundle().get("menuScreenOptions"), getSkin());
+        TextButton buttonRate = new TextButton(getMyBundle().get("menuScreenRate"), getSkin());
+        TextButton buttonMore = new TextButton(getMyBundle().get("menuScreenMore"), getSkin());
+        TextButton buttonExit = new TextButton(getMyBundle().get("menuScreenExit"), getSkin());
 
         //Add listeners to buttons
         buttonPlay.addListener(new ClickListener() {

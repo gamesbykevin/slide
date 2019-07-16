@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import static com.gamesbykevin.slide.MyGdxGame.FRAME_MS;
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.screen.CreateScreen.EDITING;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
@@ -18,11 +19,11 @@ public class Overlay {
     public static final float OVERLAY_TRANSPARENCY_GAMEPLAY = .25f;
 
     //what text to display
-    public static final String OVERLAY_TEXT_PAUSED = "Paused";
-    public static final String OVERLAY_TEXT_GAMEPLAY_GOAL = "Locate the goal";
-    public static final String OVERLAY_TEXT_GAMEPLAY_LOCKED = "Unlock the goal";
-    public static final String OVERLAY_TEXT_GAMEPLAY_BOMB = "Detonate all bombs";
-    public static final String OVERLAY_TEXT_GAMEPLAY_GEM = "Collect all gems";
+    public static final String OVERLAY_TEXT_PAUSED = getMyBundle().get("overlayPaused");
+    public static final String OVERLAY_TEXT_GAMEPLAY_GOAL = getMyBundle().get("overlayGameplayGoal");
+    public static final String OVERLAY_TEXT_GAMEPLAY_LOCKED = getMyBundle().get("overlayGameplayLocked");
+    public static final String OVERLAY_TEXT_GAMEPLAY_BOMB = getMyBundle().get("overlayGameplayBomb");
+    public static final String OVERLAY_TEXT_GAMEPLAY_GEM = getMyBundle().get("overlayGameplayGem");
 
     //how long to display the overlay
     public static final long OVERLAY_DURATION_GAMEPLAY = 2000;

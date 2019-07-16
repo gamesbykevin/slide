@@ -13,6 +13,7 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_MENU;
 
 public class OptionsScreen extends TemplateScreen {
@@ -79,7 +80,7 @@ public class OptionsScreen extends TemplateScreen {
         });
 
         //create our back button
-        TextButton buttonBack = new TextButton("Back", getSkin());
+        TextButton buttonBack = new TextButton(getMyBundle().get("optionsScreenBack"), getSkin());
 
         //Add listeners to buttons
         buttonBack.addListener(new ClickListener() {
@@ -94,10 +95,10 @@ public class OptionsScreen extends TemplateScreen {
         });
 
         //create the labels and size them
-        Label labelMusic = new Label(  "Music", getSkin());
-        Label labelSound = new Label(  "Sound", getSkin());
-        Label labelVibrate = new Label("Vibrate", getSkin());
-        Label labelShakeScreen = new Label("Shake Screen", getSkin());
+        Label labelMusic = new Label(getMyBundle().get("optionsScreenMusic"), getSkin());
+        Label labelSound = new Label(getMyBundle().get("optionsScreenSound"), getSkin());
+        Label labelVibrate = new Label(getMyBundle().get("optionsScreenVibrate"), getSkin());
+        Label labelShakeScreen = new Label(getMyBundle().get("optionsScreenShake"), getSkin());
         labelMusic.setFontScale(FONT_SCALE);
         labelSound.setFontScale(FONT_SCALE);
         labelVibrate.setFontScale(FONT_SCALE);

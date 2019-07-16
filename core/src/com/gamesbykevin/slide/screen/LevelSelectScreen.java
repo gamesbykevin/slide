@@ -6,6 +6,7 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 
+import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.preferences.AppPreferences.hasLevelCompleted;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_GAME;
 
@@ -56,7 +57,7 @@ public class LevelSelectScreen extends CustomSelectScreen {
     public String getButtonText(int index) {
 
         if (hasLevelCompleted(index)) {
-            return "Solved";
+            return getMyBundle().get("levelSelectScreenSolved");
         } else {
             return (index + 1) + "";
         }
@@ -69,6 +70,6 @@ public class LevelSelectScreen extends CustomSelectScreen {
 
     @Override
     public String getTitleText() {
-        return "Level Select";
+        return getMyBundle().get("levelSelectScreenTitleText");
     }
 }

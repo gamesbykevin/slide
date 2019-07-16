@@ -1,8 +1,10 @@
 package com.gamesbykevin.slide;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.gamesbykevin.slide.controller.Controller;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.screen.ScreenHelper;
@@ -48,6 +50,17 @@ public class MyGdxGame extends Game {
 	 * How long do we vibrate the phone
 	 */
 	public static final int DURATION_VIBRATE = 333;
+
+	//object used for localization
+	private static I18NBundle MY_BUNDLE;
+
+	public static I18NBundle getMyBundle() {
+
+		if (MY_BUNDLE == null)
+			MY_BUNDLE = I18NBundle.createBundle(Gdx.files.internal("i18n/MyBundle"));
+
+		return MY_BUNDLE;
+	}
 
 	@Override
 	public void create() {
