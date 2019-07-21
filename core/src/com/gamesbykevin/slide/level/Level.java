@@ -219,9 +219,6 @@ public class Level implements ILevel {
         //get the player
         Player player = getPlayer();
 
-        //check if we can detonate a bomb
-        player.checkBombs(this);
-
         //update the player
         player.update(this);
 
@@ -238,7 +235,7 @@ public class Level implements ILevel {
             //update the level object accordingly
             tmp.update(this);
 
-            if (getPlayer().hasCollision(tmp))
+            if (player.hasCollision(tmp))
                 tmp.updateCollision(this);
         }
 

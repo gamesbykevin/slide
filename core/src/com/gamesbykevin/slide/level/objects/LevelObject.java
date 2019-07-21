@@ -19,8 +19,8 @@ public abstract class LevelObject extends Entity {
     public static float DEFAULT_DIMENSION = 32;
 
     //default speed
-    public static final float DEFAULT_VELOCITY_X = .33f;
-    public static final float DEFAULT_VELOCITY_Y = .33f;
+    public static final float DEFAULT_VELOCITY_X = .25f;
+    public static final float DEFAULT_VELOCITY_Y = .25f;
 
     //speed when not moving
     public static final float VELOCITY_NONE = 0.00f;
@@ -144,9 +144,13 @@ public abstract class LevelObject extends Entity {
     }
 
     public void stop() {
+        stopVelocity();
+        updateCoordinates(this);
+    }
+
+    public void stopVelocity() {
         this.setDX(VELOCITY_NONE);
         this.setDY(VELOCITY_NONE);
-        updateCoordinates(this);
     }
 
     public boolean isRotate() {

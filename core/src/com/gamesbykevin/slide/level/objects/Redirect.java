@@ -30,90 +30,88 @@ public class Redirect extends LevelObject {
         Player player = level.getPlayer();
 
         switch (getRedirectType()) {
+
             case NE:
-                if (player.getDX() > 0) {
+                if (player.getDX() > 0 && player.getCol() >= getCol()) {
                     player.setCol(getCol());
-                    player.setRow(getRow() - 1);
-                    player.stop();
-                    player.setDY(-DEFAULT_VELOCITY_Y);
-                } else if (player.getDX() < 0) {
+                    player.stopVelocity();
+                    player.setMoveDown(true);
+                } else if (player.getDX() < 0 && player.getCol() > getCol()) {
                     player.setCol(getCol() + 1);
                     player.stop();
-                } else if (player.getDY() > 0) {
+                } else if (player.getDY() > 0 && player.getRow() >= getRow()) {
                     player.setRow(getRow());
-                    player.setCol(getCol() - 1);
-                    player.stop();
-                    player.setDX(-DEFAULT_VELOCITY_X);
-                } else if (player.getDY() < 0) {
-                    player.setRow(getRow() - 1);
+                    player.stopVelocity();
+                    player.setMoveLeft(true);
+                } else if (player.getDY() < 0 && player.getRow() > getRow()) {
+                    player.setRow(getRow() + 1);
                     player.stop();
                 }
                 break;
 
             case NW:
-                if (player.getDX() > 0) {
+                if (player.getDX() > 0 && player.getCol() < getCol()) {
                     player.setCol(getCol() - 1);
                     player.stop();
-                } else if (player.getDX() < 0) {
+                } else if (player.getDX() < 0 && player.getCol() <= getCol()) {
                     player.setCol(getCol());
-                    player.setRow(getRow() - 1);
-                    player.stop();
-                    player.setDY(-DEFAULT_VELOCITY_Y);
-                } else if (player.getDY() > 0) {
-                    player.setCol(getCol() + 1);
+                    player.stopVelocity();
+                    player.setMoveDown(true);
+                } else if (player.getDY() > 0 && player.getRow() >= getRow()) {
                     player.setRow(getRow());
-                    player.stop();
-                    player.setDX(DEFAULT_VELOCITY_X);
-                } else if (player.getDY() < 0) {
+                    player.stopVelocity();
+                    player.setMoveRight(true);
+                } else if (player.getDY() < 0 && player.getRow() > getRow()) {
                     player.setRow(getRow() + 1);
                     player.stop();
                 }
                 break;
 
             case SE:
-                if (player.getDX() > 0) {
+                if (player.getDX() > 0 && player.getCol() >= getCol()) {
                     player.setCol(getCol());
-                    player.setRow(getRow() + 1);
-                    player.stop();
-                    player.setDY(DEFAULT_VELOCITY_Y);
-                } else if (player.getDX() < 0) {
+                    player.stopVelocity();
+                    player.setMoveUp(true);
+                } else if (player.getDX() < 0 && player.getCol() > getCol()) {
                     player.setCol(getCol() + 1);
                     player.stop();
-                } else if (player.getDY() > 0) {
+                } else if (player.getDY() > 0 && player.getRow() < getRow()) {
                     player.setRow(getRow() - 1);
                     player.stop();
-                } else if (player.getDY() < 0) {
+                } else if (player.getDY() < 0 && player.getRow() <= getRow()) {
                     player.setRow(getRow());
-                    player.setCol(getCol() - 1);
-                    player.stop();
-                    player.setDX(-DEFAULT_VELOCITY_X);
+                    player.stopVelocity();
+                    player.setMoveLeft(true);
                 }
                 break;
 
             case SW:
-                if (player.getDX() > 0) {
+                if (player.getDX() > 0 && player.getCol() < getCol()) {
                     player.setCol(getCol() - 1);
                     player.stop();
-                } else if (player.getDX() < 0) {
+                } else if (player.getDX() < 0 && player.getCol() <= getCol()) {
                     player.setCol(getCol());
-                    player.setRow(getRow() + 1);
-                    player.stop();
-                    player.setDY(DEFAULT_VELOCITY_Y);
-                } else if (player.getDY() > 0) {
+                    player.stopVelocity();
+                    player.setMoveUp(true);
+                } else if (player.getDY() > 0 && player.getRow() < getRow()) {
                     player.setRow(getRow() - 1);
                     player.stop();
-                } else if (player.getDY() < 0) {
-                    player.setCol(getCol() + 1);
+                } else if (player.getDY() < 0 && player.getRow() <= getRow()) {
                     player.setRow(getRow());
-                    player.stop();
-                    player.setDX(DEFAULT_VELOCITY_X);
+                    player.stopVelocity();
+                    player.setMoveRight(true);
                 }
                 break;
         }
     }
 
     @Override
-    public void reset(Level level) {
+    public void update(Level level) {
+        //nothing to update
+    }
 
+    @Override
+    public void reset(Level level) {
+        //nothing to reset
     }
 }

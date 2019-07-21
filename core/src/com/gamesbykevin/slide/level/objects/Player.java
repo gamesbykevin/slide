@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
@@ -44,6 +45,13 @@ public class Player extends LevelObject {
 
     public void setMoveRight(boolean moveRight) {
         this.moveRight = moveRight;
+
+        //can only move in 1 direction
+        if (isMoveRight()) {
+            setMoveLeft(false);
+            setMoveUp(false);
+            setMoveDown(false);
+        }
     }
 
     public boolean isMoveLeft() {
@@ -52,6 +60,13 @@ public class Player extends LevelObject {
 
     public void setMoveLeft(boolean moveLeft) {
         this.moveLeft = moveLeft;
+
+        //can only move in 1 direction
+        if (isMoveLeft()) {
+            setMoveRight(false);
+            setMoveUp(false);
+            setMoveDown(false);
+        }
     }
 
     public boolean isMoveUp() {
@@ -60,6 +75,13 @@ public class Player extends LevelObject {
 
     public void setMoveUp(boolean moveUp) {
         this.moveUp = moveUp;
+
+        //can only move in 1 direction
+        if (isMoveUp()) {
+            setMoveRight(false);
+            setMoveLeft(false);
+            setMoveDown(false);
+        }
     }
 
     public boolean isMoveDown() {
@@ -68,6 +90,13 @@ public class Player extends LevelObject {
 
     public void setMoveDown(boolean moveDown) {
         this.moveDown = moveDown;
+
+        //can only move in 1 direction
+        if (isMoveDown()) {
+            setMoveLeft(false);
+            setMoveRight(false);
+            setMoveUp(false);
+        }
     }
 
     public void setTeleporterId(String teleporterId) {
@@ -78,7 +107,7 @@ public class Player extends LevelObject {
         return this.teleporterId;
     }
 
-    public void checkBombs(Level level) {
+    private void checkBombs(Level level) {
 
         //if ready to move but haven't started
         if (isMoving() && !hasVelocity()) {
@@ -103,6 +132,9 @@ public class Player extends LevelObject {
                 if (((Bomb)obj).hasCountdown()) {
                     ((Bomb) obj).setTime(Bomb.TIME_EXPIRED);
                     level.setCountBomb(level.getCountBomb() + 1);
+
+                    //shake the screen
+                    Rumble.reset();
                 }
             }
         }
@@ -114,6 +146,13 @@ public class Player extends LevelObject {
         //call parent
         super.update(level);
 
+        //check if we interacted with any of the bombs
+        checkBombs(level);
+
+        //stop moving
+        stopVelocity();
+
+        //make sure we head in the right direction
         if (isMoveRight())
             setDX(DEFAULT_VELOCITY_X);
         if (isMoveLeft())

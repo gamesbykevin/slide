@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.MyGdxGame.*;
@@ -53,8 +54,14 @@ public class Bomb extends LevelObject {
         if (hasTimeExpired()) {
 
             //if this bomb just expired add to the count
-            if (!previousExpired)
+            if (!previousExpired) {
+
+                //count total number of bombs destroyed
                 level.setCountBomb(level.getCountBomb() + 1);
+
+                //shake the screen
+                Rumble.reset();
+            }
 
             //time has expired
             setTime(TIME_EXPIRED);
