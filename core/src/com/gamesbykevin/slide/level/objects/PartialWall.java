@@ -14,7 +14,7 @@ public class PartialWall extends LevelObject {
     private float resetCol, resetRow;
 
     //how fast can the wall move
-    public static final float CLOSE_VELOCITY = .2f;
+    public static final float CLOSE_VELOCITY = .1f;
 
     //is the wall vertical
     private boolean vertical;
