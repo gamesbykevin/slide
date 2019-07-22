@@ -66,6 +66,9 @@ public class Level implements ILevel {
     //keep track of the total
     private int totalBomb = 0, totalGem = 0;
 
+    //obtain player reference for performance reasons
+    private Player player;
+
     public Level() {
         this(SMALL_SIZE_COLS, SMALL_SIZE_ROWS);
     }
@@ -176,7 +179,12 @@ public class Level implements ILevel {
     }
 
     public Player getPlayer() {
-        return (Player)getLevelObject(LevelObject.Type.Player);
+
+        //store player reference
+        if (this.player == null)
+            this.player = (Player)getLevelObject(LevelObject.Type.Player);
+
+        return this.player;
     }
 
     public static int getStartX() {
