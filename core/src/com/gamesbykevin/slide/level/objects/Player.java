@@ -3,7 +3,6 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
 
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
@@ -13,6 +12,9 @@ public class Player extends LevelObject {
 
     //start location needed to reset
     private int startCol, startRow;
+
+    //where is our previous location
+    private float prevCol, prevRow;
 
     //which teleporter did we come from
     private String teleporterId;
@@ -107,37 +109,20 @@ public class Player extends LevelObject {
         return this.teleporterId;
     }
 
-    private void checkBombs(Level level) {
+    public float getPrevCol() {
+        return this.prevCol;
+    }
 
-        //if ready to move but haven't started
-        if (isMoving() && !hasVelocity()) {
+    public void setPrevCol(float prevCol) {
+        this.prevCol = prevCol;
+    }
 
-            LevelObject obj = null;
-            int col = (int)getCol();
-            int row = (int)getRow();
+    public float getPrevRow() {
+        return this.prevRow;
+    }
 
-            if (isMoveUp()) {
-                obj = level.getLevelObject(col, row + 1);
-            } else if (isMoveDown()) {
-                obj = level.getLevelObject(col, row - 1);
-            } else if (isMoveLeft()) {
-                obj = level.getLevelObject(col - 1, row);
-            } else if (isMoveRight()) {
-                obj = level.getLevelObject(col + 1, row);
-            }
-
-            //if we are next to a bomb we can detonate now
-            if (obj != null && obj.getType().equals(Type.Bomb)) {
-
-                if (((Bomb)obj).hasCountdown()) {
-                    ((Bomb) obj).setTime(Bomb.TIME_EXPIRED);
-                    level.setCountBomb(level.getCountBomb() + 1);
-
-                    //shake the screen
-                    Rumble.reset();
-                }
-            }
-        }
+    public void setPrevRow(float prevRow) {
+        this.prevRow = prevRow;
     }
 
     @Override
@@ -146,8 +131,8 @@ public class Player extends LevelObject {
         //call parent
         super.update(level);
 
-        //check if we interacted with any of the bombs
-        checkBombs(level);
+        //do we have velocity before we stop
+        boolean velocity = hasVelocity();
 
         //stop moving
         stopVelocity();
@@ -161,6 +146,14 @@ public class Player extends LevelObject {
             setDY(-DEFAULT_VELOCITY_Y);
         if (isMoveUp())
             setDY(DEFAULT_VELOCITY_Y);
+
+        //if we didn't have velocity previously and now we do
+        if (!velocity && hasVelocity()) {
+
+            //store the location before we move
+            setPrevCol(getCol());
+            setPrevRow(getRow());
+        }
 
         //update location
         setCol(getCol() + getDX());

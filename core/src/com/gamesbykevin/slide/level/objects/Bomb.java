@@ -48,7 +48,7 @@ public class Bomb extends LevelObject {
         boolean previousExpired = hasTimeExpired();
 
         //update timer
-        setTime(getTime() - (TIME_DURATION * 2));
+        setTime(getTime() - (TIME_DURATION * 1));
 
         //if time expired
         if (hasTimeExpired()) {
@@ -75,26 +75,61 @@ public class Bomb extends LevelObject {
     @Override
     public void updateCollision(Level level) {
 
-        //lets position the player the right way if the bomb has not yet exploded
-        if (!hasTimeExpired()) {
-            Player player = level.getPlayer();
+        //no need to continue if time expired
+        if (hasTimeExpired())
+            return;
 
-            if (player.getDX() > 0) {
-                player.setCol(getCol() - 1);
-            } else if (player.getDX() < 0) {
-                player.setCol(getCol() + 1);
-            } else if (player.getDY() > 0) {
-                player.setRow(getRow() - 1);
-            } else if (player.getDY() < 0) {
-                player.setRow(getRow() + 1);
+        Player player = level.getPlayer();
+
+        //if we have already started the countdown
+        if (hasCountdown()) {
+
+            //are we next to this bomb?
+            boolean neighbor =  (player.getPrevCol() + 1f == getCol() && player.getPrevRow() == getRow()) ||
+                                (player.getPrevCol() - 1f == getCol() && player.getPrevRow() == getRow()) ||
+                                (player.getPrevCol() == getCol() && player.getPrevRow() + 1f == getRow()) ||
+                                (player.getPrevCol() == getCol() && player.getPrevRow() - 1f == getRow());
+
+            //if the player is next to the bomb, detonate it
+            if (neighbor) {
+
+                //time is over
+                setTime(TIME_EXPIRED);
+
+                //keep track of the number of bombs
+                level.setCountBomb(level.getCountBomb() + 1);
+
+            } else {
+
+                //position correctly
+                correctPosition(player);
             }
 
-            //stop moving the player
-            level.getPlayer().stop();
+        } else if (!hasTimeExpired()) {
+
+            //position correctly
+            correctPosition(player);
 
             //start the countdown
             setCountdown(true);
         }
+    }
+
+    private void correctPosition(Player player) {
+
+        //correct the position
+        if (player.getDX() > 0) {
+            player.setCol(getCol() - 1);
+        } else if (player.getDX() < 0) {
+            player.setCol(getCol() + 1);
+        } else if (player.getDY() > 0) {
+            player.setRow(getRow() - 1);
+        } else if (player.getDY() < 0) {
+            player.setRow(getRow() + 1);
+        }
+
+        //stop moving the player
+        player.stop();
     }
 
     @Override
