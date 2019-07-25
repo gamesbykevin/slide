@@ -93,7 +93,7 @@ public abstract class LevelScreen extends TemplateScreen {
             getBackgroundRect().y = 0;
 
         //now we can shake the screen for everything else
-        Rumble.tick(getCamera(), delta);
+        Rumble.tick(getCamera(), getPositionReset(), delta);
 
         //render the game objects
         getLevel().update();

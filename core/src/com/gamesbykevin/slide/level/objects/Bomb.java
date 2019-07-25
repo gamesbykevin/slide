@@ -50,26 +50,25 @@ public class Bomb extends LevelObject {
         //update timer
         setTime(getTime() - (TIME_DURATION * 1));
 
-        //if time expired
-        if (hasTimeExpired()) {
+        //if time just expired, detonate the bomb
+        if (hasTimeExpired() && !previousExpired)
+            detonate(level);
+    }
 
-            //if this bomb just expired add to the count
-            if (!previousExpired) {
+    private void detonate(Level level) {
 
-                //count total number of bombs destroyed
-                level.setCountBomb(level.getCountBomb() + 1);
+        //count total number of bombs destroyed
+        level.setCountBomb(level.getCountBomb() + 1);
 
-                //shake the screen
-                Rumble.reset();
-            }
+        //shake the screen
+        Rumble.reset();
 
-            //time has expired
-            setTime(TIME_EXPIRED);
+        //time has expired
+        setTime(TIME_EXPIRED);
 
-            //make sure the particles are in the correct position etc...
-            if (getParticleEffect() != null)
-                getParticleEffect().setPosition(getX() + (getW() / 2), getY() + (getH() / 2));
-        }
+        //make sure the particles are in the correct position etc...
+        if (getParticleEffect() != null)
+            getParticleEffect().setPosition(getX() + (getW() / 2), getY() + (getH() / 2));
     }
 
     @Override
@@ -90,14 +89,11 @@ public class Bomb extends LevelObject {
                                 (player.getPrevCol() == getCol() && player.getPrevRow() + 1f == getRow()) ||
                                 (player.getPrevCol() == getCol() && player.getPrevRow() - 1f == getRow());
 
-            //if the player is next to the bomb, detonate it
+            //if the player is next to the bomb
             if (neighbor) {
 
-                //time is over
-                setTime(TIME_EXPIRED);
-
-                //keep track of the number of bombs
-                level.setCountBomb(level.getCountBomb() + 1);
+                //detonate the bomb
+                detonate(level);
 
             } else {
 

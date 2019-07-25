@@ -1,6 +1,7 @@
 package com.gamesbykevin.slide.rumble;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector3;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 
 import java.util.Random;
@@ -24,20 +25,14 @@ public class Rumble {
     //how long have we been shaking already
     private static float LAPSED = DURATION;
 
-    //track the shaking so we can reset the camera position
-    private static float OFFSET_X = 0;
-    private static float OFFSET_Y = 0;
-
     //used to move the screen in random fashion
     private static Random RANDOM = new Random();
 
     public static void reset() {
         LAPSED = 0;
-        OFFSET_X = 0;
-        OFFSET_Y = 0;
     }
 
-    public static void tick(Camera camera, float delta) {
+    public static void tick(Camera camera, Vector3 positionReset, float delta) {
 
         //only shake the screen if setting enabled
         if (!AppPreferences.isEnabled(PREF_SCREEN_SHAKE_ENABLED)) {
@@ -58,16 +53,15 @@ public class Rumble {
             //move the camera
             camera.translate(x, y, 0);
 
-            //keep track of changes, so we can reset position later
-            OFFSET_X += x;
-            OFFSET_Y += y;
-
             // Increase the elapsed time by the delta provided.
             LAPSED += delta;
 
             //if done, reset camera position
-            if (LAPSED >= DURATION)
-                camera.translate(-OFFSET_X, -OFFSET_Y, 0);
+            if (LAPSED >= DURATION) {
+                camera.position.x = positionReset.x;
+                camera.position.y = positionReset.y;
+                camera.position.z = positionReset.z;
+            }
         }
     }
 }

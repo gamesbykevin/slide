@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.graphics.Overlay;
 
@@ -38,6 +36,9 @@ public abstract class ParentScreen implements Screen {
     //our overlay screen
     private Overlay overlay;
 
+    //where do we reset position
+    private Vector3 positionReset;
+
     public ParentScreen(MyGdxGame game) {
 
         //store game reference
@@ -46,6 +47,9 @@ public abstract class ParentScreen implements Screen {
         //create our camera of specified size
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        //create the reset position
+        this.positionReset = new Vector3(this.camera.position);
 
         //create our background
         this.backgroundImage = new Texture(Gdx.files.internal("background.jpg"));
@@ -168,5 +172,9 @@ public abstract class ParentScreen implements Screen {
 
     public OrthographicCamera getCamera() {
         return this.camera;
+    }
+
+    public Vector3 getPositionReset() {
+        return this.positionReset;
     }
 }
