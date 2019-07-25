@@ -32,12 +32,17 @@ public class LevelSelectScreen extends CustomSelectScreen {
     @Override
     public void show() {
         super.show();
+        getScroll().layout();
+        getScroll().setScrollY(getScrollY());
     }
 
     @Override
     public void handleClick(int index) {
 
         try {
+
+            //remember our position
+            setScrollY(getScroll().getScrollY());
 
             //assign the selected level
             Level.LEVEL_INDEX = index;

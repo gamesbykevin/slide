@@ -176,7 +176,6 @@ public class TemplateScreen extends ParentScreen {
 
     public void addSocialIcons() {
 
-
         //Create Table
         Table table = new Table();
 

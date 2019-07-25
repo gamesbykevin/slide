@@ -37,25 +37,9 @@ public class WallConnector extends LevelObject {
 
         //if not hidden, check further
         if (!hide) {
-            LevelObject right = level.getLevelObject(Type.PartialWall, (int) getCol() + 1, (int) getRow());
-            LevelObject left = level.getLevelObject(Type.PartialWall, (int) getCol() - 1, (int) getRow());
 
-            //if the walls exist, let's see if we can close them
-            if (right != null && left != null) {
+            if (isVertical()) {
 
-                //right wall moves left
-                right.setDX(-CLOSE_VELOCITY);
-                ((PartialWall) right).setTargetCol(getCol());
-                ((PartialWall) right).setTargetRow(getRow());
-
-                //left wall moves right
-                left.setDX(CLOSE_VELOCITY);
-                ((PartialWall) left).setTargetCol(getCol());
-                ((PartialWall) left).setTargetRow(getRow());
-
-            } else {
-
-                //if we don't have right/left walls, then we have down/up
                 LevelObject up = level.getLevelObject(Type.PartialWall, (int) getCol(), (int) getRow() + 1);
                 LevelObject down = level.getLevelObject(Type.PartialWall, (int) getCol(), (int) getRow() - 1);
 
@@ -68,6 +52,25 @@ public class WallConnector extends LevelObject {
                 down.setDY(CLOSE_VELOCITY);
                 ((PartialWall) down).setTargetCol(getCol());
                 ((PartialWall) down).setTargetRow(getRow());
+
+            } else {
+
+                LevelObject right = level.getLevelObject(Type.PartialWall, (int) getCol() + 1, (int) getRow());
+                LevelObject left = level.getLevelObject(Type.PartialWall, (int) getCol() - 1, (int) getRow());
+
+                //if the walls exist, let's see if we can close them
+                if (right != null && left != null) {
+
+                    //right wall moves left
+                    right.setDX(-CLOSE_VELOCITY);
+                    ((PartialWall) right).setTargetCol(getCol());
+                    ((PartialWall) right).setTargetRow(getRow());
+
+                    //left wall moves right
+                    left.setDX(CLOSE_VELOCITY);
+                    ((PartialWall) left).setTargetCol(getCol());
+                    ((PartialWall) left).setTargetRow(getRow());
+                }
             }
 
             //hide it now

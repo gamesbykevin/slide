@@ -55,12 +55,12 @@ public class Teleporter extends LevelObject {
         if (player.getDY() < 0 && player.getRow() > getRow())
             return;
 
-        //get the teleporter that we are linked to
-        Teleporter teleporter = (Teleporter)level.getLevelObject(getLinkId());
-
         //we just came from this teleporter so we ignore
         if (player.getTeleporterId() != null && player.getTeleporterId().equals(getId()))
             return;
+
+        //get the teleporter that we are linked to
+        Teleporter teleporter = (Teleporter)level.getLevelObject(getLinkId());
 
         //teleport to the other location
         player.setCol(teleporter.getCol());

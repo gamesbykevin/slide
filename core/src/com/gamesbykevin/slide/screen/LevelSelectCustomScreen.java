@@ -30,6 +30,8 @@ public class LevelSelectCustomScreen extends CustomSelectScreen {
     @Override
     public void show() {
         super.show();
+        getScroll().layout();
+        getScroll().setScrollY(getScrollY());
     }
 
     @Override
@@ -40,6 +42,9 @@ public class LevelSelectCustomScreen extends CustomSelectScreen {
             //if we don't have a level saved, don't do anything
             if (!AppPreferences.hasLevelSave(index))
                 return;
+
+            //remember our position
+            setScrollY(getScroll().getScrollY());
 
             //assign the selected level
             Level.LEVEL_INDEX = index;

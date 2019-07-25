@@ -20,6 +20,12 @@ public abstract class CustomSelectScreen extends TemplateScreen {
     private int padding;
     private int total;
 
+    //how we scroll on page
+    private ScrollPane scroll;
+
+    //remember our scroll position
+    private float scrollY = 0;
+
     public CustomSelectScreen(MyGdxGame game) {
         super(game);
 
@@ -29,6 +35,14 @@ public abstract class CustomSelectScreen extends TemplateScreen {
 
         //add the container to our stage
         getStage().addActor(container);
+    }
+
+    public float getScrollY() {
+        return scrollY;
+    }
+
+    public void setScrollY(float scrollY) {
+        this.scrollY = scrollY;
     }
 
     public Table getContainer() {
@@ -67,14 +81,18 @@ public abstract class CustomSelectScreen extends TemplateScreen {
         this.padding = padding;
     }
 
+    public ScrollPane getScroll() {
+        return this.scroll;
+    }
+
     protected void create() {
 
         //create table to contain the gui
         Table table = new Table();
 
         //we need to allow the user to scroll
-        final ScrollPane scroll = new ScrollPane(table, getSkin());
-        scroll.setFlickScroll(true);
+        scroll = new ScrollPane(table, getSkin());
+        getScroll().setFlickScroll(true);
 
         table.pad(getPadding()).defaults().expandX().space(getPadding());
         table.row();
@@ -127,7 +145,7 @@ public abstract class CustomSelectScreen extends TemplateScreen {
                 break;
         }
 
-        getContainer().add(scroll).expand().fill();
+        getContainer().add(getScroll()).expand().fill();
         getContainer().row().space(getPadding()).padBottom(getPadding());
     }
 
