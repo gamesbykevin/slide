@@ -75,6 +75,9 @@ public class Level implements ILevel {
 
     public Level(int cols, int rows) {
 
+        //create new textures for this level
+        resetTextures();
+
         //save the level size
         this.cols = cols;
         this.rows = rows;

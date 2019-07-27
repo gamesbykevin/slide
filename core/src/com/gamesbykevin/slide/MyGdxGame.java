@@ -90,6 +90,15 @@ public class MyGdxGame extends Game {
 		return FONT;
 	}
 
+	public static void resetTextures() {
+
+		if (TEXTURES != null) {
+			TEXTURES.dispose();
+		}
+
+		TEXTURES = null;
+	}
+
 	public static Textures getTextures() {
 
 		//create our game textures if null

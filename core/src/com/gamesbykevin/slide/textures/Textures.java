@@ -186,4 +186,9 @@ public class Textures {
         getTextures().getSprite(Textures.Key.Teleporter15).rotate(Teleporter.DEFAULT_ROTATION);
         getTextures().getSprite(Textures.Key.Danger).rotate(Danger.DEFAULT_ROTATION);
     }
+
+    public void dispose() {
+        this.sprites.clear();
+        this.sprites = null;
+    }
 }
