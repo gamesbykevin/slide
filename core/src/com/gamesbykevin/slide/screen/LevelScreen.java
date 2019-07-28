@@ -24,6 +24,24 @@ public abstract class LevelScreen extends TemplateScreen {
     public static final int GO_BACK_X = 0;
     public static final int GO_BACK_Y = 0;
 
+    //zoom in when level solved
+    private float zoomRate = ZOOM_DEFAULT;
+
+    //how fast do we zoom in
+    public static final float ZOOM_RATE = .02f;
+
+    //the closest we can get
+    public static final float ZOOM_MIN = 0.05f;
+
+    //the farthest we can get
+    public static final float ZOOM_MAX = 1.0f;
+
+    //do we zoom in?
+    private boolean zoom = true;
+
+    //normal zoom
+    public static final float ZOOM_DEFAULT = 1f;
+
     public LevelScreen(MyGdxGame game) {
         super(game);
 
@@ -49,6 +67,22 @@ public abstract class LevelScreen extends TemplateScreen {
 
     protected void setLevel(Level level) {
         this.level = level;
+    }
+
+    public boolean isZoom() {
+        return this.zoom;
+    }
+
+    public void setZoom(boolean zoom) {
+        this.zoom = zoom;
+    }
+
+    public float getZoomRate() {
+        return this.zoomRate;
+    }
+
+    public void setZoomRate(float zoomRate) {
+        this.zoomRate = zoomRate;
     }
 
     @Override
@@ -106,5 +140,24 @@ public abstract class LevelScreen extends TemplateScreen {
         if (sprite != null) {
             sprite.draw(getBatch());
         }
+    }
+
+    public void drawGameover() {
+
+        //reset zoom
+        getCamera().zoom = ZOOM_DEFAULT;
+        setZoomRate(ZOOM_DEFAULT);
+
+        //make sure we capture menu input
+        captureInputMenu();
+
+        //draw an overlay
+        getOverlay().draw(getBatch());
+
+        //act the stage
+        getStage().act();
+
+        //draw the remaining of the stage
+        getStage().draw();
     }
 }

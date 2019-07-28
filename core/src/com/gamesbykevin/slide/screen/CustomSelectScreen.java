@@ -163,6 +163,7 @@ public abstract class CustomSelectScreen extends TemplateScreen {
 
     @Override
     public void show() {
+
         super.show();
 
         //remove anything from the container
@@ -176,6 +177,9 @@ public abstract class CustomSelectScreen extends TemplateScreen {
 
         //create the screen
         create();
+
+        //track input from the menu
+        captureInputMenu();
     }
 
     @Override

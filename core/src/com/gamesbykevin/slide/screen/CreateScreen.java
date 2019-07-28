@@ -225,13 +225,14 @@ public class CreateScreen extends LevelScreen {
 
     @Override
     public void show() {
+
+        //capture the controller input
+        captureInputGame();
+
         super.show();
 
         //reset to be safe
         reset();
-
-        //make sure game controller has input
-        getGame().getController().setInput();
     }
 
     public String getSelectedId() {

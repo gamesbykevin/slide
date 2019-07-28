@@ -53,6 +53,7 @@ public class LevelSelectCustomScreen extends CustomSelectScreen {
             GameScreen.CUSTOM_LEVEL = true;
 
             //switch to the game screen
+            getGame().setPaused(false);
             getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_GAME);
 
         } catch (ScreenException e) {

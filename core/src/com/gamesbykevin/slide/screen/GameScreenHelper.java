@@ -102,6 +102,7 @@ public class GameScreenHelper {
         table.add(buttonMenu).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
 
         //Add table to stage
+        screen.getStage().clear();
         screen.getStage().addActor(table);
 
         //add our social media icons

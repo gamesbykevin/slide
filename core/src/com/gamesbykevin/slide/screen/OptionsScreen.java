@@ -24,7 +24,11 @@ public class OptionsScreen extends TemplateScreen {
 
     @Override
     public void show() {
+
         super.show();
+
+        //capture the menu input
+        captureInputMenu();
 
         //Create buttons
         final CheckBox checkboxMusic = new CheckBox(null, getSkin());

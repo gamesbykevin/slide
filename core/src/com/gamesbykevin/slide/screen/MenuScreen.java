@@ -22,7 +22,11 @@ public class MenuScreen extends TemplateScreen {
 
     @Override
     public void show() {
+
         super.show();
+
+        //capture the menu input
+        captureInputMenu();
 
         //Create Table
         Table table = new Table();

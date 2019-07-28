@@ -5,52 +5,18 @@ import com.gamesbykevin.slide.level.LevelHelper;
 
 import java.io.IOException;
 
+import static com.gamesbykevin.slide.level.Level.LEVEL_COMPLETE_DELAY;
 import static com.gamesbykevin.slide.level.Level.LEVEL_INDEX;
 import static com.gamesbykevin.slide.screen.GameScreenHelper.createGameover;
 import static com.gamesbykevin.slide.screen.GameScreenHelper.maintainFps;
-import static com.gamesbykevin.slide.level.Level.LEVEL_COMPLETE_DELAY;
 
 public class GameScreen extends LevelScreen {
-
-    //zoom in when level solved
-    private float zoomRate = ZOOM_DEFAULT;
-
-    //how fast do we zoom in
-    private static final float ZOOM_RATE = .02f;
-
-    //the closest we can get
-    private static final float ZOOM_MIN = 0.05f;
-
-    //the farthest we can get
-    private static final float ZOOM_MAX = 1.0f;
-
-    //do we zoom in?
-    private boolean zoom = true;
-
-    //normal zoom
-    private static final float ZOOM_DEFAULT = 1f;
 
     //are we playing levels we created
     public static boolean CUSTOM_LEVEL = false;
 
     public GameScreen(MyGdxGame game) {
         super(game);
-    }
-
-    public boolean isZoom() {
-        return this.zoom;
-    }
-
-    public void setZoom(boolean zoom) {
-        this.zoom = zoom;
-    }
-
-    public float getZoomRate() {
-        return this.zoomRate;
-    }
-
-    public void setZoomRate(float zoomRate) {
-        this.zoomRate = zoomRate;
     }
 
     public void reset() {
@@ -92,15 +58,15 @@ public class GameScreen extends LevelScreen {
         //set zoom to normal
         getCamera().zoom = ZOOM_DEFAULT;
 
-        //make sure game controller has input
-        getGame().getController().setInput();
-
         //create the game over menu
         createGameover(this);
 
         //if the game isn't paused reset the level
         if (!getGame().isPaused())
             reset();
+
+        //capture the game input
+        captureInputGame();
     }
 
     @Override
@@ -144,10 +110,6 @@ public class GameScreen extends LevelScreen {
             //if paused show the overlay
             getOverlay().draw(getBatch());
 
-        } else if (getLevel().getLapsedComplete() >= LEVEL_COMPLETE_DELAY) {
-
-            //draw the menu screen
-            drawGameover();
         }
 
         //finished rendering
@@ -155,24 +117,5 @@ public class GameScreen extends LevelScreen {
 
         //keep the speed of the game steady
         maintainFps(getStart());
-    }
-
-    private void drawGameover() {
-
-        //reset zoom
-        getCamera().zoom = ZOOM_DEFAULT;
-        setZoomRate(ZOOM_DEFAULT);
-
-        //make sure we capture menu input
-        super.captureMenuInput();
-
-        //draw an overlay
-        getOverlay().draw(getBatch());
-
-        //act the stage
-        getStage().act();
-
-        //draw the remaining of the stage
-        getStage().draw();
     }
 }

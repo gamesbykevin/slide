@@ -59,6 +59,9 @@ public class TemplateScreen extends ParentScreen {
     //needed to capture input from keyboard/mobile as well as the stage
     private InputMultiplexer inputMultiplexer;
 
+    //remember where input is
+    private boolean inputGame;
+
     public TemplateScreen(MyGdxGame game) {
         super(game);
 
@@ -66,14 +69,14 @@ public class TemplateScreen extends ParentScreen {
         this.inputMultiplexer = new InputMultiplexer();
 
         //load our atlas and skin
-        atlas = new TextureAtlas("skin/skin.atlas");
-        skin = new Skin(Gdx.files.internal("skin/skin.json"), atlas);
+        this.atlas = new TextureAtlas("skin/skin.atlas");
+        this.skin = new Skin(Gdx.files.internal("skin/skin.json"), atlas);
 
         Viewport viewport = new StretchViewport(SCREEN_WIDTH, SCREEN_HEIGHT, getCamera());
         viewport.apply();
 
         //create the stage
-        stage = new Stage(viewport) {
+        this.stage = new Stage(viewport) {
 
             //handle back button
             @Override
@@ -117,34 +120,58 @@ public class TemplateScreen extends ParentScreen {
 
         //flag false
         this.prompt = false;
+
+        //make sure we are capturing input
+        captureInput();
     }
 
     @Override
     public void show() {
         super.show();
 
-        //menu will capture input
-        captureMenuInput();
+        //make sure we are capturing input
+        captureInput();
     }
 
-    public void captureMenuInput() {
+    private InputMultiplexer getInputMultiplexer() {
+        return this.inputMultiplexer;
+    }
+
+    public void captureInputGame() {
+        setInputGame(true);
+        captureInput();
+    }
+
+    public void captureInputMenu() {
+        setInputGame(false);
+        captureInput();
+    }
+
+    private void setInputGame(boolean inputGame) {
+        this.inputGame = inputGame;
+    }
+
+    private boolean hasInputGame() {
+        return this.inputGame;
+    }
+
+    private void captureInput() {
 
         //clear anything we have added
         getInputMultiplexer().clear();
 
-        //add the stage and controller so we can check input for both
-        getInputMultiplexer().addProcessor(getStage());
-        getInputMultiplexer().addProcessor(getGame().getController());
+        //where are we checking input
+        if (hasInputGame()) {
+            getInputMultiplexer().addProcessor(getGame().getController());
+        } else {
+            getInputMultiplexer().addProcessor(getStage());
+        }
 
         //then set the multiplexer to capture both input
         Gdx.input.setInputProcessor(getInputMultiplexer());
 
         //catch the back key as well
         Gdx.input.setCatchBackKey(true);
-    }
-
-    private InputMultiplexer getInputMultiplexer() {
-        return this.inputMultiplexer;
     }
 
     protected Skin getSkin() {

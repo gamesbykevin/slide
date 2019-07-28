@@ -33,18 +33,6 @@ public class Controller implements InputProcessor {
         //our touch coordinates
         this.touchPos = new Vector3();
         this.touchPosRelease = new Vector3();
-
-        //make sure the controller has the input
-        setInput();
-    }
-
-    public void setInput() {
-
-        //we will use the game controller to capture input
-        Gdx.input.setInputProcessor(this);
-
-        //catch the back key
-        Gdx.input.setCatchBackKey(true);
     }
 
     private MyGdxGame getGame() {
@@ -59,7 +47,7 @@ public class Controller implements InputProcessor {
             return false;
 
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
-
+            //do anything here
         }
 
         return false;
@@ -171,10 +159,17 @@ public class Controller implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
         //after touching the screen the game is not paused
-        getGame().setPaused(false);
+        if (getGame().isPaused()) {
+            getGame().setPaused(false);
+            return false;
+        }
 
         //keep track of fingers on screen
         count--;
+
+        //we can't have less than 0 fingers on the screen
+        if (count < 0)
+            count = 0;
 
         if (count == 0) {
 
@@ -190,21 +185,15 @@ public class Controller implements InputProcessor {
                         getTouchPosRelease().y = screenY;
                         calculateTouchPosition(getTouchPosRelease());
 
-                        //only move the player if we touched the playable area
-                        if (getTouchPosRelease().y >= CreateScreen.LEVEL_Y && getTouchPos().y >= CreateScreen.LEVEL_Y) {
-                            managePlayerMovement(getTouchPosRelease().x, getTouchPos().y, getTouchPos().x, getTouchPosRelease().y);
-                        } else {
+                        //if we touched "go back"
+                        if (getTouchPosRelease().x >= LevelScreen.GO_BACK_X && getTouchPosRelease().x <= LevelScreen.GO_BACK_X + LevelScreen.GO_BACK_SIZE) {
+                            if (getTouchPosRelease().y >= LevelScreen.GO_BACK_Y && getTouchPosRelease().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
 
-                            //if we touched "go back"
-                            if (getTouchPosRelease().x >= LevelScreen.GO_BACK_X && getTouchPosRelease().x <= LevelScreen.GO_BACK_X + LevelScreen.GO_BACK_SIZE) {
-                                if (getTouchPosRelease().y >= LevelScreen.GO_BACK_Y && getTouchPosRelease().y <= LevelScreen.GO_BACK_Y + LevelScreen.GO_BACK_SIZE) {
+                                //also make sure button exists
+                                if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
 
-                                    //also make sure button exists
-                                    if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
-
-                                        //flag that we want to exit, which will also save the level
-                                        getGame().getScreenHelper().getCreateScreen().setExit(true);
-                                    }
+                                    //flag that we want to exit, which will also save the level
+                                    getGame().getScreenHelper().getCreateScreen().setExit(true);
                                 }
                             }
                         }
@@ -234,7 +223,13 @@ public class Controller implements InputProcessor {
 
                             //also make sure "go back" exists
                             if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
-                                getGame().getScreenHelper().getGameScreen().getLevel().setLapsedComplete(LEVEL_COMPLETE_DELAY);
+
+                                //go back to menu screen
+                                try {
+                                    getGame().getScreenHelper().changeScreen(SCREEN_MENU);
+                                } catch (ScreenException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -243,29 +238,6 @@ public class Controller implements InputProcessor {
         }
 
         return false;
-    }
-
-    private void managePlayerMovement(float screenX, float screenY, float previousScreenX, float previousScreenY) {
-
-        float xDiff = Math.abs(screenX - previousScreenX);
-        float yDiff = Math.abs(screenY - previousScreenY);
-
-        if (xDiff > yDiff) {
-
-            if (screenX > previousScreenX) {
-                moveRight();
-            } else if (screenX < previousScreenX) {
-                moveLeft();
-            }
-
-        } else if (xDiff < yDiff) {
-
-            if (screenY < previousScreenY) {
-                moveUp();
-            } else if (screenY > previousScreenY) {
-                moveDown();
-            }
-        }
     }
 
     @Override
@@ -313,6 +285,29 @@ public class Controller implements InputProcessor {
             return false;
 
         return false;
+    }
+
+    private void managePlayerMovement(float screenX, float screenY, float previousScreenX, float previousScreenY) {
+
+        float xDiff = Math.abs(screenX - previousScreenX);
+        float yDiff = Math.abs(screenY - previousScreenY);
+
+        if (xDiff > yDiff) {
+
+            if (screenX > previousScreenX) {
+                moveRight();
+            } else if (screenX < previousScreenX) {
+                moveLeft();
+            }
+
+        } else if (xDiff < yDiff) {
+
+            if (screenY < previousScreenY) {
+                moveUp();
+            } else if (screenY > previousScreenY) {
+                moveDown();
+            }
+        }
     }
 
     public Vector3 getTouchPos() {
