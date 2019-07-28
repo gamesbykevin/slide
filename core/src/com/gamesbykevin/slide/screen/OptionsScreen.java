@@ -1,17 +1,21 @@
 package com.gamesbykevin.slide.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.preferences.AppPreferences;
+import com.gamesbykevin.slide.util.Language;
 
 import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_MENU;
@@ -57,19 +61,6 @@ public class OptionsScreen extends TemplateScreen {
             }
         });
 
-        final CheckBox checkboxVibrate = new CheckBox(null, getSkin());
-        checkboxVibrate.setTransform(true);
-        checkboxVibrate.setScale(CHECKBOX_SCALE);
-        checkboxVibrate.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_VIBRATE_ENABLED) );
-        checkboxVibrate.addListener( new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                boolean enabled = checkboxVibrate.isChecked();
-                getGame().getPreferences().setPreference(AppPreferences.PREF_VIBRATE_ENABLED, enabled );
-                return false;
-            }
-        });
-
         final CheckBox checkboxScreenShake = new CheckBox(null, getSkin());
         checkboxScreenShake.setTransform(true);
         checkboxScreenShake.setScale(CHECKBOX_SCALE);
@@ -101,11 +92,9 @@ public class OptionsScreen extends TemplateScreen {
         //create the labels and size them
         Label labelMusic = new Label(getMyBundle().get("optionsScreenMusic"), getSkin());
         Label labelSound = new Label(getMyBundle().get("optionsScreenSound"), getSkin());
-        Label labelVibrate = new Label(getMyBundle().get("optionsScreenVibrate"), getSkin());
         Label labelShakeScreen = new Label(getMyBundle().get("optionsScreenShake"), getSkin());
         labelMusic.setFontScale(FONT_SCALE);
         labelSound.setFontScale(FONT_SCALE);
-        labelVibrate.setFontScale(FONT_SCALE);
         labelShakeScreen.setFontScale(FONT_SCALE);
 
         //Create Table
@@ -120,21 +109,97 @@ public class OptionsScreen extends TemplateScreen {
         addRow(table, labelSound, checkboxSound);
         addRow(table, labelShakeScreen, checkboxScreenShake);
 
+        //html and web application the user will select their language
+        switch(Gdx.app.getType()) {
+            case WebGL:
+            case Applet:
+            case Desktop:
+            case HeadlessDesktop:
+                Label labelLanguage = new Label("Language", getSkin());
+                labelLanguage.setFontScale(FONT_SCALE);
+                final Language.Languages[] languages = Language.Languages.values();
+
+                int languageIndexDefault = 0;
+
+                String[] items = new String[languages.length];
+                for (int i = 0; i < languages.length; i++) {
+                    items[i] = languages[i].getDesc();
+
+                    //default language to english
+                    if (languages[i].getLanguageCode().equalsIgnoreCase("EN"))
+                        languageIndexDefault = i;
+                }
+
+                //create our drop down
+                final SelectBox<String> dropdown = new SelectBox<>(getSkin());
+
+                //add our item selections
+                dropdown.setItems(items);
+
+                //pre select the value if it exists
+                final int languageIndex = getGame().getPreferences().getPreferenceValue(AppPreferences.PREF_LANGUAGE);
+                if (languageIndex >= 0) {
+                    dropdown.setSelectedIndex(languageIndex);
+                } else {
+                    dropdown.setSelectedIndex(languageIndexDefault);
+                }
+
+                dropdown.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+
+                        //change the language
+                        MyGdxGame.changeMyBundle(dropdown.getSelectedIndex());
+
+                        //store language in the preferences
+                        getGame().getPreferences().setPreference(AppPreferences.PREF_LANGUAGE, dropdown.getSelectedIndex());
+                    }
+                });
+
+                table.add(labelLanguage).colspan(1).top().center().pad(DEFAULT_PADDING);
+                table.add(dropdown).colspan(1).bottom().pad(DEFAULT_PADDING);
+                table.row();
+                break;
+        }
+
         //mobile phones can vibrate
         switch(Gdx.app.getType()) {
 
             case iOS:
             case Android:
+                Label labelVibrate = new Label(getMyBundle().get("optionsScreenVibrate"), getSkin());
+                labelVibrate.setFontScale(FONT_SCALE);
+
+                final CheckBox checkboxVibrate = new CheckBox(null, getSkin());
+                checkboxVibrate.setTransform(true);
+                checkboxVibrate.setScale(CHECKBOX_SCALE);
+                checkboxVibrate.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_VIBRATE_ENABLED) );
+                checkboxVibrate.addListener( new EventListener() {
+                    @Override
+                    public boolean handle(Event event) {
+                        boolean enabled = checkboxVibrate.isChecked();
+                        getGame().getPreferences().setPreference(AppPreferences.PREF_VIBRATE_ENABLED, enabled );
+                        return false;
+                    }
+                });
+
                 addRow(table, labelVibrate, checkboxVibrate);
                 break;
+        }
 
-            default:
+        //html and web application do not have a "back button"
+        switch (Gdx.app.getType()) {
+            case Desktop:
+            case Applet:
+            case WebGL:
+            case HeadlessDesktop:
                 table.row().pad(DEFAULT_PADDING);
                 table.add(buttonBack).colspan(2).width(BUTTON_WIDTH).height(BUTTON_HEIGHT);
                 break;
         }
 
         //Add table to stage
+        getStage().clear();
         getStage().addActor(table);
 
         //add our social media icons

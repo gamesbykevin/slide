@@ -14,6 +14,7 @@ public class AppPreferences {
     public static final String PREF_SCREEN_SHAKE_ENABLED = "screen.shake.enabled";
     public static final String PREF_LEVEL_COMPLETE = "level_complete_";
     public static final String PREF_LEVEL_SAVE = "level_save_";
+    public static final String PREF_LANGUAGE = "language.index";
     private static final String PREFS_NAME = "slide_game_options";
 
     //how many levels can we save in our shared preferences
@@ -73,5 +74,23 @@ public class AppPreferences {
 
         //write change to make it final
         preferences.flush();
+    }
+
+    public void setPreference(String name, int value) {
+
+        //grab single instance to update and write
+        Preferences preferences = getPrefs();
+
+        //update the setting
+        preferences.putInteger(name, value);
+
+        //write change to make it final
+        preferences.flush();
+    }
+
+    public int getPreferenceValue(String name) {
+
+        //get value from shared preferences
+        return getPrefs().getInteger(name, -1);
     }
 }

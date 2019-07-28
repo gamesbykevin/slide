@@ -9,6 +9,9 @@ import com.gamesbykevin.slide.controller.Controller;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.screen.ScreenHelper;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.util.Language;
+
+import java.util.Locale;
 
 public class MyGdxGame extends Game {
 
@@ -16,7 +19,7 @@ public class MyGdxGame extends Game {
 	private Controller controller;
 
 	//our application preferences
-	private AppPreferences preferences;
+	private static AppPreferences PREFERENCES;
 
 	//manage our screens
 	private ScreenHelper screenHelper;
@@ -56,10 +59,42 @@ public class MyGdxGame extends Game {
 
 	public static I18NBundle getMyBundle() {
 
-		if (MY_BUNDLE == null)
-			MY_BUNDLE = I18NBundle.createBundle(Gdx.files.internal("i18n/MyBundle"));
+		if (MY_BUNDLE == null) {
+
+			//do we have a language setting
+			final int index = getPreferences().getPreferenceValue(AppPreferences.PREF_LANGUAGE);
+
+			//if we selected a language set it
+			if (index >= 0) {
+				changeMyBundle(index);
+			} else {
+				MY_BUNDLE = I18NBundle.createBundle(Gdx.files.internal("i18n/MyBundle"));
+			}
+		}
 
 		return MY_BUNDLE;
+	}
+
+	public static void changeMyBundle(int index) {
+
+		//list of languages
+		Language.Languages[] languages = Language.Languages.values();
+
+		//language settings
+		final String countryCode = languages[index].getCountryCode();
+		final String languageCode = languages[index].getLanguageCode();
+
+		Locale locale;
+
+		//create the locale
+		if (countryCode != null && countryCode.length() > 0) {
+			locale = new Locale(languageCode, countryCode);
+		} else {
+			locale = new Locale(languageCode);
+		}
+
+		//create new bundle with the specified language and country code
+		MY_BUNDLE = I18NBundle.createBundle(Gdx.files.internal("i18n/MyBundle"), locale);
 	}
 
 	@Override
@@ -116,12 +151,12 @@ public class MyGdxGame extends Game {
 		return this.controller;
 	}
 
-	public AppPreferences getPreferences() {
+	public static AppPreferences getPreferences() {
 
-		if (this.preferences == null)
-			this.preferences = new AppPreferences();
+		if (PREFERENCES == null)
+			PREFERENCES = new AppPreferences();
 
-		return this.preferences;
+		return PREFERENCES;
 	}
 
 	public boolean isPaused() {

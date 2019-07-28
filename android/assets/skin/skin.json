@@ -175,7 +175,7 @@ com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
 		font: font
 		fontColor: black
-		background: select-box
+		background: select-box-over
 		scrollStyle: default
 		listStyle: default
 		backgroundOver: select-box-over
