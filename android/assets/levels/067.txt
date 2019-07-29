@@ -1,7 +1,8 @@
- HHHHHHHHH          
- HUUUUUUUH          
- HU     UH          
- HUUUMUUUH          
- HU     UH          
-  UUUUUUU           
-  H     H           
+    HHH             
+ HH  0  H           
+ H                  
+                    
+  1  M  1           
+     H              
+ H   K              
+ H  0 E H           

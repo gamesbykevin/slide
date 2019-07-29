@@ -1,11 +1,13 @@
-      HHHKH         
-     ECD  DF        
-    EC E F DF       
-   EC E   F DF      
-   C EH    F D      
-     H     H        
-   F DM    C E      
-   DF D  HC EC      
-    DF DHC EC       
-     DF   EC        
-      DF EC         
+HHH  HHH  HHH       
+H HHHH HHHH H       
+HHH  HHH  HHH       
+ H         H        
+ H  GGGGG  H        
+HHH G   G HHH       
+H H G M G H H       
+HHH G   G HHH       
+ H  GGGGG  H        
+ H         H        
+HHH  HHH  HHH       
+H HHHH HHHH H       
+HHH  HHH  HHH       

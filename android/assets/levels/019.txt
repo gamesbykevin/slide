@@ -1,25 +1,9 @@
+ HH    HH           
+ HC    DH           
                     
+HH C  D HH          
+HH  HH  HH          
+M   HHC             
+   F  E             
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-             H      
-           H        
-    H   H           
-   HK               
-    H      MH       
-               H    
-         H          
-              H     
-          H         
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+ HF  K HH           

@@ -1,25 +1,17 @@
-                    
-                    
-                    
-                    
-     H              
-       K            
-   H  HH            
-   T   M  H         
-        H           
-      T             
-    TH   H          
-  H  T              
-          H         
-   H  T             
-    H  H            
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+ H          H  
+      HH       
+               
+               
+    NPO       H
+    NPONPO     
+       NPO     
+     NPO     H 
+     NPO       
+     NPO   M   
+     NPO      H
+H        H     
+               
+      H        
+    K   H      
+     H         
+             H 

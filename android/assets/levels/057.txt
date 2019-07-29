@@ -1,13 +1,9 @@
-  EHHF              
-  H  H              
-                    
-   G                
-  G G               
- G   G              
-       M            
- G   G              
-  G G               
-   G                
-                    
- H  H               
- DHHC               
+      HHH    
+     H   H   
+           H 
+ HHHH    HG  
+M GGG  GGHG K
+ HHHH    HG  
+           H 
+     H   H   
+      HHH    

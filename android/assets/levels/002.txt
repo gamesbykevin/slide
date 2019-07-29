@@ -1,9 +1,6 @@
-     H      
-         H  
-  HH        
-H  H       K
-       MH   
-    H     H 
-      H     
- H       H  
-       H    
+         H          
+       H            
+           M H      
+          K         
+        H           
+            H       

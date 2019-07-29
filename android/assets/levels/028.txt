@@ -1,25 +1,9 @@
-                    
-                    
-                    
-                    
-          H         
-     H              
-             H      
-     HT  K          
-            H       
-       H T          
-   H  M  HNPO       
-      H             
-                    
-  H         H       
-        H           
-          HH        
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+    H K H           
+   H                
+   M    0           
+    0   1           
+    1   2           
+    2   3           
+    3    H          
+       H            
+    H               

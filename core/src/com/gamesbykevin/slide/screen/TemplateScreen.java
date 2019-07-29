@@ -164,6 +164,8 @@ public class TemplateScreen extends ParentScreen {
         if (hasInputGame()) {
             getInputMultiplexer().addProcessor(getGame().getController());
         } else {
+            //need game controller here to capture "back" action
+            getInputMultiplexer().addProcessor(getGame().getController());
             getInputMultiplexer().addProcessor(getStage());
         }
 

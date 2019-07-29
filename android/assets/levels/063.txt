@@ -1,8 +1,6 @@
- C DFD K  D         
- F        E         
- C   EF   D         
-  CEC    D          
-   C  D C E         
- F        D         
- C    EC E          
- FEF M EF E         
+ HH      G          
+ HC   GG            
+ H  M    GG         
+ H       GG         
+ HF  GG             
+ HH                 

@@ -1,6 +1,11 @@
-        H           
-      H             
-      M   0 H       
-         K          
-        0  H        
-       H            
+          HHHHH     
+         HHUUUH     
+         HUUUUH     
+       HHHUUUUH     
+      HHUUUUHHH     
+      HUUMUUH       
+    HHHUUUUHH       
+    HUUUUHHH        
+    HUUUUH          
+    HUUUHH          
+    HHHHH           

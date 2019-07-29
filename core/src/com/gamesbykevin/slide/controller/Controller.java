@@ -1,6 +1,5 @@
 package com.gamesbykevin.slide.controller;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
@@ -8,12 +7,10 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.objects.Player;
-import com.gamesbykevin.slide.screen.CreateScreen;
 import com.gamesbykevin.slide.screen.GameScreen;
 import com.gamesbykevin.slide.screen.LevelScreen;
 import com.gamesbykevin.slide.textures.Textures;
 
-import static com.gamesbykevin.slide.level.Level.LEVEL_COMPLETE_DELAY;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class Controller implements InputProcessor {
@@ -45,10 +42,6 @@ public class Controller implements InputProcessor {
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
-
-        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
-            //do anything here
-        }
 
         return false;
     }
