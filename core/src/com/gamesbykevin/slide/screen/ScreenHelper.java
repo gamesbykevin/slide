@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 
+import static com.gamesbykevin.slide.MyGdxGame.resetTextures;
+
 public class ScreenHelper {
 
     /**
@@ -168,6 +170,17 @@ public class ScreenHelper {
 
         //set the screen accordingly
         getGame().setScreen(getScreen(screenIndex));
+
+        //if we are leaving the game screen recycle the level etc...
+        switch (getScreenIndex()) {
+            case SCREEN_GAME:
+                if (getGameScreen().getLevel() != null) {
+                    getGameScreen().getLevel().dispose();
+                    getGameScreen().setLevel(null);
+                    resetTextures();
+                }
+                break;
+        }
 
         //if no exceptions are thrown let's officially change the screen index
         setScreenIndex(screenIndex);

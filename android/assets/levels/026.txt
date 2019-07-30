@@ -1,8 +1,9 @@
-      HHH           
-   HH  1  H         
+    H K H           
    H                
-                    
-    0  M  0         
+   M    0           
+    0   1           
+    1   2           
+    2   3           
+    3    H          
        H            
-   H   K            
-   H  1 E H         
+    H               

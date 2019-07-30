@@ -1,9 +1,13 @@
-        G           
-     G     G        
-       G            
-    G     G         
-        M  G        
-      G  G          
-     G      G       
-          G         
-      G             
+HHH  HHH  HHH       
+H HHHH HHHH H       
+HHH  HHH  HHH       
+ H         H        
+ H  GGGGG  H        
+HHH G   G HHH       
+H H G M G H H       
+HHH G   G HHH       
+ H  GGGGG  H        
+ H         H        
+HHH  HHH  HHH       
+H HHHH HHHH H       
+HHH  HHH  HHH       

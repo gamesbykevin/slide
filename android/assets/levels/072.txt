@@ -1,25 +1,9 @@
-                    
-                    
-                    
-                    
-                    
-                    
-          H H       
-               H    
-         H          
-                    
-    M      Q  G     
-        H  S  G     
-    H      R  G     
-       HHHQQ        
-          SS   H    
-     H HHHRR        
-             H      
-                    
-          K         
-                    
-                    
-                    
-                    
-                    
-                    
+  HHHHHHHHHH        
+  M  T   T D        
+  HH                
+  HH  NPO           
+  HC       E        
+      NPO HH        
+    K NPO HH        
+  HF    H           
+  HHHHHHHHHH        

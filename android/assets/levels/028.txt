@@ -1,9 +1,10 @@
-    H K H           
-   H                
-   M    0           
-    0   1           
-    1   2           
-    2   3           
-    3    H          
-       H            
-    H               
+                 H  
+ HHHHHF HHF H       
+ H   HHHHHHH      H 
+ H K QQQQQQQ        
+ HM  SSSSSSS    H   
+ H   RRRRRRR        
+ H   HHHHHHH     H  
+ NPOHHC HHC    H    
+                   H
+             H      

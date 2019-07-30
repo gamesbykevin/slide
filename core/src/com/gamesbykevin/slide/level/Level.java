@@ -471,6 +471,36 @@ public class Level implements ILevel {
         return this.levelObjects;
     }
 
+    public void dispose() {
+
+        if (this.levelObjects != null) {
+            for (int i = 0; i < this.levelObjects.size(); i++) {
+
+                if (this.levelObjects.get(i) != null) {
+                    this.levelObjects.get(i).dispose();
+                    this.levelObjects.set(i, null);
+                }
+            }
+            this.levelObjects.clear();
+            this.levelObjects = null;
+        }
+
+        if (this.overlay != null) {
+            this.overlay.dispose();
+            this.overlay = null;
+        }
+
+        if (this.indicator != null) {
+            this.indicator.dispose();
+            this.indicator = null;
+        }
+
+        if (this.player != null) {
+            this.player.dispose();
+            this.player = null;
+        }
+    }
+
     public void render(SpriteBatch batch) {
 
         //rotate the sprites here once

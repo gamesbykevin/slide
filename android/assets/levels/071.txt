@@ -1,25 +1,13 @@
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-    HH H    H       
-   H    H           
-                    
- M    NPOQ   H      
-   EF Q  S   HK     
-   DC S  R  H       
-      RNPO     H    
-   H       H        
-     H              
-        H           
-                    
-                    
-                    
-                    
-                    
-                    
+  HHHHHHHHHHHHH     
+  HHHHH   HHHHH     
+  HHHHHNPOHHHHH     
+  HM         DH     
+  HHHHHNPOHHH       
+  HC         EH     
+    HHHNPOHHHHH     
+  HF         DH     
+  HHHHHNPOHHH       
+  H  H              
+  H                 
+  H H KH     EH     
+  HHHHHHHHHHHHH     

@@ -65,6 +65,20 @@ public abstract class LevelObject extends Entity {
         setRotate(false);
     }
 
+    public void dispose() {
+
+        if (this.textureKey != null)
+            this.textureKey = null;
+        if (this.particleEffect != null) {
+            this.particleEffect.dispose();
+            this.particleEffect = null;
+        }
+        if (this.particleEmitter != null) {
+            this.particleEmitter = null;
+        }
+        this.type = null;
+    }
+
     public Type getType() {
         return this.type;
     }

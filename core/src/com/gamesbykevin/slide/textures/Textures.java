@@ -188,7 +188,14 @@ public class Textures {
     }
 
     public void dispose() {
-        this.sprites.clear();
-        this.sprites = null;
+        if (this.sprites != null) {
+
+            for (Key key : sprites.keySet()) {
+                this.sprites.put(key, null);
+            }
+
+            this.sprites.clear();
+            this.sprites = null;
+        }
     }
 }

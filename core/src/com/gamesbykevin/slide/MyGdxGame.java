@@ -129,9 +129,8 @@ public class MyGdxGame extends Game {
 
 		if (TEXTURES != null) {
 			TEXTURES.dispose();
+			TEXTURES = null;
 		}
-
-		TEXTURES = null;
 	}
 
 	public static Textures getTextures() {
