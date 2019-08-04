@@ -151,6 +151,7 @@ public class Overlay {
 
         //draw overlay
         if (isDisplay()) {
+
             batch.draw(getPixelMapTexture(), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             getBitmapFont().draw(batch, getGlyphLayout(), getTextX(), getTextY());
 

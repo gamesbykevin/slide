@@ -11,6 +11,7 @@ public class Dot extends LevelObject {
     //did the player exit the dot
     private boolean exit = false;
 
+    //when to determine we are in collision with this object
     private static final float COLLISION_DISTANCE = 1.0f;
 
     public Dot() {

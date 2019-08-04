@@ -49,6 +49,12 @@ public abstract class LevelScreen extends TemplateScreen {
         setScrollSpeed((int)(SCREEN_HEIGHT * .01));
     }
 
+    public void resetCameraOrigin() {
+        //position camera back to origin
+        getCamera().position.x = (SCREEN_WIDTH / 2);
+        getCamera().position.y = (SCREEN_HEIGHT / 2);
+    }
+
     public void setScrollSpeed(final int scrollSpeed) {
         this.scrollSpeed = scrollSpeed;
     }
@@ -95,6 +101,9 @@ public abstract class LevelScreen extends TemplateScreen {
             sprite.setPosition(GO_BACK_X, GO_BACK_Y);
             sprite.setSize(GO_BACK_SIZE, GO_BACK_SIZE);
         }
+
+        //make sure camera is in the correct location
+        resetCameraOrigin();
     }
 
     @Override
@@ -147,6 +156,9 @@ public abstract class LevelScreen extends TemplateScreen {
         //reset zoom
         getCamera().zoom = ZOOM_DEFAULT;
         setZoomRate(ZOOM_DEFAULT);
+
+        //position camera back to origin
+        resetCameraOrigin();
 
         //make sure we capture menu input
         captureInputMenu();

@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.screen;
 
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.level.LevelHelper;
+import com.gamesbykevin.slide.level.objects.Player;
 
 import java.io.IOException;
 
@@ -24,7 +25,11 @@ public class GameScreen extends LevelScreen {
         //flag if we are editing a level
         CreateScreen.EDITING = false;
 
+        //default zoom
         this.setZoomRate(ZOOM_DEFAULT);
+
+        //make sure camera is in the correct location
+        resetCameraOrigin();
 
         try {
 
@@ -103,6 +108,21 @@ public class GameScreen extends LevelScreen {
 
                 //zoom in on camera
                 getCamera().zoom = getZoomRate();
+
+                //we will move the camera towards the player
+                Player player = getLevel().getPlayer();
+
+                if (getCamera().position.x < player.getX()) {
+                    getCamera().position.x++;
+                } else if (getCamera().position.x > player.getX()) {
+                    getCamera().position.x--;
+                }
+
+                if (getCamera().position.y < player.getY()) {
+                    getCamera().position.y++;
+                } else if (getCamera().position.y > player.getY()) {
+                    getCamera().position.y--;
+                }
             }
 
         } else if (getGame().isPaused()) {
