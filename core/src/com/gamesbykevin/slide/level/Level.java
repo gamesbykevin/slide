@@ -69,6 +69,9 @@ public class Level implements ILevel {
     //obtain player reference for performance reasons
     private Player player;
 
+    //the goal we are trying to get to
+    private Goal goal;
+
     public Level() {
         this(SMALL_SIZE_COLS, SMALL_SIZE_ROWS);
     }
@@ -188,6 +191,24 @@ public class Level implements ILevel {
             this.player = (Player)getLevelObject(LevelObject.Type.Player);
 
         return this.player;
+    }
+
+    public Goal getGoal() {
+
+        if (this.goal == null) {
+
+            switch (getObjective()) {
+                case Goal:
+                    this.goal = (Goal) getLevelObject(LevelObject.Type.Goal);
+                    break;
+
+                case Unlock:
+                    this.goal = (Goal) getLevelObject(LevelObject.Type.LockedGoal);
+                    break;
+            }
+        }
+
+        return this.goal;
     }
 
     public static int getStartX() {

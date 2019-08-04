@@ -105,10 +105,6 @@ public class Player extends LevelObject {
         this.teleporterId = teleporterId;
     }
 
-    public String getTeleporterId() {
-        return this.teleporterId;
-    }
-
     public float getPrevCol() {
         return this.prevCol;
     }
@@ -178,16 +174,10 @@ public class Player extends LevelObject {
         //we also want the player back at the start
         setCol(getStartCol());
         setRow(getStartRow());
-
-        //we did not come from a teleporter when resetting
-        setTeleporterId(null);
     }
 
     @Override
     public void stop() {
-
-        //reset the teleporter when we stop
-        setTeleporterId(null);
 
         //stop moving
         setMoveDown(false);

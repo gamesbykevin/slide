@@ -16,6 +16,15 @@ public class Teleporter extends LevelObject {
     //the character from our level data used to create this teleporter
     private String fileCharKey;
 
+    //the teleporter we are linked with
+    private Teleporter link;
+
+    //is the player colliding with the teleporter already?
+    private boolean collision = false;
+
+    //distance to check for collision
+    private static final float COLLISION_DISTANCE = .99f;
+
     /**
      * Default constructor
      */
@@ -41,7 +50,27 @@ public class Teleporter extends LevelObject {
     }
 
     @Override
+    public void update(Level level) {
+
+        //call parent
+        super.update(level);
+
+        //if we have collision check if that changed
+        if (isCollision()) {
+
+            //if we no longer have collision the player has exited
+            if (!hasCollision(level.getPlayer(), COLLISION_DISTANCE)) {
+                setCollision(false);
+            }
+        }
+    }
+
+    @Override
     public void updateCollision(Level level) {
+
+        //don't check if we already have collision
+        if (isCollision())
+            return;
 
         Player player = level.getPlayer();
 
@@ -55,23 +84,37 @@ public class Teleporter extends LevelObject {
         if (player.getDY() < 0 && player.getRow() > getRow())
             return;
 
-        //we just came from this teleporter so we ignore
-        if (player.getTeleporterId() != null && player.getTeleporterId().equals(getId()))
-            return;
+        //flag that we have collision
+        setCollision(true);
 
         //get the teleporter that we are linked to
-        Teleporter teleporter = (Teleporter)level.getLevelObject(getLinkId());
+        if (getLink() == null) {
+            this.link = (Teleporter)level.getLevelObject(getLinkId());
+        }
 
         //teleport to the other location
-        player.setCol(teleporter.getCol());
-        player.setRow(teleporter.getRow());
-        player.setTeleporterId(teleporter.getId());
+        player.setCol(getLink().getCol());
+        player.setRow(getLink().getRow());
+        getLink().setCollision(true);
         updateCoordinates(player);
+    }
+
+    public boolean isCollision() {
+        return this.collision;
+    }
+
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
+
+    public Teleporter getLink() {
+        return this.link;
     }
 
     @Override
     public void reset(Level level) {
         //do we need to reset anything here
+        setCollision(false);
     }
 
     @Override

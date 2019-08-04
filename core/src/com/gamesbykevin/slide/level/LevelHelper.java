@@ -638,12 +638,8 @@ public class LevelHelper {
 
         switch (level.getObjective()) {
             case Goal:
-                goal = (Goal)level.getLevelObject(LevelObject.Type.Goal);
-                level.setSolved(goal.getCol() == player.getCol() && goal.getRow() == player.getRow());
-                break;
-
             case Unlock:
-                goal = (Goal)level.getLevelObject(LevelObject.Type.LockedGoal);
+                goal = level.getGoal();
                 level.setSolved(goal.getCol() == player.getCol() && goal.getRow() == player.getRow());
                 break;
 
