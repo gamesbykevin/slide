@@ -112,15 +112,15 @@ public class GameScreen extends LevelScreen {
                 //we will move the camera towards the player
                 Player player = getLevel().getPlayer();
 
-                if (getCamera().position.x < player.getX()) {
+                if (getCamera().position.x < player.getX() + (player.getW() / 2)) {
                     getCamera().position.x++;
-                } else if (getCamera().position.x > player.getX()) {
+                } else if (getCamera().position.x > player.getX() + (player.getW() / 2)) {
                     getCamera().position.x--;
                 }
 
-                if (getCamera().position.y < player.getY()) {
+                if (getCamera().position.y < player.getY() + (player.getH() / 2)) {
                     getCamera().position.y++;
-                } else if (getCamera().position.y > player.getY()) {
+                } else if (getCamera().position.y > player.getY() + (player.getH() / 2)) {
                     getCamera().position.y--;
                 }
             }

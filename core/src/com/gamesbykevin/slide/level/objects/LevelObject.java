@@ -94,16 +94,14 @@ public abstract class LevelObject extends Entity {
     public void createParticleEffect(FileHandle fileHandle1, FileHandle fileHandle2) {
 
         //particles currently break in html
-        if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
-            this.particleEffect = new ParticleEffect();
-            this.particleEffect.load(fileHandle1, fileHandle2);
+        this.particleEffect = new ParticleEffect();
+        this.particleEffect.load(fileHandle1, fileHandle2);
 
-            this.particleEmitter = getParticleEffect().getEmitters().first();
-            this.particleEmitter.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        this.particleEmitter = getParticleEffect().getEmitters().first();
+        this.particleEmitter.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-            //tell it to start at the beginning
-            getParticleEffect().start();
-        }
+        //tell it to start at the beginning
+        getParticleEffect().start();
     }
 
     public ParticleEmitter getParticleEmitter() {
