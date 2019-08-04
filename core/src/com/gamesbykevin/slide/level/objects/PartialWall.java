@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 
@@ -110,6 +111,9 @@ public class PartialWall extends LevelObject {
 
             //stop motion
             player.stop();
+
+            //play sound effect
+            GameAudio.playSfx(GameAudio.SoundEffect.Wall);
         }
     }
 

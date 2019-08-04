@@ -6,9 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
 
 import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
+import static com.gamesbykevin.slide.preferences.AppPreferences.MAX_LEVEL_SAVE;
+import static com.gamesbykevin.slide.preferences.AppPreferences.hasLevelSave;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class MenuScreen extends TemplateScreen {
@@ -51,7 +54,13 @@ public class MenuScreen extends TemplateScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
+
+                    //stop all sound
+                    GameAudio.stop();
+
+                    //now switch screens
                     getGame().getScreenHelper().changeScreen(SCREEN_SELECT_LEVEL);
+
                 } catch (ScreenException ex) {
                     ex.printStackTrace();
                 }
@@ -115,11 +124,26 @@ public class MenuScreen extends TemplateScreen {
             }
         });
 
+        boolean hasCustom = false;
+
+        //if we don't have any levels created we shouldn't be able to play them
+        for (int index = 0; index < MAX_LEVEL_SAVE; index++) {
+
+            if (hasLevelSave(index)) {
+                hasCustom = true;
+                break;
+            }
+        }
+
         //Add buttons to table
         table.add(buttonPlay).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
         table.row();
-        table.add(buttonPlayCustom).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
-        table.row();
+
+        if (hasCustom) {
+            table.add(buttonPlayCustom).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
+            table.row();
+        }
+
         table.add(buttonCreate).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
         table.row();
         table.add(buttonOptions).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).pad(BUTTON_PADDING);
@@ -138,10 +162,22 @@ public class MenuScreen extends TemplateScreen {
         }
 
         //Add table to stage
+        getStage().clear();
         getStage().addActor(table);
 
         //add our social media icons
         super.addSocialIcons();
+
+        //play music
+        GameAudio.playMusic(GameAudio.SoundMusic.Menu, true);
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+
+        //play music
+        GameAudio.playMusic(GameAudio.SoundMusic.Menu, true);
     }
 
     @Override

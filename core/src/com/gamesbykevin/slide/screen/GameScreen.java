@@ -1,6 +1,7 @@
 package com.gamesbykevin.slide.screen;
 
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.level.objects.Player;
 
@@ -76,7 +77,24 @@ public class GameScreen extends LevelScreen {
 
     @Override
     public void pause() {
+        super.pause();
         getGame().setPaused(true);
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+
+
+        if (getLevel().isSolved() && getLevel().getLapsedComplete() >= LEVEL_COMPLETE_DELAY) {
+
+            //play music
+            GameAudio.playMusic(GameAudio.SoundMusic.Victory, true);
+        } else {
+
+            //play music
+            GameAudio.playMusic(GameAudio.SoundMusic.Theme, false);
+        }
     }
 
     @Override

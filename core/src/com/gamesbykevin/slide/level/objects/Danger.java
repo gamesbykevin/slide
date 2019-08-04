@@ -3,12 +3,12 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import static com.gamesbykevin.slide.MyGdxGame.DURATION_VIBRATE;
-import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
+import static com.gamesbykevin.slide.preferences.AppPreferences.hasEnabledVibrate;
 
 public class Danger extends LevelObject {
 
@@ -44,10 +44,11 @@ public class Danger extends LevelObject {
     public void updateCollision(Level level) {
 
         //vibrate if the option is enabled
-        if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
+        if (hasEnabledVibrate())
             Gdx.input.vibrate(DURATION_VIBRATE);
 
-        //play sound effect?
+        //play sound effect
+        GameAudio.playSfx(GameAudio.SoundEffect.Danger);
 
         //shake the screen
         Rumble.reset();

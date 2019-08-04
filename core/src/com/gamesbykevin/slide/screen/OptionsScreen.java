@@ -18,6 +18,7 @@ import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.util.Language;
 
 import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
+import static com.gamesbykevin.slide.preferences.AppPreferences.*;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_MENU;
 
 public class OptionsScreen extends TemplateScreen {
@@ -38,12 +39,12 @@ public class OptionsScreen extends TemplateScreen {
         final CheckBox checkboxMusic = new CheckBox(null, getSkin());
         checkboxMusic.setTransform(true);
         checkboxMusic.setScale(CHECKBOX_SCALE);
-        checkboxMusic.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_MUSIC_ENABLED) );
+        checkboxMusic.setChecked( hasEnabledMusic());
         checkboxMusic.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = checkboxMusic.isChecked();
-                getGame().getPreferences().setPreference(AppPreferences.PREF_MUSIC_ENABLED, enabled );
+                setPreferenceMusic(enabled );
                 return false;
             }
         });
@@ -51,12 +52,12 @@ public class OptionsScreen extends TemplateScreen {
         final CheckBox checkboxSound = new CheckBox(null, getSkin());
         checkboxSound.setTransform(true);
         checkboxSound.setScale(CHECKBOX_SCALE);
-        checkboxSound.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_SOUND_ENABLED) );
+        checkboxSound.setChecked( hasEnabledSfx());
         checkboxSound.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = checkboxSound.isChecked();
-                getGame().getPreferences().setPreference(AppPreferences.PREF_SOUND_ENABLED, enabled );
+                setPreferenceSound(enabled );
                 return false;
             }
         });
@@ -64,12 +65,12 @@ public class OptionsScreen extends TemplateScreen {
         final CheckBox checkboxScreenShake = new CheckBox(null, getSkin());
         checkboxScreenShake.setTransform(true);
         checkboxScreenShake.setScale(CHECKBOX_SCALE);
-        checkboxScreenShake.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_SCREEN_SHAKE_ENABLED) );
+        checkboxScreenShake.setChecked( hasEnabledScreenShake());
         checkboxScreenShake.addListener( new EventListener() {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = checkboxScreenShake.isChecked();
-                getGame().getPreferences().setPreference(AppPreferences.PREF_SCREEN_SHAKE_ENABLED, enabled );
+                setPreferenceScreenShake(enabled );
                 return false;
             }
         });
@@ -137,7 +138,7 @@ public class OptionsScreen extends TemplateScreen {
                 dropdown.setItems(items);
 
                 //pre select the value if it exists
-                final int languageIndex = getGame().getPreferences().getPreferenceValue(AppPreferences.PREF_LANGUAGE);
+                final int languageIndex = getPreferenceValue(AppPreferences.PREF_LANGUAGE);
                 if (languageIndex >= 0) {
                     dropdown.setSelectedIndex(languageIndex);
                 } else {
@@ -152,7 +153,7 @@ public class OptionsScreen extends TemplateScreen {
                         MyGdxGame.changeMyBundle(dropdown.getSelectedIndex());
 
                         //store language in the preferences
-                        getGame().getPreferences().setPreference(AppPreferences.PREF_LANGUAGE, dropdown.getSelectedIndex());
+                        setPreference(AppPreferences.PREF_LANGUAGE, dropdown.getSelectedIndex());
                     }
                 });
 
@@ -173,12 +174,12 @@ public class OptionsScreen extends TemplateScreen {
                 final CheckBox checkboxVibrate = new CheckBox(null, getSkin());
                 checkboxVibrate.setTransform(true);
                 checkboxVibrate.setScale(CHECKBOX_SCALE);
-                checkboxVibrate.setChecked( getGame().getPreferences().isEnabled(AppPreferences.PREF_VIBRATE_ENABLED) );
+                checkboxVibrate.setChecked( hasEnabledVibrate());
                 checkboxVibrate.addListener( new EventListener() {
                     @Override
                     public boolean handle(Event event) {
                         boolean enabled = checkboxVibrate.isChecked();
-                        getGame().getPreferences().setPreference(AppPreferences.PREF_VIBRATE_ENABLED, enabled );
+                        setPreferenceVibrate(enabled );
                         return false;
                     }
                 });

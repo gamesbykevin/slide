@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import static com.gamesbykevin.slide.level.objects.PartialWall.CLOSE_VELOCITY;
 
@@ -76,7 +77,8 @@ public class WallConnector extends LevelObject {
             //hide it now
             setHide(true);
 
-            //play sound effect?
+            //play sound effect
+            GameAudio.playSfx(GameAudio.SoundEffect.Connect);
         }
     }
 

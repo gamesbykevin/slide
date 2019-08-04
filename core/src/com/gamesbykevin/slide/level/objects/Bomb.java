@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import static com.gamesbykevin.slide.MyGdxGame.*;
 
@@ -48,7 +49,7 @@ public class Bomb extends LevelObject {
         boolean previousExpired = hasTimeExpired();
 
         //update timer
-        setTime(getTime() - (TIME_DURATION * 1));
+        setTime(getTime() - (TIME_DURATION * 1.75f));
 
         //if time just expired, detonate the bomb
         if (hasTimeExpired() && !previousExpired)
@@ -65,6 +66,9 @@ public class Bomb extends LevelObject {
 
         //time has expired
         setTime(TIME_EXPIRED);
+
+        //play sound effect
+        GameAudio.playSfx(GameAudio.SoundEffect.Explosion);
 
         //make sure the particles are in the correct position etc...
         if (getParticleEffect() != null)
@@ -108,6 +112,9 @@ public class Bomb extends LevelObject {
 
             //start the countdown
             setCountdown(true);
+
+            //play sound effect
+            GameAudio.playSfx(GameAudio.SoundEffect.Activate);
         }
     }
 

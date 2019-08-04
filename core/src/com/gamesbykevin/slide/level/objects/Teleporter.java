@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import static com.gamesbykevin.slide.level.Level.updateCoordinates;
 
@@ -97,6 +98,9 @@ public class Teleporter extends LevelObject {
         player.setRow(getLink().getRow());
         getLink().setCollision(true);
         updateCoordinates(player);
+
+        //play sound effect
+        GameAudio.playSfx(GameAudio.SoundEffect.Teleport);
     }
 
     public boolean isCollision() {

@@ -1,6 +1,7 @@
 package com.gamesbykevin.slide.screen;
 
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.LevelHelper;
@@ -233,6 +234,14 @@ public class CreateScreen extends LevelScreen {
 
         //reset to be safe
         reset();
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+
+        //play music
+        GameAudio.playMusic(GameAudio.SoundMusic.Editing, true);
     }
 
     public String getSelectedId() {

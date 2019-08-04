@@ -1,7 +1,7 @@
 package com.gamesbykevin.slide.level.objects;
 
 import com.gamesbykevin.slide.level.Level;
-import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 public class Redirect extends LevelObject {
 
@@ -29,6 +29,9 @@ public class Redirect extends LevelObject {
 
         Player player = level.getPlayer();
 
+        boolean redirect = false;
+        boolean wall = false;
+
         switch (getRedirectType()) {
 
             case NE:
@@ -36,16 +39,20 @@ public class Redirect extends LevelObject {
                     player.setCol(getCol());
                     player.stopVelocity();
                     player.setMoveDown(true);
+                    redirect = true;
                 } else if (player.getDX() < 0 && player.getCol() > getCol()) {
                     player.setCol(getCol() + 1);
                     player.stop();
+                    wall = true;
                 } else if (player.getDY() > 0 && player.getRow() >= getRow()) {
                     player.setRow(getRow());
                     player.stopVelocity();
                     player.setMoveLeft(true);
+                    redirect = true;
                 } else if (player.getDY() < 0 && player.getRow() > getRow()) {
                     player.setRow(getRow() + 1);
                     player.stop();
+                    wall = true;
                 }
                 break;
 
@@ -53,17 +60,21 @@ public class Redirect extends LevelObject {
                 if (player.getDX() > 0 && player.getCol() < getCol()) {
                     player.setCol(getCol() - 1);
                     player.stop();
+                    wall = true;
                 } else if (player.getDX() < 0 && player.getCol() <= getCol()) {
                     player.setCol(getCol());
                     player.stopVelocity();
                     player.setMoveDown(true);
+                    redirect = true;
                 } else if (player.getDY() > 0 && player.getRow() >= getRow()) {
                     player.setRow(getRow());
                     player.stopVelocity();
                     player.setMoveRight(true);
+                    redirect = true;
                 } else if (player.getDY() < 0 && player.getRow() > getRow()) {
                     player.setRow(getRow() + 1);
                     player.stop();
+                    wall = true;
                 }
                 break;
 
@@ -72,16 +83,20 @@ public class Redirect extends LevelObject {
                     player.setCol(getCol());
                     player.stopVelocity();
                     player.setMoveUp(true);
+                    redirect = true;
                 } else if (player.getDX() < 0 && player.getCol() > getCol()) {
                     player.setCol(getCol() + 1);
                     player.stop();
+                    wall = true;
                 } else if (player.getDY() > 0 && player.getRow() < getRow()) {
                     player.setRow(getRow() - 1);
                     player.stop();
+                    wall = true;
                 } else if (player.getDY() < 0 && player.getRow() <= getRow()) {
                     player.setRow(getRow());
                     player.stopVelocity();
                     player.setMoveLeft(true);
+                    redirect = true;
                 }
                 break;
 
@@ -89,19 +104,29 @@ public class Redirect extends LevelObject {
                 if (player.getDX() > 0 && player.getCol() < getCol()) {
                     player.setCol(getCol() - 1);
                     player.stop();
+                    wall = true;
                 } else if (player.getDX() < 0 && player.getCol() <= getCol()) {
                     player.setCol(getCol());
                     player.stopVelocity();
                     player.setMoveUp(true);
+                    redirect = true;
                 } else if (player.getDY() > 0 && player.getRow() < getRow()) {
                     player.setRow(getRow() - 1);
                     player.stop();
+                    wall = true;
                 } else if (player.getDY() < 0 && player.getRow() <= getRow()) {
                     player.setRow(getRow());
                     player.stopVelocity();
                     player.setMoveRight(true);
+                    redirect = true;
                 }
                 break;
+        }
+
+        if (redirect) {
+            GameAudio.playSfx(GameAudio.SoundEffect.Redirect);
+        } else if (wall) {
+            GameAudio.playSfx(GameAudio.SoundEffect.Wall);
         }
     }
 

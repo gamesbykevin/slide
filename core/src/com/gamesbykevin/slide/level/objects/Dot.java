@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 public class Dot extends LevelObject {
 
@@ -34,6 +35,9 @@ public class Dot extends LevelObject {
 
                 //expand to wall
                 setTextureKey(Textures.Key.Wall);
+
+                //play sound effect
+                GameAudio.playSfx(GameAudio.SoundEffect.Grow);
             }
         }
     }
@@ -58,6 +62,9 @@ public class Dot extends LevelObject {
 
             //stop motion
             player.stop();
+
+            //play sound effect
+            GameAudio.playSfx(GameAudio.SoundEffect.Wall);
             
         } else {
 

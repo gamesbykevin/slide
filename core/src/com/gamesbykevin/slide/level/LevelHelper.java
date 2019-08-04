@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -636,6 +637,8 @@ public class LevelHelper {
         Goal goal;
         Player player = level.getPlayer();
 
+        boolean solved = level.isSolved();
+
         switch (level.getObjective()) {
             case Goal:
             case Unlock:
@@ -650,6 +653,12 @@ public class LevelHelper {
             case Bomb:
                 level.setSolved(level.getCountBomb() >= level.getTotalBomb());
                 break;
+        }
+
+        //play music
+        if (!solved && level.isSolved()) {
+            GameAudio.stop();
+            GameAudio.playMusic(GameAudio.SoundMusic.Victory, true);
         }
     }
 }

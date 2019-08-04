@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.screen;
 
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import java.util.Date;
 
@@ -20,6 +21,9 @@ public class SplashScreen extends ParentScreen {
 
         //get the current time
         this.time = new Date();
+
+        //load our music/sfx
+        GameAudio.load();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 
@@ -22,7 +23,7 @@ public class LevelSelectScreen extends CustomSelectScreen {
     private static final int PADDING = 10;
 
     public LevelSelectScreen(MyGdxGame game) {
-        super(game);
+        super(game, false);
         super.setButtonSize(BUTTON_SIZE);
         super.setColumns(COLUMNS);
         super.setPadding(PADDING);
@@ -34,6 +35,17 @@ public class LevelSelectScreen extends CustomSelectScreen {
         super.show();
         getScroll().layout();
         getScroll().setScrollY(getScrollY());
+
+        //play music
+        GameAudio.playMusic(GameAudio.SoundMusic.Theme, false);
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+
+        //play music
+        GameAudio.playMusic(GameAudio.SoundMusic.Theme, false);
     }
 
     @Override

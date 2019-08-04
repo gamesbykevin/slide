@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.graphics.Overlay;
 import com.gamesbykevin.slide.level.objects.*;
 import com.gamesbykevin.slide.level.objects.LevelObject;
-import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.rumble.Rumble;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 import java.util.ArrayList;
 
@@ -14,8 +14,7 @@ import static com.gamesbykevin.slide.MyGdxGame.*;
 import static com.gamesbykevin.slide.graphics.Overlay.OVERLAY_DURATION_GAMEPLAY;
 import static com.gamesbykevin.slide.level.LevelHelper.*;
 import static com.gamesbykevin.slide.level.objects.LevelObject.DEFAULT_DIMENSION;
-import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_VIBRATE_ENABLED;
-import static com.gamesbykevin.slide.preferences.AppPreferences.setLevelCompleted;
+import static com.gamesbykevin.slide.preferences.AppPreferences.*;
 import static com.gamesbykevin.slide.screen.CreateScreen.EDITING;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_HEIGHT;
 import static com.gamesbykevin.slide.screen.ParentScreen.SCREEN_WIDTH;
@@ -49,7 +48,7 @@ public class Level implements ILevel {
     private float lapsedComplete = 0;
 
     //how long to wait when we complete the level (in milliseconds)
-    public static final float LEVEL_COMPLETE_DELAY = 2500;
+    public static final float LEVEL_COMPLETE_DELAY = 3500;
 
     //show user where they need to go
     private LevelObject indicator;
@@ -276,8 +275,11 @@ public class Level implements ILevel {
             Rumble.reset();
             reset();
 
+            //play sound effect
+            GameAudio.playSfx(GameAudio.SoundEffect.Explosion);
+
             //vibrate if the option is enabled
-            if (AppPreferences.isEnabled(PREF_VIBRATE_ENABLED))
+            if (hasEnabledVibrate())
                 Gdx.input.vibrate(DURATION_VIBRATE);
         }
 

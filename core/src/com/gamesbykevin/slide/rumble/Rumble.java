@@ -2,11 +2,10 @@ package com.gamesbykevin.slide.rumble;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
-import com.gamesbykevin.slide.preferences.AppPreferences;
 
 import java.util.Random;
 
-import static com.gamesbykevin.slide.preferences.AppPreferences.PREF_SCREEN_SHAKE_ENABLED;
+import static com.gamesbykevin.slide.preferences.AppPreferences.hasEnabledScreenShake;
 
 public class Rumble {
 
@@ -35,7 +34,7 @@ public class Rumble {
     public static void tick(Camera camera, Vector3 positionReset, float delta) {
 
         //only shake the screen if setting enabled
-        if (!AppPreferences.isEnabled(PREF_SCREEN_SHAKE_ENABLED)) {
+        if (!hasEnabledScreenShake()) {
             LAPSED = DURATION;
             return;
         }

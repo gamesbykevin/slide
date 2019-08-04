@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.MyGdxGame;
 
+import static com.gamesbykevin.slide.preferences.AppPreferences.hasLevelSave;
+
 public abstract class CustomSelectScreen extends TemplateScreen {
 
     //our container table
@@ -26,15 +28,26 @@ public abstract class CustomSelectScreen extends TemplateScreen {
     //remember our scroll position
     private float scrollY = 0;
 
-    public CustomSelectScreen(MyGdxGame game) {
+    //is this the custom select screen
+    private final boolean custom;
+
+    public CustomSelectScreen(MyGdxGame game, boolean custom) {
         super(game);
+
+        //store custom reference
+        this.custom = custom;
 
         //our container table
         this.container = new Table();
         getContainer().setFillParent(true);
 
         //add the container to our stage
+        getStage().clear();
         getStage().addActor(container);
+    }
+
+    public boolean isCustom() {
+        return this.custom;
     }
 
     public float getScrollY() {
@@ -107,10 +120,26 @@ public abstract class CustomSelectScreen extends TemplateScreen {
             //create a new row
             table.row();
 
-            for (int col = 0; col < getColumns(); col++) {
+            int column = 0;
+
+            while (column < getColumns()) {
+
+                //if we reached our limit, let's stop
+                if (count >= getTotal())
+                    break;
 
                 //need final value to apply to listener
                 final int index = count;
+
+                //if this is a custom created select screen
+                if (isCustom()) {
+
+                    //if we don't have the level, skip to the next one
+                    if (!hasLevelSave(count)) {
+                        count++;
+                        continue;
+                    }
+                }
 
                 //each button will have the # as the label
                 TextButton button = new TextButton(getButtonText(index), getSkin());
@@ -135,9 +164,8 @@ public abstract class CustomSelectScreen extends TemplateScreen {
                 //keep track what's added
                 count++;
 
-                //if we reached our limit, let's stop
-                if (count >= getTotal())
-                    break;
+                //increase the column as well
+                column++;
             }
 
             //if we reached our limit, let's stop

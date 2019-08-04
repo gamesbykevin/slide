@@ -1,6 +1,7 @@
 package com.gamesbykevin.slide.level.objects;
 
 import com.gamesbykevin.slide.level.Level;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 public class Wall extends LevelObject {
 
@@ -25,6 +26,9 @@ public class Wall extends LevelObject {
 
         //stop motion
         player.stop();
+
+        //play collision sound effect
+        GameAudio.playSfx(GameAudio.SoundEffect.Wall);
     }
 
     @Override

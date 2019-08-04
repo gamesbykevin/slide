@@ -2,6 +2,7 @@ package com.gamesbykevin.slide.level.objects;
 
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 public class Key extends LevelObject {
 
@@ -57,7 +58,8 @@ public class Key extends LevelObject {
             levelObject.setTextureKey(Textures.Key.Goal);
             levelObject.setLocked(false);
 
-            //play sound effect here?
+            //play sound effect here
+            GameAudio.playSfx(GameAudio.SoundEffect.Key);
         }
 
     }

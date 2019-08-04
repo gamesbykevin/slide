@@ -20,16 +20,52 @@ public class AppPreferences {
     //how many levels can we save in our shared preferences
     public static final int MAX_LEVEL_SAVE = 20;
 
+    private static Boolean ENABLED_MUSIC;
+    private static Boolean ENABLED_SOUND;
+    private static Boolean ENABLED_VIBRATE;
+    private static Boolean ENABLED_SHAKE;
+
     private static Preferences getPrefs() {
         return Gdx.app.getPreferences(PREFS_NAME);
     }
 
-    public static boolean isEnabled(String name) {
+    private static boolean isEnabled(String name) {
         return getPrefs().getBoolean(name, true);
     }
 
     public static boolean hasLevelCompleted(int index) {
         return getPrefs().getBoolean(PREF_LEVEL_COMPLETE + index, false);
+    }
+
+    public static boolean hasEnabledScreenShake() {
+
+        if (ENABLED_SHAKE == null)
+            ENABLED_SHAKE = isEnabled(PREF_SCREEN_SHAKE_ENABLED);
+
+        return ENABLED_SHAKE;
+    }
+
+    public static boolean hasEnabledVibrate() {
+
+        if (ENABLED_VIBRATE == null)
+            ENABLED_VIBRATE = isEnabled(PREF_VIBRATE_ENABLED);
+
+        return ENABLED_VIBRATE;
+    }
+
+    public static boolean hasEnabledSfx() {
+
+        if (ENABLED_SOUND == null)
+            ENABLED_SOUND = isEnabled(PREF_SOUND_ENABLED);
+
+        return ENABLED_SOUND;
+    }
+
+    public static boolean hasEnabledMusic() {
+        if (ENABLED_MUSIC == null)
+            ENABLED_MUSIC = isEnabled(PREF_MUSIC_ENABLED);
+
+        return ENABLED_MUSIC;
     }
 
     public static void setLevelCompleted(int index, boolean value) {
@@ -45,7 +81,12 @@ public class AppPreferences {
     }
 
     public static boolean hasLevelSave(int index) {
-        return (getLevelSave(index) != null && getLevelSave(index).length() > 5);
+
+        //get the saved level data
+        String data = getLevelSave(index);
+
+        //if we have data, then we have a saved level
+        return (data != null && data.length() > 5);
     }
 
     public static String getLevelSave(int index) {
@@ -64,7 +105,27 @@ public class AppPreferences {
         preferences.flush();
     }
 
-    public void setPreference(String name, boolean value) {
+    public static void setPreferenceMusic(boolean value) {
+        ENABLED_MUSIC = value;
+        setPreference(PREF_MUSIC_ENABLED, value);
+    }
+
+    public static void setPreferenceSound(boolean value) {
+        ENABLED_SOUND = value;
+        setPreference(PREF_SOUND_ENABLED, value);
+    }
+
+    public static void setPreferenceVibrate(boolean value) {
+        ENABLED_VIBRATE = value;
+        setPreference(PREF_VIBRATE_ENABLED, value);
+    }
+
+    public static void setPreferenceScreenShake(boolean value) {
+        ENABLED_SHAKE = value;
+        setPreference(PREF_SCREEN_SHAKE_ENABLED, value);
+    }
+
+    private static void setPreference(String name, boolean value) {
 
         //grab single instance to update and write
         Preferences preferences = getPrefs();
@@ -76,7 +137,7 @@ public class AppPreferences {
         preferences.flush();
     }
 
-    public void setPreference(String name, int value) {
+    public static void setPreference(String name, int value) {
 
         //grab single instance to update and write
         Preferences preferences = getPrefs();
@@ -88,7 +149,7 @@ public class AppPreferences {
         preferences.flush();
     }
 
-    public int getPreferenceValue(String name) {
+    public static int getPreferenceValue(String name) {
 
         //get value from shared preferences
         return getPrefs().getInteger(name, -1);

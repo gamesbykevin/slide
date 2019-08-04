@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.level.objects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.textures.Textures;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 public class Gem extends LevelObject {
 
@@ -25,8 +26,12 @@ public class Gem extends LevelObject {
     public void updateCollision(Level level) {
 
         //if we are displaying, count that we collected it
-        if (isDisplay())
+        if (isDisplay()) {
             level.setCountGem(level.getCountGem() + 1);
+
+            //play sound effect
+            GameAudio.playSfx(GameAudio.SoundEffect.Gem);
+        }
 
         setDisplay(false);
     }

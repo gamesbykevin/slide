@@ -13,13 +13,12 @@ import com.gamesbykevin.slide.util.Language;
 
 import java.util.Locale;
 
+import static com.gamesbykevin.slide.preferences.AppPreferences.getPreferenceValue;
+
 public class MyGdxGame extends Game {
 
 	//our game input controller
 	private Controller controller;
-
-	//our application preferences
-	private static AppPreferences PREFERENCES;
 
 	//manage our screens
 	private ScreenHelper screenHelper;
@@ -62,7 +61,7 @@ public class MyGdxGame extends Game {
 		if (MY_BUNDLE == null) {
 
 			//do we have a language setting
-			final int index = getPreferences().getPreferenceValue(AppPreferences.PREF_LANGUAGE);
+			final int index = getPreferenceValue(AppPreferences.PREF_LANGUAGE);
 
 			//if we selected a language set it
 			if (index >= 0) {
@@ -148,14 +147,6 @@ public class MyGdxGame extends Game {
 
 	public Controller getController() {
 		return this.controller;
-	}
-
-	public static AppPreferences getPreferences() {
-
-		if (PREFERENCES == null)
-			PREFERENCES = new AppPreferences();
-
-		return PREFERENCES;
 	}
 
 	public boolean isPaused() {

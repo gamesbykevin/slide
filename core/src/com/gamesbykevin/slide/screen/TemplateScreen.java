@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
 
 public class TemplateScreen extends ParentScreen {
@@ -112,6 +113,9 @@ public class TemplateScreen extends ParentScreen {
 
         //flag false
         this.prompt = false;
+
+        //stop all audio when paused
+        GameAudio.stop();
     }
 
     @Override
