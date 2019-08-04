@@ -1,9 +1,9 @@
 package com.gamesbykevin.slide.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 
+import static com.gamesbykevin.slide.MyGdxGame.exit;
 import static com.gamesbykevin.slide.MyGdxGame.resetTextures;
 
 public class ScreenHelper {
@@ -45,7 +45,7 @@ public class ScreenHelper {
             this.changeScreen(SCREEN_SPLASH);
         } catch (ScreenException exception) {
             exception.printStackTrace();
-            Gdx.app.exit();
+            exit();
         }
     }
 

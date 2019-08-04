@@ -13,6 +13,7 @@ import com.gamesbykevin.slide.util.Language;
 
 import java.util.Locale;
 
+import static com.gamesbykevin.slide.audio.GameAudio.recycle;
 import static com.gamesbykevin.slide.preferences.AppPreferences.getPreferenceValue;
 
 public class MyGdxGame extends Game {
@@ -55,6 +56,18 @@ public class MyGdxGame extends Game {
 
 	//object used for localization
 	private static I18NBundle MY_BUNDLE;
+
+	public static void exit() {
+
+		//recycle audio
+		recycle();
+
+		//recycle textures
+		resetTextures();
+
+		//exit app
+		Gdx.app.exit();
+	}
 
 	public static I18NBundle getMyBundle() {
 

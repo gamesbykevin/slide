@@ -20,13 +20,19 @@ public class MenuScreen extends TemplateScreen {
     public static final String URL_RATE = "https://play.google.com/store/apps/details?id=com.gamesbykevin.blocks";
 
     public MenuScreen(MyGdxGame game) {
+
+        //call parent
         super(game);
     }
 
     @Override
     public void show() {
 
+        //call parent
         super.show();
+
+        //free our resources
+        MyGdxGame.resetTextures();
 
         //capture the menu input
         captureInputMenu();
@@ -120,7 +126,7 @@ public class MenuScreen extends TemplateScreen {
             public void clicked(InputEvent event, float x, float y) {
 
                 //exit the game
-                Gdx.app.exit();
+                MyGdxGame.exit();
             }
         });
 
@@ -192,6 +198,7 @@ public class MenuScreen extends TemplateScreen {
         //draw background with the stage
         getStage().getBatch().begin();
         super.drawBackground(getStage().getBatch());
+        drawLogo(getStage().getBatch());
         getStage().getBatch().end();
 
         //draw the remaining of the stage

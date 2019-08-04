@@ -93,7 +93,7 @@ public class GameAudio {
         }
     }
 
-    public static void recylce() {
+    public static void recycle() {
         recycleMusic();
         recycleSfx();
     }

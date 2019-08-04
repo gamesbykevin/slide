@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,7 +20,9 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
 
-public class TemplateScreen extends ParentScreen {
+import static com.gamesbykevin.slide.MyGdxGame.exit;
+
+public abstract class TemplateScreen extends ParentScreen {
 
     //links to social media
     public static final String URL_YOUTUBE = "https://youtube.com/gamesbykevin";
@@ -63,6 +66,10 @@ public class TemplateScreen extends ParentScreen {
     //remember where input is
     private boolean inputGame;
 
+    private Texture logo;
+
+    private final float logoX, logoY;
+
     public TemplateScreen(MyGdxGame game) {
         super(game);
 
@@ -91,7 +98,7 @@ public class TemplateScreen extends ParentScreen {
                             if (prompt) {
 
                                 //if user was already prompted, close app
-                                Gdx.app.exit();
+                                exit();
 
                             } else {
                                 //TemplateScreen.super.createToastShort("Hit back again to exit!");
@@ -105,6 +112,15 @@ public class TemplateScreen extends ParentScreen {
                 return super.keyDown(keyCode);
             }
         };
+
+        //create our background
+        this.logo = new Texture(Gdx.files.internal("logo.png"));
+        this.logoX = (SCREEN_WIDTH / 2) - (getLogo().getWidth() / 2);
+        this.logoY = SCREEN_HEIGHT - getLogo().getHeight() - 20;
+    }
+
+    public Texture getLogo() {
+        return this.logo;
     }
 
     @Override
@@ -135,6 +151,10 @@ public class TemplateScreen extends ParentScreen {
 
         //make sure we are capturing input
         captureInput();
+    }
+
+    public void drawLogo(Batch batch) {
+        batch.draw(getLogo(), this.logoX, this.logoY);
     }
 
     private InputMultiplexer getInputMultiplexer() {

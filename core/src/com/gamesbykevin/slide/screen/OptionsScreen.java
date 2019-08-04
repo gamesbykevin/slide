@@ -221,6 +221,7 @@ public class OptionsScreen extends TemplateScreen {
         //draw background with the stage
         getStage().getBatch().begin();
         getStage().getBatch().draw(getBackgroundImage(), getBackgroundRect().x, getBackgroundRect().y, getBackgroundRect().width, getBackgroundRect().height);
+        drawLogo(getStage().getBatch());
         getStage().getBatch().end();
 
         getStage().draw();

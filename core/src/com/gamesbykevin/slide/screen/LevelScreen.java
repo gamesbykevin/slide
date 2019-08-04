@@ -166,6 +166,11 @@ public abstract class LevelScreen extends TemplateScreen {
         //draw an overlay
         getOverlay().draw(getBatch());
 
+        //draw logo on screen
+        getStage().getBatch().begin();
+        drawLogo(getStage().getBatch());
+        getStage().getBatch().end();
+
         //act the stage
         getStage().act();
 
