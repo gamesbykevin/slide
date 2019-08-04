@@ -1,25 +1,20 @@
-                    
-                    
-                    
-                    
-     H              
-       K            
-   H  HH            
-   T   M  H         
-        H           
-      T             
-    TH   H          
-  H  T              
-          H         
-   H  T             
-    H  H            
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+HHHHHHHHHHHHHHHHHHHH
+H  HHHHHHHHHHHHHH  H
+H  TTTTTTTTTTTTTM  H
+HHTCTTTTTTTTTTTDTTHH
+HHTTCTTTTTTTTTDTTTHH
+HHTTTCTTTTTTTDTTTTHH
+HHTTTTCTTTTTDTTTTTHH
+HHTTTTTCTTTDTTTTTTHH
+HHTTTTTTC DTTTTTTTHH
+HHTTTTTTTKTTTTTTTTHH
+HHTTTTTTTFETTTTTTTHH
+HHTTTTTTFTTETTTTTTHH
+HHTTTTTFTTTTETTTTTHH
+HHTTTTFTTTTTTETTTTHH
+HHTTTFTTTTTTTTETTTHH
+HHTTFTTTTTTTTTTETTHH
+HHTFTTTTTTTTTTTTETHH
+H  TTTTTTTTTTTTTT  H
+H  HHHHHHHHHHHHHH  H
+HHHHHHHHHHHHHHHHHHHH

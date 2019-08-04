@@ -1,6 +1,25 @@
-        H           
-      H             
-      M   0 H       
-         K          
-        0  H        
-       H            
+                    
+                    
+                    
+                    
+                    
+ HHHHHHH            
+ HHH   H            
+ H     H            
+ H               H  
+ HH    H      K     
+ HHH  HH    EHHHHHF 
+           EHHH   HF
+ HH       EHM H    H
+ H  0   HHH    0   H
+        H H   H    H
+ H      H DHHHH   HH
+ HH    HH     DHHHHC
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
