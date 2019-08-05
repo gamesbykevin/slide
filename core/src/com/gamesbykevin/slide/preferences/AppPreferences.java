@@ -2,18 +2,19 @@ package com.gamesbykevin.slide.preferences;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.gamesbykevin.slide.audio.GameAudio;
 
 /**
  * Use the application preferences to store the app settings
  */
 public class AppPreferences {
 
-    public static final String PREF_MUSIC_ENABLED = "music.enabled";
-    public static final String PREF_SOUND_ENABLED = "sound.enabled";
-    public static final String PREF_VIBRATE_ENABLED = "vibrate.enabled";
-    public static final String PREF_SCREEN_SHAKE_ENABLED = "screen.shake.enabled";
-    public static final String PREF_LEVEL_COMPLETE = "level_complete_";
-    public static final String PREF_LEVEL_SAVE = "level_save_";
+    private static final String PREF_MUSIC_ENABLED = "music.enabled";
+    private static final String PREF_SOUND_ENABLED = "sound.enabled";
+    private static final String PREF_VIBRATE_ENABLED = "vibrate.enabled";
+    private static final String PREF_SCREEN_SHAKE_ENABLED = "screen.shake.enabled";
+    private static final String PREF_LEVEL_COMPLETE = "level_complete_";
+    private static final String PREF_LEVEL_SAVE = "level_save_";
     public static final String PREF_LANGUAGE = "language.index";
     private static final String PREFS_NAME = "slide_game_options";
 
@@ -106,11 +107,21 @@ public class AppPreferences {
     }
 
     public static void setPreferenceMusic(boolean value) {
+
+        //if not enabled stop
+        if (!value)
+            GameAudio.stopMusic();
+
         ENABLED_MUSIC = value;
         setPreference(PREF_MUSIC_ENABLED, value);
     }
 
     public static void setPreferenceSound(boolean value) {
+
+        //if not enabled stop
+        if (!value)
+            GameAudio.stopSfx();
+
         ENABLED_SOUND = value;
         setPreference(PREF_SOUND_ENABLED, value);
     }
