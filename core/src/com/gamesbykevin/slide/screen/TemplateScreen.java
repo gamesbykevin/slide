@@ -119,6 +119,14 @@ public abstract class TemplateScreen extends ParentScreen {
         this.logoY = SCREEN_HEIGHT - getLogo().getHeight() - 20;
     }
 
+    public float getLogoX() {
+        return this.logoX;
+    }
+
+    public float getLogoY() {
+        return this.logoY;
+    }
+
     public Texture getLogo() {
         return this.logo;
     }
@@ -154,7 +162,7 @@ public abstract class TemplateScreen extends ParentScreen {
     }
 
     public void drawLogo(Batch batch) {
-        batch.draw(getLogo(), this.logoX, this.logoY);
+        batch.draw(getLogo(), getLogoX(), getLogoY());
     }
 
     private InputMultiplexer getInputMultiplexer() {

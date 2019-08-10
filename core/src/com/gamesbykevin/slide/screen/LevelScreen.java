@@ -6,7 +6,7 @@ import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
 
-import static com.gamesbykevin.slide.MyGdxGame.getTextures;
+import static com.gamesbykevin.slide.MyGdxGame.*;
 
 public abstract class LevelScreen extends TemplateScreen {
 
@@ -176,7 +176,14 @@ public abstract class LevelScreen extends TemplateScreen {
 
         //draw logo on screen
         getStage().getBatch().begin();
+
+        //draw logo on screen
         drawLogo(getStage().getBatch());
+
+        //draw game time as well
+        getFont().draw(getStage().getBatch(), "Time: " + getLevel().getDurationDesc(), 10, getLogoY() - getFont().getCapHeight());
+
+        //tell it we are done
         getStage().getBatch().end();
 
         //act the stage

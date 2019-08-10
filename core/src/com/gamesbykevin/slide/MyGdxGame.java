@@ -30,8 +30,9 @@ public class MyGdxGame extends Game {
 	//our bitmap font to render text in our game
 	private static BitmapFont FONT;
 
-	//what is the width of the text
+	//what is the size of the text
 	public static float TEXT_WIDTH;
+	public static float TEXT_HEIGHT;
 
 	//is the game paused?
 	private boolean paused = false;
@@ -130,7 +131,7 @@ public class MyGdxGame extends Game {
 
 			//update the text width
 			TEXT_WIDTH = layout.width;
-
+			TEXT_HEIGHT = layout.height;
 			layout = null;
 		}
 

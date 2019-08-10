@@ -74,6 +74,12 @@ public class Level implements ILevel {
     //the goal we are trying to get to
     private Goal goal;
 
+    //how long have we been playing the level
+    private float duration;
+
+    //how do we display the duration
+    private String durationDesc = null;
+
     public Level() {
         this(SMALL_SIZE_COLS, SMALL_SIZE_ROWS);
     }
@@ -101,6 +107,30 @@ public class Level implements ILevel {
 
         //create our list of level objects
         this.levelObjects = new ArrayList<>();
+    }
+
+    public String getDurationDesc() {
+
+        //format duration date if we haven't set it yet
+        if (this.durationDesc == null) {
+
+            //do it the old school way so it will work with html
+            long millis = (long)getDuration() % 1000;
+            long second = ((long)getDuration() / 1000) % 60;
+            long minute = ((long)getDuration() / (1000 * 60)) % 60;
+
+            this.durationDesc = String.format("%02d:%02d.%d", minute, second, millis);
+        }
+
+        return this.durationDesc;
+    }
+
+    public float getDuration() {
+        return this.duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
     }
 
     public boolean isReset() {
@@ -261,6 +291,9 @@ public class Level implements ILevel {
             return;
         }
 
+        //keep updating the game timer
+        setDuration(getDuration() + FRAME_MS);
+
         //update the indicator
         if (getIndicator() != null)
             getIndicator().update(this);
@@ -334,6 +367,9 @@ public class Level implements ILevel {
      */
     @Override
     public void reset() {
+
+        //reset playing time
+        setDuration(0);
 
         //reset the time lapsed
         setLapsedComplete(0);
