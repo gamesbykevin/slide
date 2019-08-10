@@ -1,9 +1,7 @@
-        G           
-     G     G        
-       G            
-    G     G         
-        M  G        
-      G  G          
-     G      G       
-          G         
-      G             
+      H             
+  H                 
+    H  H            
+     GG             
+   K HH             
+   H    H           
+     M              

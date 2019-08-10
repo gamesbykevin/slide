@@ -44,6 +44,9 @@ public class Level implements ILevel {
     //is the level solved
     private boolean solved = false;
 
+    //do we reset the level
+    private boolean reset = false;
+
     //how much time has passed since we completed the level
     private float lapsedComplete = 0;
 
@@ -98,6 +101,14 @@ public class Level implements ILevel {
 
         //create our list of level objects
         this.levelObjects = new ArrayList<>();
+    }
+
+    public boolean isReset() {
+        return this.reset;
+    }
+
+    public void setReset(boolean reset) {
+        this.reset = reset;
     }
 
     public int getCountBomb() {
@@ -236,6 +247,13 @@ public class Level implements ILevel {
 
     @Override
     public void update() {
+
+        //reset if we have the flag
+        if (isReset()) {
+            setReset(false);
+            reset();
+            return;
+        }
 
         //no need to do anything else here
         if (isSolved()) {

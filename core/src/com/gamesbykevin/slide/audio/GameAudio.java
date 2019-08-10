@@ -45,6 +45,7 @@ public class GameAudio {
         Danger("danger.wav"),
         Explosion("explosion.wav"),
         Gem("gem.wav"),
+        Holder("holder.wav"),
         Grow("grow.wav"),
         Key("key.wav"),
         Redirect("redirect.wav"),

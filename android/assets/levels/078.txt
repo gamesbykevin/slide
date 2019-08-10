@@ -1,12 +1,11 @@
-EHHHF  EHHHF        
-HHHHHHHHHHHH        
-HHMUUUUUU0HH        
-HHUHUHUU1UHH        
-DHUUUUU2UUHC        
- HUHUU3UUUH         
- HUUU0UUHUH         
-EHUU1UUUUUHF        
-HHU2UUHUHUHH        
-HH3UUUUUUUHH        
-HHHHHHHHHHHH        
-DHHHC  DHHHC        
+         G          
+         G          
+         G          
+       EHUHF        
+     G HCUDH G      
+    G  UUMUU  G     
+       HFUEH        
+    G  DHUHC  G     
+     G   G   G      
+      G  G  G       
+         G          

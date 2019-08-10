@@ -1,7 +1,9 @@
-  H H               
- H   H              
-  GGG               
-  GGG               
-  GGG               
- H   H              
-  HMH               
+      HHH    
+     H   H   
+           H 
+ HHHH    HG  
+M GGG  GGHG K
+ HHHH    HG  
+           H 
+     H   H   
+      HHH    

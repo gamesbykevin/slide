@@ -1,12 +1,10 @@
-  EHHHHHF           
-  HUUT HHF          
-  DFUDF HHF         
-   DF DF HH         
-    DF DF           
-   M UUUU H         
-    ECUEC           
-   ECUEC HH         
-  ECUECHHHH         
-  HUUT UHHC         
-  HHUHH HC          
-  DHFTTEC           
+      0   U         
+      U             
+   H HU1            
+   HUUU 2           
+   HUUUUUU3         
+   HGMUUH           
+ 3UUHGUU            
+ 1 UUHHHH           
+    U               
+   20               

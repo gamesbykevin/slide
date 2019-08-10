@@ -1,25 +1,9 @@
-                    
-                    
-                    
-                    
-                    
-                    
-          H H       
-               H    
-         H          
-                    
-    M      Q  G     
-        H  S  G     
-    H      R  G     
-       HHHQQ        
-          SS   H    
-     H HHHRR        
-             H      
-                    
-          K         
-                    
-                    
-                    
-                    
-                    
-                    
+        H           
+      H   H         
+        0           
+     H              
+       EHF K        
+        M  H        
+          0 H       
+         H  H       
+          HH        

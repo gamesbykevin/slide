@@ -39,9 +39,13 @@ public class LevelObjectHelper {
             return null;
 
         //our level object
-        LevelObject object = null;
+        LevelObject object;
 
         switch (key) {
+
+            case Holder:
+                object = new Holder();
+                break;
 
             case Gem:
                 object = new Gem();

@@ -1,9 +1,6 @@
-        H           
-      H   H         
-        0           
-     H              
-       EHF K        
-        M  H        
-          0 H       
-         H  H       
-          HH        
+   G     G          
+  GTG   GTG         
+ GT0TGMGT0TG        
+ GTGTG GTGTG        
+  GTG   GTG         
+   G     G          

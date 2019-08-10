@@ -61,7 +61,9 @@ public class Textures {
         WallConnectorV("pipe_v.png", "S"),
         Dot("dot.png", "T"),
         Gem("gem.png", "U"),
-        GoBackMenu("back.png", "");
+        Holder("holder.png", "V"),
+        GoBackMenu("back.png", ""),
+        Restart("restart.png", "");
 
         private final String filename;
         private final String fileCharKey;
@@ -112,6 +114,7 @@ public class Textures {
         add(Key.Teleporter13, TELEPORTER_DIRECTORY);
         add(Key.Teleporter14, TELEPORTER_DIRECTORY);
         add(Key.Teleporter15, TELEPORTER_DIRECTORY);
+        add(Key.Holder, directory);
         add(Key.Goal, directory);
         add(Key.WallLeft, directory);
         add(Key.WallRight, directory);
@@ -135,6 +138,9 @@ public class Textures {
                 add(Key.GoBackMenu);
                 break;
         }
+
+        //add option to restart
+        add(Key.Restart);
     }
 
     private void add(Key key) {

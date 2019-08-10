@@ -24,6 +24,11 @@ public abstract class LevelScreen extends TemplateScreen {
     public static final int GO_BACK_X = 0;
     public static final int GO_BACK_Y = 0;
 
+    //how big is the restart button
+    public static final int RESTART_SIZE = 36;
+    public static final int RESTART_X = SCREEN_WIDTH - RESTART_SIZE;
+    public static final int RESTART_Y = 0;
+
     //zoom in when level solved
     private float zoomRate = ZOOM_DEFAULT;
 
@@ -95,13 +100,6 @@ public abstract class LevelScreen extends TemplateScreen {
     public void show() {
         super.show();
 
-        Sprite sprite = getTextures().getSprite(Textures.Key.GoBackMenu);
-
-        if (sprite != null) {
-            sprite.setPosition(GO_BACK_X, GO_BACK_Y);
-            sprite.setSize(GO_BACK_SIZE, GO_BACK_SIZE);
-        }
-
         //make sure camera is in the correct location
         resetCameraOrigin();
     }
@@ -143,11 +141,21 @@ public abstract class LevelScreen extends TemplateScreen {
         getLevel().render(getBatch());
 
         //get the go back button
-        Sprite sprite = getTextures().getSprite(Textures.Key.GoBackMenu);
+        Sprite back = getTextures().getSprite(Textures.Key.GoBackMenu);
 
         //only render if it exists
-        if (sprite != null) {
-            sprite.draw(getBatch());
+        if (back != null) {
+            back.setPosition(GO_BACK_X, GO_BACK_Y);
+            back.setSize(GO_BACK_SIZE, GO_BACK_SIZE);
+            back.draw(getBatch());
+        }
+
+        Sprite restart = getTextures().getSprite(Textures.Key.Restart);
+
+        if (restart != null) {
+            restart.setPosition(RESTART_X, RESTART_Y);
+            restart.setSize(RESTART_SIZE, RESTART_SIZE);
+            restart.draw(getBatch());
         }
     }
 

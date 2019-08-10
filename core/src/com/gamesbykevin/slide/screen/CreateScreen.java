@@ -103,6 +103,7 @@ public class CreateScreen extends LevelScreen {
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallDown,       14f,    row - 3));
 
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Dot,            16f,    row - 1));
+        getCreateObjects().add(LevelObjectHelper.create(Textures.Key.Holder,            16f,    row - 3));
 
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallLeft,       2f,     row - 3));
         getCreateObjects().add(LevelObjectHelper.create(Textures.Key.WallConnectorH, 3f,     row - 3));

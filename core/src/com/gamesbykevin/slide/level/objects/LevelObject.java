@@ -45,7 +45,7 @@ public abstract class LevelObject extends Entity {
 
     public enum Type {
         Bomb, Danger, Dot, Goal, Indicator, Key, LockedGoal, PartialWall,
-        Player, Redirect, Teleporter, Wall, WallConnector, Gem
+        Player, Redirect, Teleporter, Wall, WallConnector, Gem, Holder
     }
 
     //what type of level object is this?

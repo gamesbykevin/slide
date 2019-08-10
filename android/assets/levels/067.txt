@@ -1,8 +1,13 @@
-    HHH             
- HH  0  H           
- H                  
-                    
-  1  M  1           
-     H              
- H   K              
- H  0 E H           
+  HHHHHHHHHHHHH     
+  HHHHH   HHHHH     
+  HHHHHNPOHHHHH     
+  HM         DH     
+  HHHHHNPOHHH       
+  HC         EH     
+    HHHNPOHHHHH     
+  HF         DH     
+  HHHHHNPOHHH       
+  H  H              
+  H                 
+  H H KH     EH     
+  HHHHHHHHHHHHH     

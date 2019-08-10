@@ -226,6 +226,19 @@ public class Controller implements InputProcessor {
                             }
                         }
                     }
+
+                    //if we touched restart
+                    if (getTouchPos().x >= LevelScreen.RESTART_X && getTouchPos().x <= LevelScreen.RESTART_X + LevelScreen.RESTART_SIZE) {
+                        if (getTouchPos().y >= LevelScreen.RESTART_Y && getTouchPos().y <= LevelScreen.RESTART_Y + LevelScreen.RESTART_SIZE) {
+
+                            //also make sure button exists
+                            if (getGame().getTextures().getSprite(Textures.Key.Restart) != null) {
+
+                                //flag that we want to restart
+                                getGame().getScreenHelper().getGameScreen().getLevel().setReset(true);
+                            }
+                        }
+                    }
                     break;
             }
         }

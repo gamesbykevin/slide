@@ -1,0 +1,11 @@
+    HHH             
+    H  H   H        
+    HG G H          
+HHHHH 0 H           
+HG GHG G       H    
+H 1 HHHHHHH   1     
+HG GHG G       H    
+HHHHH 0 H           
+    HG G H          
+    H  H   H        
+    HHH   M         
