@@ -1,0 +1,9 @@
+  HC   K            
+  H  CCD  M         
+  H  C1E            
+  H  FEE            
+  H 1               
+  0       T         
+     T    G         
+     TGT 0          
+  G                 

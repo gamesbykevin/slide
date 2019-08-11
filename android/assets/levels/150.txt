@@ -1,0 +1,9 @@
+      H             
+ HHH                
+ M 0 1 2            
+ UUUUUUU            
+ TTTTTTT            
+ TUTUTUU            
+ 0 1 2 G            
+ H                  
+    H U             

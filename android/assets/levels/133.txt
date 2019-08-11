@@ -1,0 +1,10 @@
+ C  D  H     3      
+  H        HH3      
+  H   H      2      
+      NPO    2      
+    K NPO    1      
+ F    NPO    1      
+     QH  Q   0      
+ H QCSDQCSDQ 0      
+ M SERFSERFS H      
+   R   R   R        

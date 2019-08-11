@@ -49,7 +49,7 @@ public class Bomb extends LevelObject {
         boolean previousExpired = hasTimeExpired();
 
         //update timer
-        setTime(getTime() - (TIME_DURATION * 1.75f));
+        setTime(getTime() - (TIME_DURATION * 1f));
 
         //if time just expired, detonate the bomb
         if (hasTimeExpired() && !previousExpired)
@@ -178,7 +178,7 @@ public class Bomb extends LevelObject {
     }
 
     public boolean hasTimeExpired() {
-        return (getTime() < TIME_EXPIRED + 1);
+        return (getTime() <= TIME_EXPIRED);
     }
 
     public void setCountdown(boolean countdown) {

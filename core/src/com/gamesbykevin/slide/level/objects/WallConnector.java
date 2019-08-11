@@ -8,7 +8,11 @@ import static com.gamesbykevin.slide.level.objects.PartialWall.CLOSE_VELOCITY;
 
 public class WallConnector extends LevelObject {
 
-    boolean hide = false;
+    //did we collide with the wall connector
+    boolean collide = false;
+
+    //did we exit the wall connector
+    boolean exit = false;
 
     //is the connector vertical
     private boolean vertical;
@@ -31,68 +35,97 @@ public class WallConnector extends LevelObject {
 
         //call parent
         super.update(level);
+
+        if (isCollide() && !isExit()) {
+
+            //if we no longer have collision with the player we can close the connector
+            if (!hasCollision(level.getPlayer())) {
+
+                //flag that we have exited
+                setExit(true);
+
+                //close walls depending on orientation
+                if (isVertical()) {
+
+                    LevelObject up = level.getLevelObject(Type.PartialWall, (int)getCol(), (int)getRow() + 1);
+                    LevelObject down = level.getLevelObject(Type.PartialWall, (int)getCol(), (int)getRow() - 1);
+
+                    //up wall moves down
+                    up.setDY(-CLOSE_VELOCITY);
+                    ((PartialWall) up).setTargetCol(getCol());
+                    ((PartialWall) up).setTargetRow(getRow());
+
+                    //down wall moves up
+                    down.setDY(CLOSE_VELOCITY);
+                    ((PartialWall) down).setTargetCol(getCol());
+                    ((PartialWall) down).setTargetRow(getRow());
+
+                } else {
+
+                    LevelObject right = level.getLevelObject(Type.PartialWall, (int)getCol() + 1, (int)getRow());
+                    LevelObject left = level.getLevelObject(Type.PartialWall, (int)getCol() - 1, (int)getRow());
+
+                    //if the walls exist, let's see if we can close them
+                    if (right != null && left != null) {
+
+                        //right wall moves left
+                        right.setDX(-CLOSE_VELOCITY);
+                        ((PartialWall) right).setTargetCol(getCol());
+                        ((PartialWall) right).setTargetRow(getRow());
+
+                        //left wall moves right
+                        left.setDX(CLOSE_VELOCITY);
+                        ((PartialWall) left).setTargetCol(getCol());
+                        ((PartialWall) left).setTargetRow(getRow());
+                    }
+                }
+
+                //play sound effect
+                GameAudio.playSfx(GameAudio.SoundEffect.Connect);
+            }
+        }
     }
 
     @Override
     public void updateCollision(Level level) {
 
-        //if not hidden, check further
-        if (!hide) {
+        //if we already collided, don't continue
+        if (isCollide())
+            return;
 
-            if (isVertical()) {
+        //flag we have collision
+        setCollide(true);
+    }
 
-                LevelObject up = level.getLevelObject(Type.PartialWall, (int) getCol(), (int) getRow() + 1);
-                LevelObject down = level.getLevelObject(Type.PartialWall, (int) getCol(), (int) getRow() - 1);
+    public boolean isCollide() {
+        return this.collide;
+    }
 
-                //up wall moves down
-                up.setDY(-CLOSE_VELOCITY);
-                ((PartialWall) up).setTargetCol(getCol());
-                ((PartialWall) up).setTargetRow(getRow());
+    public void setCollide(boolean collide) {
+        this.collide = collide;
+    }
 
-                //down wall moves up
-                down.setDY(CLOSE_VELOCITY);
-                ((PartialWall) down).setTargetCol(getCol());
-                ((PartialWall) down).setTargetRow(getRow());
+    public boolean isExit() {
+        return this.exit;
+    }
 
-            } else {
-
-                LevelObject right = level.getLevelObject(Type.PartialWall, (int) getCol() + 1, (int) getRow());
-                LevelObject left = level.getLevelObject(Type.PartialWall, (int) getCol() - 1, (int) getRow());
-
-                //if the walls exist, let's see if we can close them
-                if (right != null && left != null) {
-
-                    //right wall moves left
-                    right.setDX(-CLOSE_VELOCITY);
-                    ((PartialWall) right).setTargetCol(getCol());
-                    ((PartialWall) right).setTargetRow(getRow());
-
-                    //left wall moves right
-                    left.setDX(CLOSE_VELOCITY);
-                    ((PartialWall) left).setTargetCol(getCol());
-                    ((PartialWall) left).setTargetRow(getRow());
-                }
-            }
-
-            //hide it now
-            setHide(true);
-
-            //play sound effect
-            GameAudio.playSfx(GameAudio.SoundEffect.Connect);
-        }
+    public void setExit(boolean exit) {
+        this.exit = exit;
     }
 
     @Override
     public void reset(Level level) {
 
         //do we need to reset anything here
-        setHide(false);
+        setExit(false);
+        setCollide(false);
     }
 
     @Override
     public void render(SpriteBatch batch) {
 
-        if (!isHide()) {
+        //only render if we didn't exit the connector
+        if (!isExit()) {
 
             final float x = getX();
             final float y = getY();
@@ -116,13 +149,5 @@ public class WallConnector extends LevelObject {
             setW(w);
             setH(h);
         }
-    }
-
-    public boolean isHide() {
-        return this.hide;
-    }
-
-    public void setHide(boolean hide) {
-        this.hide = hide;
     }
 }

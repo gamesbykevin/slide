@@ -118,7 +118,6 @@ public class Level implements ILevel {
             long millis = (long)getDuration() % 1000;
             long second = ((long)getDuration() / 1000) % 60;
             long minute = ((long)getDuration() / (1000 * 60)) % 60;
-
             this.durationDesc = String.format("%02d:%02d.%d", minute, second, millis);
         }
 
