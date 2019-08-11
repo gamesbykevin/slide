@@ -91,18 +91,19 @@ public abstract class TemplateScreen extends ParentScreen {
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.ESCAPE) {
                     try {
-                        if (getGame().getScreenHelper().getScreenIndex() == ScreenHelper.SCREEN_OPTIONS)
+                        if (getGame().getScreenHelper().getScreenIndex() == ScreenHelper.SCREEN_OPTIONS) {
                             getGame().getScreenHelper().changeScreen(ScreenHelper.SCREEN_MENU);
-                        if (getGame().getScreenHelper().getScreenIndex() == ScreenHelper.SCREEN_MENU) {
+                            setPrompt(false);
+                        } else if (getGame().getScreenHelper().getScreenIndex() == ScreenHelper.SCREEN_MENU) {
 
-                            if (prompt) {
+                            if (hasPrompt()) {
 
                                 //if user was already prompted, close app
                                 exit();
 
                             } else {
-                                //TemplateScreen.super.createToastShort("Hit back again to exit!");
-                                prompt = true;
+
+                                setPrompt(true);
                             }
                         }
                     } catch (ScreenException ex) {
@@ -117,6 +118,14 @@ public abstract class TemplateScreen extends ParentScreen {
         this.logo = new Texture(Gdx.files.internal("logo.png"));
         this.logoX = (SCREEN_WIDTH / 2) - (getLogo().getWidth() / 2);
         this.logoY = SCREEN_HEIGHT - getLogo().getHeight() - 20;
+    }
+
+    public boolean hasPrompt() {
+        return this.prompt;
+    }
+
+    public void setPrompt(boolean prompt) {
+        this.prompt = prompt;
     }
 
     public float getLogoX() {
@@ -136,7 +145,7 @@ public abstract class TemplateScreen extends ParentScreen {
         super.pause();
 
         //flag false
-        this.prompt = false;
+        setPrompt(false);
 
         //stop all audio when paused
         GameAudio.stop();
@@ -147,7 +156,7 @@ public abstract class TemplateScreen extends ParentScreen {
         super.resume();
 
         //flag false
-        this.prompt = false;
+        setPrompt(false);
 
         //make sure we are capturing input
         captureInput();
@@ -159,6 +168,9 @@ public abstract class TemplateScreen extends ParentScreen {
 
         //make sure we are capturing input
         captureInput();
+
+        //flag false
+        setPrompt(false);
     }
 
     public void drawLogo(Batch batch) {
