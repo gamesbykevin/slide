@@ -1,0 +1,11 @@
+    HHHHH           
+   H  G  H          
+  H   G   H         
+ H    G    H        
+ H    G    H        
+ HGGGGMGGGGH        
+ H    G    H        
+ H    G    H        
+  H   G   H         
+   H  G  H          
+    HHHHH           

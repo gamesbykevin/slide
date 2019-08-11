@@ -1,0 +1,14 @@
+          EHF       
+          HHH       
+          DHC       
+          GGG  H    
+  EH  HF G   G      
+  HC  DH G   G  GGG 
+         G   G G   G
+          GGG  G   G
+     EH M  HF  G   G
+ HF  HC    DH   GGG 
+ DH       D   H     
+        F  EH       
+     HF   EHC       
+     DH   HC        

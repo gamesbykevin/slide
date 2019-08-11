@@ -1,0 +1,14 @@
+ VV    VV    VV     
+ VGUUUUUUUUUUGV     
+  UG        GU      
+  U GUUUUUUG U      
+  U UG    GU U      
+  U U GUUG U U      
+ VU U UGGU U U      
+ VU U UMGU U U      
+  U U GUUG U U      
+  U UG    GU U      
+  U G      G U      
+  UG        GU      
+ VG          GV     
+ VV    VV    VV     
