@@ -133,7 +133,7 @@ public class ScreenHelper {
         return getScreen(getScreenIndex());
     }
 
-    public ParentScreen getScreen(int screenIndex) throws ScreenException {
+    public TemplateScreen getScreen(int screenIndex) throws ScreenException {
 
         switch (screenIndex) {
 
@@ -168,8 +168,15 @@ public class ScreenHelper {
 
     public void changeScreen(int screenIndex) throws ScreenException {
 
+
+        //get the new screen
+        TemplateScreen templateScreen = getScreen(screenIndex);
+
+        //set prompt to false every time we change the screen
+        templateScreen.setPrompt(false);
+
         //set the screen accordingly
-        getGame().setScreen(getScreen(screenIndex));
+        getGame().setScreen(templateScreen);
 
         //if we are leaving the game screen recycle the level etc...
         switch (getScreenIndex()) {

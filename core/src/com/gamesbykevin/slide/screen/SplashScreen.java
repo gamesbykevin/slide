@@ -10,7 +10,7 @@ import java.util.Date;
 
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_MENU;
 
-public class SplashScreen extends ParentScreen {
+public class SplashScreen extends TemplateScreen {
 
     //track how much time lapsed
     private Date time;
