@@ -11,14 +11,13 @@ android {
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
-
     }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
         applicationId "com.gamesbykevin.slide"
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
