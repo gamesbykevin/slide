@@ -261,11 +261,10 @@ public class CreateScreen extends LevelScreen {
             //reset the level
             getLevel().reset();
 
+            CreateScreen screen = (CreateScreen)getGame().getScreenHelper().getScreen(ScreenHelper.SCREEN_CREATE);
+
             //then save the level data
-            AppPreferences.setLevelSave(
-                getGame().getScreenHelper().getCreateScreen().getSaveIndex(),
-                    LevelHelper.getLevelCode(getGame().getScreenHelper().getCreateScreen().getLevel())
-            );
+            AppPreferences.setLevelSave(screen.getSaveIndex(), LevelHelper.getLevelCode(screen.getLevel()));
 
             try {
 

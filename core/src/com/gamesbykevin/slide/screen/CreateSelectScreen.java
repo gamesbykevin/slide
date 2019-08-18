@@ -50,8 +50,9 @@ public class CreateSelectScreen extends CustomSelectScreen {
         try {
 
             //load the selected level
-            getGame().getScreenHelper().getCreateScreen().setSaveIndex(index);
-            getGame().getScreenHelper().getCreateScreen().create();
+            CreateScreen screen = (CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE);
+            screen.setSaveIndex(index);
+            screen.create();
 
             //switch to the game screen
             getGame().getScreenHelper().changeScreen(SCREEN_CREATE);

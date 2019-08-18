@@ -3,6 +3,8 @@ package com.gamesbykevin.slide.screen;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 
+import java.util.HashMap;
+
 import static com.gamesbykevin.slide.MyGdxGame.exit;
 import static com.gamesbykevin.slide.MyGdxGame.resetTextures;
 
@@ -23,16 +25,10 @@ public class ScreenHelper {
     //what screen are we on?
     private int screenIndex = SCREEN_SPLASH;
 
-    //our different screens
-    private SplashScreen splashScreen;
-    private GameScreen gameScreen;
-    private MenuScreen menuScreen;
-    private OptionsScreen optionsScreen;
-    private LevelSelectScreen levelSelectScreen;
-    private CreateScreen createScreen;
-    private CreateSelectScreen createSelectScreen;
-    private LevelSelectCustomScreen levelSelectCustomScreen;
+    //hash map containing our screens
+    private HashMap<Integer, TemplateScreen> screens;
 
+    //our game reference
     private final MyGdxGame game;
 
     public ScreenHelper(MyGdxGame game) {
@@ -45,7 +41,7 @@ public class ScreenHelper {
             this.changeScreen(SCREEN_SPLASH);
         } catch (ScreenException exception) {
             exception.printStackTrace();
-            exit();
+            exit(getGame());
         }
     }
 
@@ -53,72 +49,12 @@ public class ScreenHelper {
         return this.game;
     }
 
-    public LevelSelectCustomScreen getLevelSelectCustomScreen() {
+    private HashMap<Integer, TemplateScreen> getScreens() {
 
-        if (this.levelSelectCustomScreen == null)
-            this.levelSelectCustomScreen = new LevelSelectCustomScreen(getGame());
+        if (this.screens == null)
+            this.screens = new HashMap<>();
 
-        return this.levelSelectCustomScreen;
-    }
-
-    public CreateSelectScreen getCreateSelectScreen() {
-
-        if (this.createSelectScreen == null)
-            this.createSelectScreen = new CreateSelectScreen(getGame());
-
-        return this.createSelectScreen;
-    }
-
-    public LevelSelectScreen getLevelSelectScreen() {
-
-        //create our screen if null
-        if (this.levelSelectScreen == null)
-            this.levelSelectScreen = new LevelSelectScreen(getGame());
-
-        return this.levelSelectScreen;
-    }
-
-    public OptionsScreen getOptionsScreen() {
-
-        //create our screen if null
-        if (this.optionsScreen == null)
-            this.optionsScreen = new OptionsScreen(getGame());
-
-        return this.optionsScreen;
-    }
-
-    public SplashScreen getSplashScreen() {
-
-        //create our screen if null
-        if (this.splashScreen == null)
-            this.splashScreen = new SplashScreen(getGame());
-
-        return splashScreen;
-    }
-
-    public GameScreen getGameScreen() {
-
-        //create our screen if null
-        if (this.gameScreen == null)
-            this.gameScreen = new GameScreen(getGame());
-
-        return this.gameScreen;
-    }
-
-    public MenuScreen getMenuScreen() {
-
-        if (this.menuScreen == null)
-            this.menuScreen = new MenuScreen(getGame());
-
-        return this.menuScreen;
-    }
-
-    public CreateScreen getCreateScreen() {
-
-        if (this.createScreen == null)
-            this.createScreen = new CreateScreen(getGame());
-
-        return this.createScreen;
+        return this.screens;
     }
 
     public void setScreenIndex(final int screenIndex) {
@@ -133,41 +69,58 @@ public class ScreenHelper {
         return getScreen(getScreenIndex());
     }
 
-    public TemplateScreen getScreen(int screenIndex) throws ScreenException {
+    public TemplateScreen getScreen(int screenIndex) {
 
-        switch (screenIndex) {
+        //get the screen from our hash map
+        TemplateScreen screen = getScreens().get(screenIndex);
 
-            case SCREEN_SPLASH:
-                return getSplashScreen();
+        //if the screen does not exist, we will create it
+        if (screen == null) {
 
-            case SCREEN_MENU:
-                return getMenuScreen();
+            switch (screenIndex) {
 
-            case SCREEN_GAME:
-                return getGameScreen();
+                case SCREEN_SPLASH:
+                    screen = new SplashScreen(getGame());
+                    break;
 
-            case SCREEN_OPTIONS:
-                return getOptionsScreen();
+                case SCREEN_MENU:
+                    screen = new MenuScreen(getGame());
+                    break;
 
-            case SCREEN_SELECT_LEVEL:
-                return getLevelSelectScreen();
+                case SCREEN_GAME:
+                    screen = new GameScreen(getGame());
+                    break;
 
-            case SCREEN_CREATE:
-                return getCreateScreen();
+                case SCREEN_OPTIONS:
+                    screen = new OptionsScreen(getGame());
+                    break;
 
-            case SCREEN_SELECT_CREATE:
-                return getCreateSelectScreen();
+                case SCREEN_SELECT_LEVEL:
+                    screen = new LevelSelectScreen(getGame());
+                    break;
 
-            case SCREEN_SELECT_LEVEL_CUSTOM:
-                return getLevelSelectCustomScreen();
+                case SCREEN_CREATE:
+                    screen = new CreateScreen(getGame());
+                    break;
 
-            default:
-                throw new ScreenException("Screen not found: " + getScreenIndex());
+                case SCREEN_SELECT_CREATE:
+                    screen = new CreateSelectScreen(getGame());
+                    break;
+
+                case SCREEN_SELECT_LEVEL_CUSTOM:
+                    screen = new LevelSelectCustomScreen(getGame());
+                    break;
+            }
+
+            //add the screen to our hash map
+            getScreens().put(screenIndex, screen);
         }
+
+        //return our screen
+        return screen;
     }
 
     public void changeScreen(int screenIndex) throws ScreenException {
-
 
         //get the new screen
         TemplateScreen templateScreen = getScreen(screenIndex);
@@ -181,9 +134,10 @@ public class ScreenHelper {
         //if we are leaving the game screen recycle the level etc...
         switch (getScreenIndex()) {
             case SCREEN_GAME:
-                if (getGameScreen().getLevel() != null) {
-                    getGameScreen().getLevel().dispose();
-                    getGameScreen().setLevel(null);
+                GameScreen screen = (GameScreen)getScreen(SCREEN_GAME);
+                if (screen != null && screen.getLevel() != null) {
+                    screen.getLevel().dispose();
+                    screen.setLevel(null);
                     resetTextures();
                 }
                 break;
@@ -191,5 +145,19 @@ public class ScreenHelper {
 
         //if no exceptions are thrown let's officially change the screen index
         setScreenIndex(screenIndex);
+    }
+
+    public void dispose() {
+
+        if (this.screens != null) {
+            for (Integer integer : this.screens.keySet()) {
+                this.screens.get(integer).dispose();
+                this.screens.put(integer, null);
+            }
+
+            this.screens.clear();
+        }
+
+        this.screens = null;
     }
 }

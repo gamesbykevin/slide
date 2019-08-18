@@ -7,6 +7,7 @@ import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.objects.Player;
+import com.gamesbykevin.slide.screen.CreateScreen;
 import com.gamesbykevin.slide.screen.GameScreen;
 import com.gamesbykevin.slide.screen.LevelScreen;
 import com.gamesbykevin.slide.textures.Textures;
@@ -30,6 +31,11 @@ public class Controller implements InputProcessor {
         //our touch coordinates
         this.touchPos = new Vector3();
         this.touchPosRelease = new Vector3();
+    }
+
+    public void dispose() {
+        this.touchPos = null;
+        this.touchPosRelease = null;
     }
 
     private MyGdxGame getGame() {
@@ -78,7 +84,7 @@ public class Controller implements InputProcessor {
                     case SCREEN_CREATE:
 
                         //flag that we want to exit
-                        getGame().getScreenHelper().getCreateScreen().setExit(true);
+                        ((CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE)).setExit(true);
                         break;
                 }
             } catch (ScreenException ex) {
@@ -138,9 +144,10 @@ public class Controller implements InputProcessor {
 
                 case SCREEN_CREATE:
                     calculateTouchPosition(getTouchPos());
-                    getGame().getScreenHelper().getCreateScreen().setPressed(true);
-                    getGame().getScreenHelper().getCreateScreen().setDragged(false);
-                    getGame().getScreenHelper().getCreateScreen().setReleased(false);
+                    CreateScreen screen = (CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE);
+                    screen.setPressed(true);
+                    screen.setDragged(false);
+                    screen.setReleased(false);
                     break;
             }
         }
@@ -171,7 +178,7 @@ public class Controller implements InputProcessor {
                 case SCREEN_CREATE:
 
                     //if we don't have anything selected, let's play the level
-                    if (getGame().getScreenHelper().getCreateScreen().getSelectedId() == null) {
+                    if (((CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE)).getSelectedId() == null) {
 
                         //figure out where the new position is
                         getTouchPosRelease().x = screenX;
@@ -186,7 +193,7 @@ public class Controller implements InputProcessor {
                                 if (getGame().getTextures().getSprite(Textures.Key.GoBackMenu) != null) {
 
                                     //flag that we want to exit, which will also save the level
-                                    getGame().getScreenHelper().getCreateScreen().setExit(true);
+                                    ((CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE)).setExit(true);
                                 }
                             }
                         }
@@ -199,9 +206,10 @@ public class Controller implements InputProcessor {
                         calculateTouchPosition(getTouchPos());
 
                         //we have released
-                        getGame().getScreenHelper().getCreateScreen().setPressed(false);
-                        getGame().getScreenHelper().getCreateScreen().setDragged(false);
-                        getGame().getScreenHelper().getCreateScreen().setReleased(true);
+                        CreateScreen screen = (CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE);
+                        screen.setPressed(false);
+                        screen.setDragged(false);
+                        screen.setReleased(true);
                     }
                     break;
 
@@ -235,7 +243,7 @@ public class Controller implements InputProcessor {
                             if (getGame().getTextures().getSprite(Textures.Key.Restart) != null) {
 
                                 //flag that we want to restart
-                                getGame().getScreenHelper().getGameScreen().getLevel().setReset(true);
+                                ((GameScreen)getGame().getScreenHelper().getScreen(SCREEN_GAME)).getLevel().setReset(true);
                             }
                         }
                     }
@@ -258,14 +266,16 @@ public class Controller implements InputProcessor {
 
             case SCREEN_CREATE:
 
+                CreateScreen screen = (CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE);
+
                 //only update location if we are actually dragging an item
-                if (getGame().getScreenHelper().getCreateScreen().getSelectedId() != null) {
+                if (screen.getSelectedId() != null) {
                     getTouchPos().x = screenX;
                     getTouchPos().y = screenY;
                     calculateTouchPosition(getTouchPos());
-                    getGame().getScreenHelper().getCreateScreen().setPressed(false);
-                    getGame().getScreenHelper().getCreateScreen().setDragged(true);
-                    getGame().getScreenHelper().getCreateScreen().setReleased(false);
+                    screen.setPressed(false);
+                    screen.setDragged(true);
+                    screen.setReleased(false);
                 }
                 break;
         }
@@ -402,10 +412,10 @@ public class Controller implements InputProcessor {
 
         switch(getGame().getScreenHelper().getScreenIndex()) {
             case SCREEN_GAME:
-                return getGame().getScreenHelper().getGameScreen().getLevel();
+                return ((GameScreen)getGame().getScreenHelper().getScreen(SCREEN_GAME)).getLevel();
 
             case SCREEN_CREATE:
-                return getGame().getScreenHelper().getCreateScreen().getLevel();
+                return ((CreateScreen)getGame().getScreenHelper().getScreen(SCREEN_CREATE)).getLevel();
         }
 
         //couldn't find the level

@@ -99,7 +99,7 @@ public abstract class TemplateScreen extends ParentScreen {
                             if (hasPrompt()) {
 
                                 //if user was already prompted, close app
-                                exit();
+                                exit(getGame());
 
                             } else {
 

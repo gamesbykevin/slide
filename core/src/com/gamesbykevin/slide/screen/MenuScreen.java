@@ -17,7 +17,7 @@ import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 public class MenuScreen extends TemplateScreen {
 
     public static final String URL_MORE = "http://gamesbykevin.com";
-    public static final String URL_RATE = "https://play.google.com/store/apps/details?id=com.gamesbykevin.blocks";
+    public static final String URL_RATE = "https://play.google.com/store/apps/details?id=com.gamesbykevin.slide";
 
     public MenuScreen(MyGdxGame game) {
 
@@ -30,6 +30,10 @@ public class MenuScreen extends TemplateScreen {
 
         //call parent
         super.show();
+
+        //if session is not active, then we need to login
+        if (!getGame().getGsClient().isSessionActive())
+            getGame().getGsClient().logIn();
 
         //free our resources
         MyGdxGame.resetTextures();
@@ -126,7 +130,7 @@ public class MenuScreen extends TemplateScreen {
             public void clicked(InputEvent event, float x, float y) {
 
                 //exit the game
-                MyGdxGame.exit();
+                MyGdxGame.exit(getGame());
             }
         });
 
