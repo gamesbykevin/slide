@@ -10,6 +10,7 @@ import com.gamesbykevin.slide.preferences.AppPreferences;
 import com.gamesbykevin.slide.screen.ScreenHelper;
 import com.gamesbykevin.slide.textures.Textures;
 import com.gamesbykevin.slide.util.Language;
+import de.golfgl.gdxgamesvcs.IGameServiceClient;
 
 import java.util.Locale;
 
@@ -17,6 +18,9 @@ import static com.gamesbykevin.slide.audio.GameAudio.recycle;
 import static com.gamesbykevin.slide.preferences.AppPreferences.getPreferenceValue;
 
 public class MyGdxGame extends Game {
+
+	//our game services client
+	private final IGameServiceClient gsClient;
 
 	//our game input controller
 	private Controller controller;
@@ -58,7 +62,11 @@ public class MyGdxGame extends Game {
 	//object used for localization
 	private static I18NBundle MY_BUNDLE;
 
-	public static void exit() {
+	public MyGdxGame(IGameServiceClient gsClient) {
+		this.gsClient = gsClient;
+	}
+
+	public static void exit(MyGdxGame game) {
 
 		//recycle audio
 		recycle();
@@ -66,8 +74,33 @@ public class MyGdxGame extends Game {
 		//recycle textures
 		resetTextures();
 
+		if (game != null)
+			game.dispose();
+
+		if (FONT != null)
+			FONT.dispose();
+
+		FONT = null;
+		MY_BUNDLE = null;
+
 		//exit app
 		Gdx.app.exit();
+
+		//make sure we exit everything
+		System.exit(0);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		if (this.screenHelper != null)
+			this.screenHelper.dispose();
+		if (this.controller != null)
+			this.controller.dispose();
+
+		this.screenHelper = null;
+		this.controller = null;
 	}
 
 	public static I18NBundle getMyBundle() {
@@ -153,6 +186,10 @@ public class MyGdxGame extends Game {
 			TEXTURES = new Textures();
 
 		return TEXTURES;
+	}
+
+	public IGameServiceClient getGsClient() {
+		return this.gsClient;
 	}
 
 	public ScreenHelper getScreenHelper() {
