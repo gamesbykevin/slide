@@ -152,7 +152,232 @@ public class Leaderboard {
         return (client != null && client.isSessionActive());
     }
 
+    public static String getLeaderboardId() {
+
+        //if playing a custom level, show all leader boards
+        if (GameScreen.CUSTOM_LEVEL)
+            return null;
+
+        switch (LEVEL_INDEX) {
+            case 105:
+                return LEADERBOARD_LEVEL_106;
+
+            case 106:
+                return LEADERBOARD_LEVEL_107;
+
+            case 107:
+                return LEADERBOARD_LEVEL_108;
+
+            case 108:
+                return LEADERBOARD_LEVEL_109;
+
+            case 109:
+                return LEADERBOARD_LEVEL_110;
+
+            case 110:
+                return LEADERBOARD_LEVEL_111;
+
+            case 111:
+                return LEADERBOARD_LEVEL_112;
+
+            case 112:
+                return LEADERBOARD_LEVEL_113;
+
+            case 113:
+                return LEADERBOARD_LEVEL_114;
+
+            case 114:
+                return LEADERBOARD_LEVEL_115;
+
+            case 115:
+                return LEADERBOARD_LEVEL_116;
+
+            case 116:
+                return LEADERBOARD_LEVEL_117;
+
+            case 117:
+                return LEADERBOARD_LEVEL_118;
+
+            case 118:
+                return LEADERBOARD_LEVEL_119;
+
+            case 119:
+                return LEADERBOARD_LEVEL_120;
+
+            case 120:
+                return LEADERBOARD_LEVEL_121;
+
+            case 121:
+                return LEADERBOARD_LEVEL_122;
+
+            case 122:
+                return LEADERBOARD_LEVEL_123;
+
+            case 123:
+                return LEADERBOARD_LEVEL_124;
+
+            case 124:
+                return LEADERBOARD_LEVEL_125;
+
+            case 125:
+                return LEADERBOARD_LEVEL_126;
+
+            case 126:
+                return LEADERBOARD_LEVEL_127;
+
+            case 127:
+                return LEADERBOARD_LEVEL_128;
+
+            case 128:
+                return LEADERBOARD_LEVEL_129;
+
+            case 129:
+                return LEADERBOARD_LEVEL_130;
+
+            case 130:
+                return LEADERBOARD_LEVEL_131;
+
+            case 131:
+                return LEADERBOARD_LEVEL_132;
+
+            case 132:
+                return LEADERBOARD_LEVEL_133;
+
+            case 133:
+                return LEADERBOARD_LEVEL_134;
+
+            case 134:
+                return LEADERBOARD_LEVEL_135;
+
+            case 135:
+                return LEADERBOARD_LEVEL_136;
+
+            case 136:
+                return LEADERBOARD_LEVEL_137;
+
+            case 137:
+                return LEADERBOARD_LEVEL_138;
+
+            case 138:
+                return LEADERBOARD_LEVEL_139;
+
+            case 139:
+                return LEADERBOARD_LEVEL_140;
+
+            case 140:
+                return LEADERBOARD_LEVEL_141;
+
+            case 141:
+                return LEADERBOARD_LEVEL_142;
+
+            case 142:
+                return LEADERBOARD_LEVEL_143;
+
+            case 143:
+                return LEADERBOARD_LEVEL_144;
+
+            case 144:
+                return LEADERBOARD_LEVEL_145;
+
+            case 145:
+                return LEADERBOARD_LEVEL_146;
+
+            case 146:
+                return LEADERBOARD_LEVEL_147;
+
+            case 147:
+                return LEADERBOARD_LEVEL_148;
+
+            case 148:
+                return LEADERBOARD_LEVEL_149;
+
+            case 149:
+                return LEADERBOARD_LEVEL_150;
+
+            case 150:
+                return LEADERBOARD_LEVEL_151;
+
+            case 151:
+                return LEADERBOARD_LEVEL_152;
+
+            case 152:
+                return LEADERBOARD_LEVEL_153;
+
+            case 153:
+                return LEADERBOARD_LEVEL_154;
+
+            case 154:
+                return LEADERBOARD_LEVEL_155;
+
+            case 155:
+                return LEADERBOARD_LEVEL_156;
+
+            case 156:
+                return LEADERBOARD_LEVEL_157;
+
+            case 157:
+                return LEADERBOARD_LEVEL_158;
+
+            case 158:
+                return LEADERBOARD_LEVEL_159;
+
+            case 159:
+                return LEADERBOARD_LEVEL_160;
+
+            case 160:
+                return LEADERBOARD_LEVEL_161;
+
+            case 161:
+                return LEADERBOARD_LEVEL_162;
+
+            case 162:
+                return LEADERBOARD_LEVEL_163;
+
+            case 163:
+                return LEADERBOARD_LEVEL_164;
+
+            case 164:
+                return LEADERBOARD_LEVEL_165;
+
+            case 165:
+                return LEADERBOARD_LEVEL_166;
+
+            case 166:
+                return LEADERBOARD_LEVEL_167;
+
+            case 167:
+                return LEADERBOARD_LEVEL_168;
+
+            case 168:
+                return LEADERBOARD_LEVEL_169;
+
+            case 169:
+                return LEADERBOARD_LEVEL_170;
+
+            case 170:
+                return LEADERBOARD_LEVEL_171;
+
+            case 171:
+                return LEADERBOARD_LEVEL_172;
+
+            case 172:
+                return LEADERBOARD_LEVEL_173;
+
+            case 173:
+                return LEADERBOARD_LEVEL_174;
+
+            case 174:
+                return LEADERBOARD_LEVEL_175;
+        }
+
+        return null;
+    }
+
     public static void submitScore(IGameServiceClient client, long time) {
+
+        //don't continue if null
+        if (client == null)
+            return;
 
         //have to be connected
         if (!isConnected(client))
@@ -162,287 +387,7 @@ public class Leaderboard {
         if (GameScreen.CUSTOM_LEVEL)
             return;
 
-        switch (LEVEL_INDEX) {
-
-            case 105:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_106, time, null);
-                break;
-
-            case 106:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_107, time, null);
-                break;
-
-            case 107:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_108, time, null);
-                break;
-
-            case 108:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_109, time, null);
-                break;
-
-            case 109:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_110, time, null);
-                break;
-
-            case 110:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_111, time, null);
-                break;
-
-            case 111:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_112, time, null);
-                break;
-
-            case 112:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_113, time, null);
-                break;
-
-            case 113:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_114, time, null);
-                break;
-
-            case 114:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_115, time, null);
-                break;
-
-            case 115:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_116, time, null);
-                break;
-
-            case 116:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_117, time, null);
-                break;
-
-            case 117:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_118, time, null);
-                break;
-
-            case 118:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_119, time, null);
-                break;
-
-            case 119:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_120, time, null);
-                break;
-
-            case 120:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_121, time, null);
-                break;
-
-            case 121:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_122, time, null);
-                break;
-
-            case 122:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_123, time, null);
-                break;
-
-            case 123:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_124, time, null);
-                break;
-
-            case 124:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_125, time, null);
-                break;
-
-            case 125:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_126, time, null);
-                break;
-
-            case 126:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_127, time, null);
-                break;
-
-            case 127:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_128, time, null);
-                break;
-
-            case 128:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_129, time, null);
-                break;
-
-            case 129:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_130, time, null);
-                break;
-
-            case 130:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_131, time, null);
-                break;
-
-            case 131:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_132, time, null);
-                break;
-
-            case 132:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_133, time, null);
-                break;
-
-            case 133:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_134, time, null);
-                break;
-
-            case 134:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_135, time, null);
-                break;
-
-            case 135:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_136, time, null);
-                break;
-
-            case 136:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_137, time, null);
-                break;
-
-            case 137:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_138, time, null);
-                break;
-
-            case 138:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_139, time, null);
-                break;
-
-            case 139:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_140, time, null);
-                break;
-
-            case 140:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_141, time, null);
-                break;
-
-            case 141:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_142, time, null);
-                break;
-
-            case 142:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_143, time, null);
-                break;
-
-            case 143:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_144, time, null);
-                break;
-
-            case 144:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_145, time, null);
-                break;
-
-            case 145:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_146, time, null);
-                break;
-
-            case 146:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_147, time, null);
-                break;
-
-            case 147:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_148, time, null);
-                break;
-
-            case 148:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_149, time, null);
-                break;
-
-            case 149:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_150, time, null);
-                break;
-
-            case 150:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_151, time, null);
-                break;
-
-            case 151:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_152, time, null);
-                break;
-
-            case 152:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_153, time, null);
-                break;
-
-            case 153:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_154, time, null);
-                break;
-
-            case 154:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_155, time, null);
-                break;
-
-            case 155:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_156, time, null);
-                break;
-
-            case 156:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_157, time, null);
-                break;
-
-            case 157:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_158, time, null);
-                break;
-
-            case 158:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_159, time, null);
-                break;
-
-            case 159:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_160, time, null);
-                break;
-
-            case 160:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_161, time, null);
-                break;
-
-            case 161:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_162, time, null);
-                break;
-
-            case 162:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_163, time, null);
-                break;
-
-            case 163:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_164, time, null);
-                break;
-
-            case 164:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_165, time, null);
-                break;
-
-            case 165:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_166, time, null);
-                break;
-
-            case 166:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_167, time, null);
-                break;
-
-            case 167:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_168, time, null);
-                break;
-
-            case 168:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_169, time, null);
-                break;
-
-            case 169:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_170, time, null);
-                break;
-
-            case 170:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_171, time, null);
-                break;
-
-            case 171:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_172, time, null);
-                break;
-
-            case 172:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_173, time, null);
-                break;
-
-            case 173:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_174, time, null);
-                break;
-
-            case 174:
-                client.submitToLeaderboard(LEADERBOARD_LEVEL_175, time, null);
-                break;
-        }
+        //submit score to leader board
+        client.submitToLeaderboard(getLeaderboardId(), time, null);
     }
 }

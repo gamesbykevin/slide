@@ -368,6 +368,10 @@ public class Achievement {
 
     public static void unlockWinCreate(IGameServiceClient client) {
 
+        //don't continue if null
+        if (client == null)
+            return;
+
         //here we only check a custom level
         if (!GameScreen.CUSTOM_LEVEL)
             return;
@@ -380,6 +384,10 @@ public class Achievement {
 
     public static void unlockCreate(IGameServiceClient client) {
 
+        //don't continue if null
+        if (client == null)
+            return;
+
         //make sure our client is there and connected
         if (isConnected(client)) {
             client.unlockAchievement(ACHIEVEMENT_CREATE_LEVEL);
@@ -387,6 +395,10 @@ public class Achievement {
     }
 
     public static void unlockLevel(IGameServiceClient client) {
+
+        //don't continue if null
+        if (client == null)
+            return;
 
         //here we only check the standard levels
         if (GameScreen.CUSTOM_LEVEL)

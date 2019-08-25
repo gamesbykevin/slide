@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
+import com.gamesbykevin.slide.gameservices.Leaderboard;
 import de.golfgl.gdxgamesvcs.GameServiceException;
 
 import static com.gamesbykevin.slide.MyGdxGame.exit;
@@ -251,6 +252,10 @@ public abstract class TemplateScreen extends ParentScreen {
 
     public void addGameServiceIcons(Table parent) {
 
+        //if null, don't add buttons
+        if (getGame().getGsClient() == null)
+            return;
+
         //only add for android mobile
         if (Gdx.app.getType() != Application.ApplicationType.Android)
             return;
@@ -280,7 +285,7 @@ public abstract class TemplateScreen extends ParentScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
-                    getGame().getGsClient().showLeaderboards(null);
+                    getGame().getGsClient().showLeaderboards(Leaderboard.getLeaderboardId());
                 } catch (GameServiceException e) {
                     e.printStackTrace();
                 }

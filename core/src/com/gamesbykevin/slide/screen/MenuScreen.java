@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
+import com.gamesbykevin.slide.level.Level;
 
 import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
 import static com.gamesbykevin.slide.preferences.AppPreferences.MAX_LEVEL_SAVE;
@@ -32,7 +33,7 @@ public class MenuScreen extends TemplateScreen {
         super.show();
 
         //if session is not active, then we need to login
-        if (!getGame().getGsClient().isSessionActive())
+        if (getGame().getGsClient() != null && !getGame().getGsClient().isSessionActive())
             getGame().getGsClient().logIn();
 
         //free our resources
@@ -191,6 +192,10 @@ public class MenuScreen extends TemplateScreen {
 
         //play music
         GameAudio.playMusic(GameAudio.SoundMusic.Menu, true);
+
+        //reset these values on the menu screen
+        GameScreen.CUSTOM_LEVEL = false;
+        Level.LEVEL_INDEX = -1;
     }
 
     @Override

@@ -85,9 +85,6 @@ public class MyGdxGame extends Game {
 
 		//exit app
 		Gdx.app.exit();
-
-		//make sure we exit everything
-		System.exit(0);
 	}
 
 	@Override
