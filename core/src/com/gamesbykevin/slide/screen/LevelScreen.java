@@ -2,6 +2,8 @@ package com.gamesbykevin.slide.screen;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.gamesbykevin.slide.MyGdxGame;
+import com.gamesbykevin.slide.gameservices.Achievement;
+import com.gamesbykevin.slide.gameservices.Leaderboard;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.rumble.Rumble;
 import com.gamesbykevin.slide.textures.Textures;
@@ -136,9 +138,29 @@ public abstract class LevelScreen extends TemplateScreen {
         //now we can shake the screen for everything else
         Rumble.tick(getCamera(), getPositionReset(), delta);
 
+        //was the level solved
+        boolean solved = getLevel().isSolved();
+
         //render the game objects
         getLevel().update();
         getLevel().render(getBatch());
+
+        //if we just solved the level
+        if (!solved && getLevel().isSolved()) {
+
+            if (GameScreen.CUSTOM_LEVEL) {
+
+                //unlock achievement to beat a custom created level
+                Achievement.unlockWinCreate(getGame().getGsClient());
+            } else {
+
+                //unlock achievement to beat the current level
+                Achievement.unlockLevel(getGame().getGsClient());
+
+                //also depending on the level, we will submit the time to the leader board
+                Leaderboard.submitScore(getGame().getGsClient(), (long)getLevel().getDuration());
+            }
+        }
 
         //get the go back button
         Sprite back = getTextures().getSprite(Textures.Key.GoBackMenu);

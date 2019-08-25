@@ -178,6 +178,9 @@ public class MenuScreen extends TemplateScreen {
         //add our social media icons
         super.addSocialIcons();
 
+        //add our game play service icons as well
+        super.addGameServiceIcons(table);
+
         //play music
         GameAudio.playMusic(GameAudio.SoundMusic.Menu, true);
     }

@@ -110,6 +110,9 @@ public class GameScreenHelper {
         screen.getStage().clear();
         screen.getStage().addActor(table);
 
+        //add game service icons
+        screen.addGameServiceIcons(table);
+
         //add our social media icons
         screen.addSocialIcons();
     }

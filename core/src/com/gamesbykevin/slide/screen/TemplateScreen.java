@@ -1,5 +1,6 @@
 package com.gamesbykevin.slide.screen;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
+import de.golfgl.gdxgamesvcs.GameServiceException;
 
 import static com.gamesbykevin.slide.MyGdxGame.exit;
 
@@ -245,6 +247,52 @@ public abstract class TemplateScreen extends ParentScreen {
         atlas = null;
         skin = null;
         stage = null;
+    }
+
+    public void addGameServiceIcons(Table parent) {
+
+        //only add for android mobile
+        if (Gdx.app.getType() != Application.ApplicationType.Android)
+            return;
+
+        //add row
+        parent.row();
+
+        Table tableChild = new Table();
+
+        //create our buttons
+        ImageButton buttonAchievement = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("social_icons/achievement.png")))));
+        ImageButton buttonLeaderboard = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("social_icons/leaderboard.png")))));
+
+        //Add listeners to buttons
+        buttonAchievement.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    getGame().getGsClient().showAchievements();
+                } catch (GameServiceException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        buttonLeaderboard.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                try {
+                    getGame().getGsClient().showLeaderboards(null);
+                } catch (GameServiceException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //add buttons to the table
+        tableChild.add(buttonAchievement).width(SOCIAL_ICON_SIZE).height(SOCIAL_ICON_SIZE).pad(SOCIAL_ICON_PADDING);
+        tableChild.add(buttonLeaderboard).width(SOCIAL_ICON_SIZE).height(SOCIAL_ICON_SIZE).pad(SOCIAL_ICON_PADDING);
+
+        //add this table to the parent
+        parent.add(tableChild);
     }
 
     public void addSocialIcons() {

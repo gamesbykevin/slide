@@ -339,8 +339,9 @@ public class Level implements ILevel {
         }
 
         //check if we meet the level objective
-        if (!EDITING)
+        if (!EDITING) {
             verifyObjective(this);
+        }
     }
 
     public static int getColumn(float x) {

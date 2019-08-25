@@ -655,8 +655,10 @@ public class LevelHelper {
                 break;
         }
 
-        //play music
+        //if we won, what do we do next
         if (!solved && level.isSolved()) {
+
+            //play win theme
             GameAudio.stop();
             GameAudio.playMusic(GameAudio.SoundMusic.Victory, true);
         }

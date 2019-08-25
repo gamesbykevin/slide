@@ -3,6 +3,7 @@ package com.gamesbykevin.slide.screen;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
+import com.gamesbykevin.slide.gameservices.Achievement;
 import com.gamesbykevin.slide.level.Level;
 import com.gamesbykevin.slide.level.LevelHelper;
 import com.gamesbykevin.slide.level.objects.LevelObject;
@@ -265,6 +266,9 @@ public class CreateScreen extends LevelScreen {
 
             //then save the level data
             AppPreferences.setLevelSave(screen.getSaveIndex(), LevelHelper.getLevelCode(screen.getLevel()));
+
+            //unlock achievement to create a level
+            Achievement.unlockCreate(getGame().getGsClient());
 
             try {
 
