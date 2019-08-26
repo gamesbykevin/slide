@@ -20,6 +20,9 @@ import static com.gamesbykevin.slide.screen.CreateScreenHelper.TELEPORTER_KEYS;
 
 public class LevelHelper {
 
+    //how many levels are there?
+    public static final int LEVEL_COUNT = 175;
+
     //different dimension sizes
     public static final int DIMENSION_SMALL = 24;
     public static final int DIMENSION_NORMAL = 32;

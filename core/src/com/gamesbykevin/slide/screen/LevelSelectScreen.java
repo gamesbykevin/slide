@@ -8,6 +8,7 @@ import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 
 import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
+import static com.gamesbykevin.slide.level.LevelHelper.LEVEL_COUNT;
 import static com.gamesbykevin.slide.preferences.AppPreferences.hasLevelCompleted;
 import static com.gamesbykevin.slide.screen.ScreenHelper.SCREEN_GAME;
 
@@ -27,7 +28,7 @@ public class LevelSelectScreen extends CustomSelectScreen {
         super.setButtonSize(BUTTON_SIZE);
         super.setColumns(COLUMNS);
         super.setPadding(PADDING);
-        super.setTotal(Gdx.files.internal("levels").list().length);
+        super.setTotal(LEVEL_COUNT);
     }
 
     @Override

@@ -387,7 +387,10 @@ public class Leaderboard {
         if (GameScreen.CUSTOM_LEVEL)
             return;
 
+        final String leaderboardId = getLeaderboardId();
+
         //submit score to leader board
-        client.submitToLeaderboard(getLeaderboardId(), time, null);
+        if (leaderboardId != null)
+            client.submitToLeaderboard(leaderboardId, time, null);
     }
 }
