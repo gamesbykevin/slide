@@ -10,7 +10,7 @@ import com.gamesbykevin.slide.audio.GameAudio;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.level.Level;
 
-import static com.gamesbykevin.slide.MyGdxGame.getMyBundle;
+import static com.gamesbykevin.slide.MyGdxGame.*;
 import static com.gamesbykevin.slide.preferences.AppPreferences.MAX_LEVEL_SAVE;
 import static com.gamesbykevin.slide.preferences.AppPreferences.hasLevelSave;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
@@ -200,6 +200,12 @@ public class MenuScreen extends TemplateScreen {
 
     @Override
     public void render(float delta) {
+
+        //exit if flagged
+        if (EXIT) {
+            exit(getGame());
+            return;
+        }
 
         //clear the screen
         super.clearScreen();

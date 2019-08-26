@@ -92,6 +92,10 @@ public abstract class TemplateScreen extends ParentScreen {
             //handle back button
             @Override
             public boolean keyDown(int keyCode) {
+
+                if (MyGdxGame.EXIT)
+                    return false;
+
                 if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.ESCAPE) {
                     try {
                         if (getGame().getScreenHelper().getScreenIndex() == ScreenHelper.SCREEN_OPTIONS) {
@@ -101,8 +105,8 @@ public abstract class TemplateScreen extends ParentScreen {
 
                             if (hasPrompt()) {
 
-                                //if user was already prompted, close app
-                                exit(getGame());
+                                //if user was already prompted, flag close
+                                MyGdxGame.EXIT = true;
 
                             } else {
 

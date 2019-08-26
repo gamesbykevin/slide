@@ -12,6 +12,7 @@ import com.gamesbykevin.slide.screen.GameScreen;
 import com.gamesbykevin.slide.screen.LevelScreen;
 import com.gamesbykevin.slide.textures.Textures;
 
+import static com.gamesbykevin.slide.MyGdxGame.EXIT;
 import static com.gamesbykevin.slide.screen.ScreenHelper.*;
 
 public class Controller implements InputProcessor {
@@ -45,6 +46,9 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
+        if (EXIT)
+            return false;
+
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
@@ -54,6 +58,9 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+
+        if (EXIT)
+            return false;
 
         //game can't be paused when checking for input
         if (getGame().isPaused())
@@ -115,6 +122,9 @@ public class Controller implements InputProcessor {
     @Override
     public boolean keyTyped(char keycode) {
 
+        if (EXIT)
+            return false;
+
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
@@ -124,6 +134,9 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        if (EXIT)
+            return false;
 
         //game can't be paused when checking for input
         if (getGame().isPaused())
@@ -157,6 +170,9 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
+        if (EXIT)
+            return false;
 
         //after touching the screen the game is not paused
         if (getGame().isPaused()) {
@@ -257,6 +273,9 @@ public class Controller implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
 
+        if (EXIT)
+            return false;
+
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
@@ -286,6 +305,9 @@ public class Controller implements InputProcessor {
     @Override
     public boolean mouseMoved(int x, int y) {
 
+        if (EXIT)
+            return false;
+
         //game can't be paused when checking for input
         if (getGame().isPaused())
             return false;
@@ -295,6 +317,9 @@ public class Controller implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
+
+        if (EXIT)
+            return false;
 
         //game can't be paused when checking for input
         if (getGame().isPaused())

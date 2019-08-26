@@ -62,8 +62,14 @@ public class MyGdxGame extends Game {
 	//object used for localization
 	private static I18NBundle MY_BUNDLE;
 
+	//do we exit the game?
+	public static boolean EXIT = false;
+
 	public MyGdxGame(IGameServiceClient gsClient) {
 		this.gsClient = gsClient;
+
+		//flag false
+		this.EXIT = false;
 	}
 
 	public static void exit(MyGdxGame game) {

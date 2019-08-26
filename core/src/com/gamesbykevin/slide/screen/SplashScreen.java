@@ -29,6 +29,9 @@ public class SplashScreen extends TemplateScreen {
         //call parent
         super(game);
 
+        //flag false
+        MyGdxGame.EXIT = false;
+
         //create our background
         this.website = new Texture(Gdx.files.internal("website.png"));
         this.loading = new Texture(Gdx.files.internal("loading.png"));
