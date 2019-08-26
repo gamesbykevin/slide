@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.gamesbykevin.slide.MyGdxGame;
 import com.gamesbykevin.slide.exception.ScreenException;
 import com.gamesbykevin.slide.audio.GameAudio;
+import com.gamesbykevin.slide.level.Level;
 
 import java.util.Date;
 
@@ -31,6 +32,10 @@ public class SplashScreen extends TemplateScreen {
 
         //flag false
         MyGdxGame.EXIT = false;
+
+        //reset these values on the menu screen
+        GameScreen.CUSTOM_LEVEL = false;
+        Level.LEVEL_INDEX = -1;
 
         //create our background
         this.website = new Texture(Gdx.files.internal("website.png"));
